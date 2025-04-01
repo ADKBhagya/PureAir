@@ -83,7 +83,7 @@
         Stay informed with real-time air quality updates, monitor AQI levels with precision,  
 and gain valuable insights into pollution trends.<br> Make informed decisions to safeguard your health,  
 adapt to changing air conditions, and create a cleaner, healthier environment every day.<br>  
-*Empower communities, embrace sustainability, reduce exposure, foster awareness, and breathe confidently.*
+Empower communities, embrace sustainability, reduce exposure, foster awareness, and breathe confidently.
         </p>
         <img src="{{ asset('assets/image.png') }}" alt="Icons" style="height: 250px; width: 630px; margin-bottom:20px;" class="img-fluid mt-4" />
     </div>
@@ -136,7 +136,7 @@ adapt to changing air conditions, and create a cleaner, healthier environment ev
 
             <div class="text-center">
                 <p class="text-muted mb-3">Click to view AQI in Colombo cities</p>
-                <div id="leafletMap" style="background-color: #eee;"></div>
+                <div id="leafletMap"></div>
 
             </div>
         </div>
@@ -155,6 +155,14 @@ adapt to changing air conditions, and create a cleaner, healthier environment ev
 
         L.marker([6.9271, 79.8612]).addTo(map)
             .bindPopup('<b>Colombo Central</b><br>AQI: 42 - Good')
+            .openPopup();
+
+         L.marker([6.8449, 79.9020]).addTo(map)
+            .bindPopup('<b>Moratuwa</b><br>AQI: 78 - Moderate')
+            .openPopup();
+
+            L.marker([6.8441, 79.9655]).addTo(map)
+            .bindPopup('<b>Homagama</b><br>AQI: 32 - Good')
             .openPopup();
     });
 </script>
