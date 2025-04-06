@@ -5,17 +5,13 @@
 @section('content')
 <style>
     .primary-blue { color: #22577A; }
-    .accent-orange { color: #FF7700; }
-
     .bg-card {
         background-color: rgba(228, 228, 228, 0.45);
         border-radius: 10px;
     }
-
     .health-card {
         border-radius: 20px;
     }
-
     .health-icon {
         background: linear-gradient(180deg, #ffffff 0%, #22577A 49%);
         width: 50px;
@@ -26,25 +22,14 @@
         align-items: center;
         margin-right: 15px;
     }
-
     .health-icon img {
         width: 30px;
         height: 30px;
     }
-
     .health-text {
         font-size: 20px;
         font-weight: 400;
         color: #2F3E46;
-    }
-
-
-    #leafletMap {
-        height: 374px;
-        width: 100%;
-        border-radius: 10px;
-        border: 1px solid #ccc;
-        z-index: 1;
     }
 </style>
 
@@ -54,47 +39,42 @@
             Real-Time Air Quality Monitoring 🌍✨
         </h3>
         <p class="text-secondary" style="font-size: 17.6px; line-height: 33px;">
-            Stay informed with real-time air quality updates, monitor AQI levels with precision,  
-            and gain valuable insights into pollution trends.<br>
-            Make informed decisions to safeguard your health,  
-            adapt to changing air conditions, and create a cleaner, healthier environment every day.<br>
+            Stay informed with real-time air quality updates, monitor AQI levels with precision,<br>
+            Make informed decisions to safeguard your health, adapt to changing air conditions,<br>
             Empower communities, embrace sustainability, reduce exposure, foster awareness, and breathe confidently.
         </p>
-        <img src="{{ asset('assets/image.png') }}" alt="Icons" style="height: 250px; width: 630px; margin-bottom:12px;" class="img-fluid mt-4" />
+        <img src="{{ asset('assets/image.png') }}" alt="Icons" style="height: 250px; width: 630px; margin-bottom:20px;" class="img-fluid mt-4" />
     </div>
 
-<div class="row">
-  <!-- Left Column – Pollution Breakdown -->
-<div class="col-md-5 mb-4">
-    <h5 class="primary-blue fw-semibold mb-4 text-center" style="font-size: 30px;">Main Sources of Air Pollution</h5>
-    <div class="bg-card p-4 d-flex flex-column justify-content-between" style="border-radius: 16px; min-height: 660px;">
-        @php
-            $pollutionSources = [
-                ['icon' => 'factory.png', 'title' => 'Industrial Emissions', 'desc' => 'Factories release pollutants like sulfur dioxide and nitrogen oxides.'],
-                ['icon' => 'car.png', 'title' => 'Vehicle Exhaust', 'desc' => 'Fumes from vehicles contribute heavily to urban air pollution.'],
-                ['icon' => 'burning.png', 'title' => 'git', 'desc' => 'Burning of waste and biomass releases dangerous particles.'],
-                ['icon' => 'dust.png', 'title' => 'Construction Dust', 'desc' => 'Unregulated construction causes dust and particulate spread.'],
-            ];
-        @endphp
+    <div class="row">
+        <!-- Left Column -->
+        <div class="col-md-5 mb-4">
+            <h5 class="primary-blue fw-semibold mb-4 text-center" style="font-size: 30px;">Main Sources of Air Pollution</h5>
+            <div class="bg-card p-4 d-flex flex-column justify-content-between" style="border-radius: 16px; min-height: 685px;">
+                @php
+                    $pollutionSources = [
+                        ['icon' => 'factory.png', 'title' => 'Industrial Emissions', 'desc' => 'Factories release pollutants like sulfur dioxide and nitrogen oxides.'],
+                        ['icon' => 'car.png', 'title' => 'Vehicle Exhaust', 'desc' => 'Fumes from vehicles contribute heavily to urban air pollution.'],
+                        ['icon' => 'burning.png', 'title' => 'Open Burning', 'desc' => 'Burning of waste and biomass releases dangerous particles.'],
+                        ['icon' => 'dust.png', 'title' => 'Construction Dust', 'desc' => 'Unregulated construction causes dust and particulate spread.'],
+                    ];
+                @endphp
 
-        @foreach ($pollutionSources as $source)
-            <div class="d-flex align-items-start mb-4" style="gap: 15px;">
-                <div style="flex-shrink: 0;">
-                    <img src="{{ asset('assets/' . $source['icon']) }}"
-                         alt="{{ $source['title'] }}"
-                         style="height: 80px; width: 80px; object-fit: cover; border-radius: 12px; box-shadow: 0 2px 6px rgba(0,0,0,0.1);">
-                </div>
-                <div>
-                    <h6 class="primary-blue fw-semibold mb-2" style="font-size: 20px;">{{ $source['title'] }}</h6>
-                    <p class="text-muted mb-0" style="font-size: 17px; line-height: 1.6;">{{ $source['desc'] }}</p>
-                </div>
+                @foreach ($pollutionSources as $source)
+                    <div class="d-flex align-items-start mb-4" style="gap: 15px;">
+                        <div style="flex-shrink: 0;">
+                            <img src="{{ asset('assets/' . $source['icon']) }}"
+                                 alt="{{ $source['title'] }}"
+                                 style="height: 80px; width: 80px; object-fit: cover; border-radius: 12px; box-shadow: 0 2px 6px rgba(0,0,0,0.1);">
+                        </div>
+                        <div>
+                            <h6 class="primary-blue fw-semibold mb-2" style="font-size: 20px;">{{ $source['title'] }}</h6>
+                            <p class="text-muted mb-0" style="font-size: 17px; line-height: 1.6;">{{ $source['desc'] }}</p>
+                        </div>
+                    </div>
+                @endforeach
             </div>
-        @endforeach
-    </div>
-</div>
-
-
-
+        </div>
 
         <!-- Right Column -->
         <div class="col-md-7">
@@ -120,61 +100,34 @@
                 </div>
             </div>
 
+            <!-- Health Tips Section -->
             <div class="bg-card px-4 py-4 mb-4 health-card">
-    <h5 class="primary-blue fw-semibold mb-4 text-center" style="font-size: 26px;">Health Tips</h5>
-
-    <div class="row">
-        <!-- Left Column Tips -->
-        <div class="col-md-6">
-            <div class="d-flex align-items-center mb-4">
-                <div class="health-icon">
-                    <img src="{{ asset('assets/6.png') }}" alt="icon">
+                <h5 class="primary-blue fw-semibold mb-4 text-center" style="font-size: 26px;">Health Tips</h5>
+                <div class="row">
+                    @php
+                        $tips = [
+                            ['icon' => '6.png', 'text' => 'Avoid outdoor exercises'],
+                            ['icon' => '7.png', 'text' => 'Close windows to avoid dirty air'],
+                            ['icon' => '8.png', 'text' => 'Wear a mask outdoors'],
+                            ['icon' => '9.png', 'text' => 'Use air purifiers at home'],
+                            ['icon' => '10.png', 'text' => 'Stay hydrated regularly'],
+                            ['icon' => '11.png', 'text' => 'Keep your home ventilated'],
+                        ];
+                    @endphp
+                    @foreach(array_chunk($tips, 3) as $tipGroup)
+                        <div class="col-md-6">
+                            @foreach($tipGroup as $tip)
+                                <div class="d-flex align-items-center mb-4">
+                                    <div class="health-icon">
+                                        <img src="{{ asset('assets/' . $tip['icon']) }}" alt="icon">
+                                    </div>
+                                    <p class="text-muted mb-0">{{ $tip['text'] }}</p>
+                                </div>
+                            @endforeach
+                        </div>
+                    @endforeach
                 </div>
-                <p class="text-muted mb-0">Avoid outdoor exercises</p>
             </div>
-
-            <div class="d-flex align-items-center mb-4">
-                <div class="health-icon">
-                    <img src="{{ asset('assets/7.png') }}" alt="icon">
-                </div>
-                <p class="text-muted mb-0">Close windows to avoid dirty air</p>
-            </div>
-
-            <div class="d-flex align-items-center">
-                <div class="health-icon">
-                    <img src="{{ asset('assets/8.png') }}" alt="icon">
-                </div>
-                <p class="text-muted mb-0">Wear a mask outdoors</p>
-            </div>
-        </div>
-
-        <!-- Right Column Tips -->
-        <div class="col-md-6">
-            <div class="d-flex align-items-center mb-4">
-                <div class="health-icon">
-                    <img src="{{ asset('assets/9.png') }}" alt="icon">
-                </div>
-                <p class="text-muted mb-0">Use air purifiers at home</p>
-            </div>
-
-            <div class="d-flex align-items-center mb-4">
-                <div class="health-icon">
-                    <img src="{{ asset('assets/10.png') }}" alt="icon">
-                </div>
-                <p class="text-muted mb-0">Stay hydrated regularly</p>
-            </div>
-
-            <div class="d-flex align-items-center">
-                <div class="health-icon">
-                    <img src="{{ asset('assets/11.png') }}" alt="icon">
-                </div>
-                <p class="text-muted mb-0">Keep your home ventilated</p>
-            </div>
-        </div>
-    </div>
-</div>
-
-
 
             <!-- Facts Slider -->
             <div class="bg-card p-3 mb-5" style="border-radius: 14px;">
@@ -200,7 +153,6 @@
 
 @section('scripts')
 <script>
-    // Fact slider auto scroll
     const factSlider = document.querySelector('#factSlider');
     if (factSlider) {
         new bootstrap.Carousel(factSlider, {
