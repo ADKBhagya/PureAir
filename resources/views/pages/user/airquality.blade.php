@@ -143,7 +143,6 @@
 
  <!-- AQI Legend and Summary -->
 <div class="row justify-content-between align-items-start mt-4">
-    <!-- AQI Color Legend -->
     <div class="col-md-6">
         <div class="aqi-legend-box">
             <h5 class="primary-blue fw-semibold mb-3 text-center">AQI Color Levels</h5>
@@ -158,7 +157,7 @@
         </div>
     </div>
 
-    <!-- Quote Container Aligned -->
+    <!-- Quote Container -->
     <div class="col-md-6">
         <div class="aqi-legend-box" style="height: 100%;">
             <h5 class="primary-blue fw-semibold mb-3 text-center">🌱 Thought for the Air</h5>

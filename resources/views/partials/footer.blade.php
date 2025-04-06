@@ -30,7 +30,7 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        background-color: #337aa1; /* lighter shade than #22577A */
+        background-color: #337aa1; 
         width: 48px;
         height: 48px;
         border-radius: 50%;

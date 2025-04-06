@@ -17,7 +17,6 @@
 
         <!-- Nav Links & User Greeting -->
         <div class="collapse navbar-collapse justify-content-between" style=" gap:20px;" id="navbarContent">
-            <!-- Center Links -->
             <ul class="navbar-nav mx-auto gap-3" style="font-size:18px;">
     <li class="nav-item">
         <a class="nav-link fw-semibold nav-link-custom {{ request()->is('/') ? 'active' : '' }}" href="{{ url('/') }}">Home</a>
@@ -60,6 +59,6 @@
     }
 
     body {
-        padding-top: 100px; /* Space for fixed navbar */
+        padding-top: 100px; 
     }
 </style>

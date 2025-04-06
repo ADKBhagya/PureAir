@@ -55,7 +55,7 @@
 
 <div class="container mt-5 mb-5">
     <div class="text-center mb-4">
-        <h3 class="fw-bold primary-blue">Historical AQI Trends</h3>
+        <h3 class="fw-bold primary-blue" style="margin-top:-30px;">Historical AQI Trends</h3>
         <p class="text-muted">Visualize past air quality data across different time periods</p>
     </div>
 
@@ -64,7 +64,7 @@
         <div class="row align-items-center">
             <div class="col-md-6 mb-2">
                 <label for="sensorLocation" class="form-label primary-blue">Select Sensor Location</label>
-                <select id="locationSelect" class="form-select">
+                <select id="locationSelect" class="form-select" style="color:#22577A;">
                     <option value="">-- Choose a city --</option>
                     <option value="homagama">Homagama</option>
                     <option value="moratuwa">Moratuwa</option>
