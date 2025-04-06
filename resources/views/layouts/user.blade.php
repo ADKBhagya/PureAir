@@ -34,6 +34,9 @@
 <!-- Leaflet JS (no integrity) -->
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
+<!-- Chart.js for graphs -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
 @yield('scripts')
 
 </body>

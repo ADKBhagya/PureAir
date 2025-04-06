@@ -5,17 +5,13 @@
 @section('content')
 <style>
     .primary-blue { color: #22577A; }
-    .accent-orange { color: #FF7700; }
-
     .bg-card {
         background-color: rgba(228, 228, 228, 0.45);
         border-radius: 10px;
     }
-
     .health-card {
         border-radius: 20px;
     }
-
     .health-icon {
         background: linear-gradient(180deg, #ffffff 0%, #22577A 49%);
         width: 50px;
@@ -25,119 +21,130 @@
         justify-content: center;
         align-items: center;
         margin-right: 15px;
-        margin-left: 130px;
     }
-
     .health-icon img {
         width: 30px;
         height: 30px;
     }
-
     .health-text {
         font-size: 20px;
-        color: #22577A;
         font-weight: 400;
-    }
-
-    .pollution-img {
-        width: 240px;
-        height: 200px;
-        border-radius: 8px;
-        object-fit: cover;
-        opacity: 0;
-        transform: scale(0.95);
-        animation: fadeZoomIn 0.8s ease forwards;
-        transition: transform 0.4s ease;
-    }
-
-    .wide-img {
-        width: 488px;
-    }
-
-    .pollution-img:hover {
-        transform: scale(1.03);
-    }
-
-    @keyframes fadeZoomIn {
-        to {
-            opacity: 1;
-            transform: scale(1);
-        }
-    }
-
-    #leafletMap {
-        height: 374px;
-        width: 100%;
-        border-radius: 10px;
-        border: 1px solid #ccc;
-        z-index: 1;
+        color: #2F3E46;
     }
 </style>
 
 <div class="container mt-5">
     <div class="text-center mb-5">
-        <h3 class="fw-bold primary-blue" style="margin-bottom:20px; padding-top:40px;">
+        <h3 class="fw-bold primary-blue" style="margin-bottom: 20px; padding-top: 40px;">
             Real-Time Air Quality Monitoring 🌍✨
         </h3>
         <p class="text-secondary" style="font-size: 17.6px; line-height: 33px;">
-        Stay informed with real-time air quality updates, monitor AQI levels with precision,  
-and gain valuable insights into pollution trends.<br> Make informed decisions to safeguard your health,  
-adapt to changing air conditions, and create a cleaner, healthier environment every day.<br>  
-*Empower communities, embrace sustainability, reduce exposure, foster awareness, and breathe confidently.*
+            Stay informed with real-time air quality updates, monitor AQI levels with precision,<br>
+            Make informed decisions to safeguard your health, adapt to changing air conditions,<br>
+            Empower communities, embrace sustainability, reduce exposure, foster awareness, and breathe confidently.
         </p>
         <img src="{{ asset('assets/image.png') }}" alt="Icons" style="height: 250px; width: 630px; margin-bottom:20px;" class="img-fluid mt-4" />
     </div>
 
     <div class="row">
         <!-- Left Column -->
-        <div class="col-md-5">
-            <h5 class="primary-blue fw-semibold mb-3" style="font-size:30px; padding-left:60px;">What’s Polluting Our Air?</h5>
-            <div class="bg-card p-3">
-                <div class="d-flex gap-3 mb-3">
-                    <img src="{{ asset('assets/1.jpg') }}" class="pollution-img" alt="pollution" />
-                    <img src="{{ asset('assets/2.jpg') }}" class="pollution-img" alt="pollution" />
-                </div>
-                <div class="mb-3">
-                    <img src="{{ asset('assets/3.jpg') }}" class="pollution-img wide-img" alt="pollution" />
-                </div>
-                <div class="d-flex gap-3">
-                    <img src="{{ asset('assets/4.jpg') }}" class="pollution-img" alt="pollution" />
-                    <img src="{{ asset('assets/5.jpg') }}" class="pollution-img" alt="pollution" />
-                </div>
+        <div class="col-md-5 mb-4">
+            <h5 class="primary-blue fw-semibold mb-4 text-center" style="font-size: 30px;">Main Sources of Air Pollution</h5>
+            <div class="bg-card p-4 d-flex flex-column justify-content-between" style="border-radius: 16px; min-height: 685px;">
+                @php
+                    $pollutionSources = [
+                        ['icon' => 'factory.png', 'title' => 'Industrial Emissions', 'desc' => 'Factories release pollutants like sulfur dioxide and nitrogen oxides.'],
+                        ['icon' => 'car.png', 'title' => 'Vehicle Exhaust', 'desc' => 'Fumes from vehicles contribute heavily to urban air pollution.'],
+                        ['icon' => 'burning.png', 'title' => 'Open Burning', 'desc' => 'Burning of waste and biomass releases dangerous particles.'],
+                        ['icon' => 'dust.png', 'title' => 'Construction Dust', 'desc' => 'Unregulated construction causes dust and particulate spread.'],
+                    ];
+                @endphp
+
+                @foreach ($pollutionSources as $source)
+                    <div class="d-flex align-items-start mb-4" style="gap: 15px;">
+                        <div style="flex-shrink: 0;">
+                            <img src="{{ asset('assets/' . $source['icon']) }}"
+                                 alt="{{ $source['title'] }}"
+                                 style="height: 80px; width: 80px; object-fit: cover; border-radius: 12px; box-shadow: 0 2px 6px rgba(0,0,0,0.1);">
+                        </div>
+                        <div>
+                            <h6 class="primary-blue fw-semibold mb-2" style="font-size: 20px;">{{ $source['title'] }}</h6>
+                            <p class="text-muted mb-0" style="font-size: 17px; line-height: 1.6;">{{ $source['desc'] }}</p>
+                        </div>
+                    </div>
+                @endforeach
             </div>
         </div>
 
         <!-- Right Column -->
         <div class="col-md-7">
-            <div class="bg-card px-4 py-4 mb-4 health-card">
-                <h5 class="primary-blue fw-semibold mb-3" style="font-size:26px; margin-left:240px;">Health Tips</h5>
-
-                <div class="d-flex align-items-center mb-3">
-                    <div class="health-icon">
-                        <img src="{{ asset('assets/6.png') }}" alt="icon">
-                    </div>
-                    <p class="health-text mb-0">Avoid outdoor exercises</p>
-                </div>
-
-                <div class="d-flex align-items-center mb-3">
-                    <div class="health-icon">
-                        <img src="{{ asset('assets/7.png') }}" alt="icon">
-                    </div>
-                    <p class="health-text mb-0">Close windows for avoid dirty air</p>
-                </div>
-
-                <div class="d-flex align-items-center">
-                    <div class="health-icon">
-                        <img src="{{ asset('assets/8.png') }}" alt="icon">
-                    </div>
-                    <p class="health-text mb-0">Wear a mask outdoor</p>
+            <!-- Infographic Section -->
+            <div class="bg-card px-4 py-4 mb-4">
+                <h5 class="primary-blue fw-semibold mb-4 text-center" style="font-size: 24px;">Why Air Quality Matters</h5>
+                <div class="row text-center">
+                    @php
+                        $infographics = [
+                            ['img' => 'eco.png', 'text' => 'Illness Reduction'],
+                            ['img' => 'tree.png', 'text' => 'Protects Environment'],
+                            ['img' => 'health.png', 'text' => 'Boosts Overall Health'],
+                        ];
+                    @endphp
+                    @foreach($infographics as $info)
+                        <div class="col-md-4">
+                            <div style="background-color: #fff; border-radius: 16px; padding: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+                                <img src="{{ asset('assets/' . $info['img']) }}" alt="Icon" style="height: 60px; border-radius: 16px;">
+                                <p class="text-muted mt-3">{{ $info['text'] }}</p>
+                            </div>
+                        </div>
+                    @endforeach
                 </div>
             </div>
 
-            <div class="text-center">
-                <p class="text-muted mb-3">Click to view AQI in Colombo cities</p>
-                <div id="leafletMap" style="background-color: #eee;"></div>
+            <!-- Health Tips Section -->
+            <div class="bg-card px-4 py-4 mb-4 health-card">
+                <h5 class="primary-blue fw-semibold mb-4 text-center" style="font-size: 26px;">Health Tips</h5>
+                <div class="row">
+                    @php
+                        $tips = [
+                            ['icon' => '6.png', 'text' => 'Avoid outdoor exercises'],
+                            ['icon' => '7.png', 'text' => 'Close windows to avoid dirty air'],
+                            ['icon' => '8.png', 'text' => 'Wear a mask outdoors'],
+                            ['icon' => '9.png', 'text' => 'Use air purifiers at home'],
+                            ['icon' => '10.png', 'text' => 'Stay hydrated regularly'],
+                            ['icon' => '11.png', 'text' => 'Keep your home ventilated'],
+                        ];
+                    @endphp
+                    @foreach(array_chunk($tips, 3) as $tipGroup)
+                        <div class="col-md-6">
+                            @foreach($tipGroup as $tip)
+                                <div class="d-flex align-items-center mb-4">
+                                    <div class="health-icon">
+                                        <img src="{{ asset('assets/' . $tip['icon']) }}" alt="icon">
+                                    </div>
+                                    <p class="text-muted mb-0">{{ $tip['text'] }}</p>
+                                </div>
+                            @endforeach
+                        </div>
+                    @endforeach
+                </div>
+            </div>
 
+            <!-- Facts Slider -->
+            <div class="bg-card p-3 mb-5" style="border-radius: 14px;">
+                <h5 class="primary-blue fw-semibold mb-3 text-center" style="font-size: 22px;">📌 Did You Know?</h5>
+                <div id="factSlider" class="carousel slide" data-bs-ride="carousel">
+                    <div class="carousel-inner text-center mt-2">
+                        <div class="carousel-item active">
+                            <p class="text-muted">Air pollution causes 1 in 8 deaths globally.</p>
+                        </div>
+                        <div class="carousel-item">
+                            <p class="text-muted">Children are more vulnerable to air pollution.</p>
+                        </div>
+                        <div class="carousel-item">
+                            <p class="text-muted">Trees can reduce urban air pollution by up to 24%.</p>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -146,16 +153,12 @@ adapt to changing air conditions, and create a cleaner, healthier environment ev
 
 @section('scripts')
 <script>
-    document.addEventListener("DOMContentLoaded", function () {
-        const map = L.map('leafletMap').setView([6.9271, 79.8612], 11); // Colombo
-
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: '&copy; OpenStreetMap contributors'
-        }).addTo(map);
-
-        L.marker([6.9271, 79.8612]).addTo(map)
-            .bindPopup('<b>Colombo Central</b><br>AQI: 42 - Good')
-            .openPopup();
-    });
+    const factSlider = document.querySelector('#factSlider');
+    if (factSlider) {
+        new bootstrap.Carousel(factSlider, {
+            interval: 2000,
+            ride: 'carousel'
+        });
+    }
 </script>
 @endsection
