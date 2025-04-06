@@ -16,6 +16,7 @@
         margin-top: 30px;
         background-color: rgba(228, 228, 228, 0.45);
         font-family: 'Poppins', sans-serif;
+        padding-right:70px;
     }
 
     .legend-label {
@@ -28,7 +29,7 @@
     .legend-color {
         width: 20px;
         height: 20px;
-        margin-left: 10px;
+        margin-right: 10px;
         border-radius: 3px;
     }
 
@@ -37,6 +38,7 @@
         border-radius: 12px;
         padding: 0;
         margin-bottom: 30px;
+        position: relative;
     }
 
     #colomboMap {
@@ -46,10 +48,23 @@
         z-index: 0;
     }
 
-    .legend-label {
-        font-size: 20px;
-        color: #6E767D;
-        margin-left: 100px;
+    .map-btn-location {
+        position: absolute;
+        top: 15px;
+        right: 15px;
+        background-color: #FF7700;
+        color: white;
+        border: none;
+        padding: 10px 18px;
+        border-radius: 8px;
+        font-family: 'Poppins', sans-serif;
+        font-weight: 500;
+        z-index: 999;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+    }
+
+    .input-group {
+        margin-top: -30px;
     }
 
     .input-group-text {
@@ -77,14 +92,34 @@
     .leaflet-popup-content {
         margin: 0 !important;
     }
-    
+
+    .aqi-summary-card {
+        background-color: #F3F4F6;
+        border-radius: 12px;
+        padding: 20px;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+        font-family: 'Poppins', sans-serif;
+    }
+
+    .aqi-summary-card h6 {
+        font-weight: 600;
+        color: #22577A;
+        margin-bottom: 15px;
+    }
+
+    .summary-item {
+        display: flex;
+        align-items: center;
+        margin-bottom: 10px;
+    }
+
+    .summary-item span {
+        font-size: 18px;
+        margin-right: 10px;
+    }
 </style>
 
 <div class="container mt-5 mb-4">
-    <div class="text-center mb-4">
-        <h3 class="fw-bold primary-blue">Air Quality - Colombo District</h3>
-    </div>
-
     <!-- Dropdown Filter -->
     <div class="row justify-content-center mb-4">
         <div class="col-md-6">
@@ -100,22 +135,49 @@
         </div>
     </div>
 
+    <!-- Map Section -->
     <div class="map-container">
         <div id="colomboMap"></div>
+        <button id="userLocationButton" class="map-btn-location">📍 Detect My Location</button>
     </div>
 
-    <div class="aqi-legend-box">
-        <h5 class="primary-blue fw-semibold mb-3 text-center">AQI Color Levels</h5>
-        <div class="row justify-content-center">
-            <div class="col-md-6 mx-auto">
-                <div class="legend-label"><div class="legend-color" style="background-color: #0A6304;"></div>- Good (0–50)</div>
-                <div class="legend-label"><div class="legend-color" style="background-color: #FFD70E;"></div>- Moderate (51–100)</div>
-                <div class="legend-label"><div class="legend-color" style="background-color: #FF7700;"></div>- Unhealthy for Sensitive Groups (101–150)</div>
-                <div class="legend-label"><div class="legend-color" style="background-color: #980000;"></div>- Unhealthy (151–200)</div>
-                <div class="legend-label"><div class="legend-color" style="background-color: #681E83;"></div>- Very Unhealthy (201–300)</div>
-                <div class="legend-label"><div class="legend-color" style="background-color: #551515;"></div>- Hazardous (301–500)</div>
-            </div>
+ <!-- AQI Legend and Summary -->
+<div class="row justify-content-between align-items-start mt-4">
+    <!-- AQI Color Legend -->
+    <div class="col-md-6">
+        <div class="aqi-legend-box">
+            <h5 class="primary-blue fw-semibold mb-3 text-center">AQI Color Levels</h5>
+            <div class="legend-labels-container" style="padding-left: 90px;">
+    <div class="legend-label"><div class="legend-color" style="background-color: #0A6304;"></div> -- Good (0–50)</div>
+    <div class="legend-label"><div class="legend-color" style="background-color: #FFD70E;"></div> -- Moderate (51–100)</div>
+    <div class="legend-label"><div class="legend-color" style="background-color: #FF7700;"></div> -- Unhealthy for Sensitive Groups (101–150)</div>
+    <div class="legend-label"><div class="legend-color" style="background-color: #980000;"></div> -- Unhealthy (151–200)</div>
+    <div class="legend-label"><div class="legend-color" style="background-color: #681E83;"></div> -- Very Unhealthy (201–300)</div>
+    <div class="legend-label"><div class="legend-color" style="background-color: #551515;"></div> -- Hazardous (301–500)</div>
+</div>
         </div>
+    </div>
+
+    <!-- Quote Container Aligned -->
+    <div class="col-md-6">
+        <div class="aqi-legend-box" style="height: 100%;">
+            <h5 class="primary-blue fw-semibold mb-3 text-center">🌱 Thought for the Air</h5>
+            <div style="display: flex; align-items: flex-start;">
+                <div style="font-size: 16px; color: #2F3E46; font-style: italic; margin-left:40px; padding-bottom:32px;">
+                    “Breathe clean. Live green. The quality of the air reflects the quality of our care.”
+                </div>
+            </div>
+
+            <div class="mb-3">
+            <h6 class="primary-blue fw-semibold mb-3 text-center" style="font-size:20px">🌬️ Air Tip of the Day</h6>
+            <p style="font-size: 16px; color: #2F3E46; font-style: italic; margin-left:40px; padding-bottom:20px;">
+                Keep indoor plants like <strong>peace lily</strong> or <strong>snake plant</strong> – they help purify the air naturally. 
+            </p>
+        </div>
+        </div>
+    </div>
+</div>
+
     </div>
 </div>
 @endsection
@@ -142,18 +204,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
     function createAQIMarkerIcon(aqi) {
         const color = getAQIColor(aqi);
-        const iconHtml = `
-            <div style="
-                background-color: ${color};
-                width: 18px;
-                height: 18px;
-                border: 2px solid white;
-                border-radius: 50%;
-                box-shadow: 0 0 4px rgba(0,0,0,0.4);
-            "></div>
-        `;
         return L.divIcon({
-            html: iconHtml,
+            html: `<div style="background-color: ${color}; width: 18px; height: 18px; border: 2px solid white; border-radius: 50%; box-shadow: 0 0 4px rgba(0,0,0,0.4);"></div>`,
             className: '',
             iconSize: [18, 18],
             iconAnchor: [9, 9],
@@ -211,16 +263,24 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     const homagamaData = [30, 25, 60, 33, 38];
-    const homagamaPopup = createPopup('homagamaChart', 'Homagama,SriLanka', '😊', getAQIColor(40), 40, 'Good', '3 Hours ago', 'March 25, 2025 2:00 PM', homagamaData);
     const moratuwaData = [45, 60, 78, 55, 50];
-    const moratuwaPopup = createPopup('moratuwaChart', 'Moratuwa,SriLanka', '😐', getAQIColor(78), 78, 'Moderate', '2 Hours ago', 'March 25, 2025 3:00 PM', moratuwaData);
     const colomboData = [100, 120, 150, 162, 140];
-    const colomboPopup = createPopup('colomboChart', 'Colombo Central,SriLanka', '😷', getAQIColor(162), 162, 'Unhealthy', '1 Hour ago', 'March 25, 2025 4:00 PM', colomboData);
 
     const markers = {
-        homagama: L.marker([6.8441, 79.9655], { icon: createAQIMarkerIcon(40) }).addTo(colomboMap).bindPopup(homagamaPopup).on('popupopen', () => drawChart('homagamaChart', homagamaData)),
-        moratuwa: L.marker([6.8449, 79.9020], { icon: createAQIMarkerIcon(78) }).addTo(colomboMap).bindPopup(moratuwaPopup).on('popupopen', () => drawChart('moratuwaChart', moratuwaData)),
-        colombo: L.marker([6.9271, 79.8612], { icon: createAQIMarkerIcon(162) }).addTo(colomboMap).bindPopup(colomboPopup).on('popupopen', () => drawChart('colomboChart', colomboData))
+        homagama: L.marker([6.8441, 79.9655], { icon: createAQIMarkerIcon(40) })
+            .addTo(colomboMap)
+            .bindPopup(createPopup('homagamaChart', 'Homagama,SriLanka', '😊', getAQIColor(40), 40, 'Good', '3 Hours ago', 'March 25, 2025 2:00 PM', homagamaData))
+            .on('popupopen', () => drawChart('homagamaChart', homagamaData)),
+
+        moratuwa: L.marker([6.8449, 79.9020], { icon: createAQIMarkerIcon(78) })
+            .addTo(colomboMap)
+            .bindPopup(createPopup('moratuwaChart', 'Moratuwa,SriLanka', '😐', getAQIColor(78), 78, 'Moderate', '2 Hours ago', 'March 25, 2025 3:00 PM', moratuwaData))
+            .on('popupopen', () => drawChart('moratuwaChart', moratuwaData)),
+
+        colombo: L.marker([6.9271, 79.8612], { icon: createAQIMarkerIcon(162) })
+            .addTo(colomboMap)
+            .bindPopup(createPopup('colomboChart', 'Colombo Central,SriLanka', '😷', getAQIColor(162), 162, 'Unhealthy', '1 Hour ago', 'March 25, 2025 4:00 PM', colomboData))
+            .on('popupopen', () => drawChart('colomboChart', colomboData))
     };
 
     document.getElementById('locationSelect').addEventListener('change', function () {
@@ -229,6 +289,38 @@ document.addEventListener("DOMContentLoaded", function () {
             const marker = markers[selected];
             colomboMap.setView(marker.getLatLng(), 13);
             marker.openPopup();
+        }
+    });
+
+    document.getElementById('userLocationButton').addEventListener('click', function () {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(function (position) {
+                const userLatLng = [position.coords.latitude, position.coords.longitude];
+                const aqi = 88;
+                const data = [65, 78, 88, 72, 81];
+                const popupHtml = createPopup(
+                    'userLocationChart',
+                    'Your Location',
+                    '🙂',
+                    getAQIColor(aqi),
+                    aqi,
+                    'Moderate',
+                    'Just now',
+                    new Date().toLocaleString(),
+                    data
+                );
+                L.marker(userLatLng, { icon: createAQIMarkerIcon(aqi) })
+                    .addTo(colomboMap)
+                    .bindPopup(popupHtml)
+                    .on('popupopen', () => drawChart('userLocationChart', data))
+                    .openPopup();
+
+                colomboMap.setView(userLatLng, 14);
+            }, function () {
+                alert("Unable to retrieve your location.");
+            });
+        } else {
+            alert("Geolocation is not supported by your browser.");
         }
     });
 });

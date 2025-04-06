@@ -26,7 +26,8 @@
         <a class="nav-link fw-semibold nav-link-custom {{ request()->is('air-quality') ? 'active' : '' }}" href="{{ url('/air-quality') }}">Air Quality</a>
     </li>
     <li class="nav-item">
-        <a class="nav-link fw-semibold nav-link-custom {{ request()->is('reports') ? 'active' : '' }}" href="{{ url('/reports') }}">Reports</a>
+    <a class="nav-link fw-semibold nav-link-custom {{ request()->is('historical-data') ? 'active' : '' }}" href="{{ url('/historical-data') }}">Reports</a>
+
     </li>
 </ul>
 
