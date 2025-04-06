@@ -25,7 +25,6 @@
         justify-content: center;
         align-items: center;
         margin-right: 15px;
-        margin-left: 130px;
     }
 
     .health-icon img {
@@ -61,19 +60,19 @@
             adapt to changing air conditions, and create a cleaner, healthier environment every day.<br>
             Empower communities, embrace sustainability, reduce exposure, foster awareness, and breathe confidently.
         </p>
-        <img src="{{ asset('assets/image.png') }}" alt="Icons" style="height: 250px; width: 630px;" class="img-fluid mt-4" />
+        <img src="{{ asset('assets/image.png') }}" alt="Icons" style="height: 250px; width: 630px; margin-bottom:12px;" class="img-fluid mt-4" />
     </div>
 
-    <div class="row">
+<div class="row">
   <!-- Left Column – Pollution Breakdown -->
 <div class="col-md-5 mb-4">
     <h5 class="primary-blue fw-semibold mb-4 text-center" style="font-size: 30px;">Main Sources of Air Pollution</h5>
-    <div class="bg-card p-4 d-flex flex-column justify-content-between" style="border-radius: 16px; min-height: 646px;">
+    <div class="bg-card p-4 d-flex flex-column justify-content-between" style="border-radius: 16px; min-height: 660px;">
         @php
             $pollutionSources = [
                 ['icon' => 'factory.png', 'title' => 'Industrial Emissions', 'desc' => 'Factories release pollutants like sulfur dioxide and nitrogen oxides.'],
                 ['icon' => 'car.png', 'title' => 'Vehicle Exhaust', 'desc' => 'Fumes from vehicles contribute heavily to urban air pollution.'],
-                ['icon' => 'burning.png', 'title' => 'Open Burning', 'desc' => 'Burning of waste and biomass releases dangerous particles.'],
+                ['icon' => 'burning.png', 'title' => 'git', 'desc' => 'Burning of waste and biomass releases dangerous particles.'],
                 ['icon' => 'dust.png', 'title' => 'Construction Dust', 'desc' => 'Unregulated construction causes dust and particulate spread.'],
             ];
         @endphp
@@ -99,31 +98,6 @@
 
         <!-- Right Column -->
         <div class="col-md-7">
-            <div class="bg-card px-4 py-4 mb-4 health-card">
-                <h5 class="primary-blue fw-semibold mb-4 text-center" style="font-size: 26px;">Health Tips</h5>
-
-                <div class="d-flex align-items-center mb-3">
-                    <div class="health-icon">
-                        <img src="{{ asset('assets/6.png') }}" alt="icon">
-                    </div>
-                    <p class="text-muted mb-0">Avoid outdoor exercises</p>
-                </div>
-
-                <div class="d-flex align-items-center mb-3">
-                    <div class="health-icon">
-                        <img src="{{ asset('assets/7.png') }}" alt="icon">
-                    </div>
-                    <p class="text-muted mb-0">Close windows to avoid dirty air</p>
-                </div>
-
-                <div class="d-flex align-items-center">
-                    <div class="health-icon">
-                        <img src="{{ asset('assets/8.png') }}" alt="icon">
-                    </div>
-                    <p class="text-muted mb-0">Wear a mask outdoors</p>
-                </div>
-            </div>
-
             <!-- Infographic Section -->
             <div class="bg-card px-4 py-4 mb-4">
                 <h5 class="primary-blue fw-semibold mb-4 text-center" style="font-size: 24px;">Why Air Quality Matters</h5>
@@ -145,6 +119,62 @@
                     @endforeach
                 </div>
             </div>
+
+            <div class="bg-card px-4 py-4 mb-4 health-card">
+    <h5 class="primary-blue fw-semibold mb-4 text-center" style="font-size: 26px;">Health Tips</h5>
+
+    <div class="row">
+        <!-- Left Column Tips -->
+        <div class="col-md-6">
+            <div class="d-flex align-items-center mb-4">
+                <div class="health-icon">
+                    <img src="{{ asset('assets/6.png') }}" alt="icon">
+                </div>
+                <p class="text-muted mb-0">Avoid outdoor exercises</p>
+            </div>
+
+            <div class="d-flex align-items-center mb-4">
+                <div class="health-icon">
+                    <img src="{{ asset('assets/7.png') }}" alt="icon">
+                </div>
+                <p class="text-muted mb-0">Close windows to avoid dirty air</p>
+            </div>
+
+            <div class="d-flex align-items-center">
+                <div class="health-icon">
+                    <img src="{{ asset('assets/8.png') }}" alt="icon">
+                </div>
+                <p class="text-muted mb-0">Wear a mask outdoors</p>
+            </div>
+        </div>
+
+        <!-- Right Column Tips -->
+        <div class="col-md-6">
+            <div class="d-flex align-items-center mb-4">
+                <div class="health-icon">
+                    <img src="{{ asset('assets/9.png') }}" alt="icon">
+                </div>
+                <p class="text-muted mb-0">Use air purifiers at home</p>
+            </div>
+
+            <div class="d-flex align-items-center mb-4">
+                <div class="health-icon">
+                    <img src="{{ asset('assets/10.png') }}" alt="icon">
+                </div>
+                <p class="text-muted mb-0">Stay hydrated regularly</p>
+            </div>
+
+            <div class="d-flex align-items-center">
+                <div class="health-icon">
+                    <img src="{{ asset('assets/11.png') }}" alt="icon">
+                </div>
+                <p class="text-muted mb-0">Keep your home ventilated</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 
             <!-- Facts Slider -->
             <div class="bg-card p-3 mb-5" style="border-radius: 14px;">
