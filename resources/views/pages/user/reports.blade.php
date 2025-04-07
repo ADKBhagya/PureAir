@@ -81,7 +81,7 @@
 
     <!-- Chart Section -->
     <div class="chart-card mt-4">
-        <h5 class="section-header">AQI Overview (Daily)</h5>
+        <h5 class="section-header">AQI Overview</h5>
         <canvas id="aqiChart" height="120"></canvas>
     </div>
 </div>
@@ -145,13 +145,15 @@ document.addEventListener("DOMContentLoaded", function () {
             if (range === 'week') {
                 chart.data.labels = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
                 chart.data.datasets[0].data = [60, 65, 70, 66, 80, 75, 68];
-                chart.options.plugins.title = { display: true, text: 'AQI Weekly Trend' };
+            
             } else if (range === 'month') {
                 chart.data.labels = ['Week 1', 'Week 2', 'Week 3', 'Week 4'];
                 chart.data.datasets[0].data = [72, 85, 78, 80];
+               
             } else {
                 chart.data.labels = ['12AM', '4AM', '8AM', '12PM', '4PM', '8PM'];
                 chart.data.datasets[0].data = [55, 60, 70, 80, 76, 65];
+                
             }
             chart.update();
         });
