@@ -14,7 +14,7 @@
   }
 
   .sidebar {
-    background-color: #1e3d59;
+    background-color: #22577A;
     width: 240px;
     color: white;
     display: flex;
@@ -171,21 +171,43 @@
 
   <!-- Sidebar -->
   <div class="sidebar">
-    <div>
-      <h2>Pure<span style="color: #ff8000;">air</span></h2>
-      <a class="nav-item" href="#">📊 Dashboard</a>
-      <a class="nav-item" href="#">👤 Admin User Management</a>
-      <a class="nav-item" href="#">📡 Sensor Management</a>
-      <a class="nav-item active" href="#">📈 Data Management</a>
-      <a class="nav-item" href="#">🔔 Alert Configuration</a>
-    </div>
-    <button class="logout-btn">Log Out</button>
+  <div>
+  <div style="text-align: center; margin-bottom: 20px;">
+  <img src="{{ asset('assets/logo2.png') }}" alt="Pureair Logo" style="width: 122px; height: 105px;">
+</div>
+
+
+    <a class="nav-item" href="#">
+      <img src="{{ asset('assets/Grid.png') }}" alt="Dashboard" class="nav-icon"> Dashboard
+    </a>
+
+    <a class="nav-item" href="#">
+      <img src="{{ asset('assets/User.png') }}" alt="Admin User Management" class="nav-icon"> Admin User Management
+    </a>
+
+    <a class="nav-item" href="#">
+      <img src="{{ asset('assets/image 27.png') }}" alt="Sensor Management" class="nav-icon"> Sensor Management
+    </a>
+
+    <a class="nav-item active" href="#">
+      <img src="{{ asset('assets/image 28.png') }}" alt="Data Management" class="nav-icon"> Data Management
+    </a>
+
+    <a class="nav-item" href="#">
+      <img src="{{ asset('assets/Alert circle.png') }}" alt="Alert Configuration" class="nav-icon"> Alert Configuration
+    </a>
   </div>
+
+  <button class="logout-btn">Log Out</button>
+  </div>
+
+
+
 
   <!-- Main Content -->
   <div class="main">
     <div class="header">
-      <h2 style="color: #1e3d59;">Data Management</h2>
+      <h2 style="color: #22577A;">Data Management</h2>
       <div style="font-weight: 500;">Hello, User! 👤</div>
     </div>
 
