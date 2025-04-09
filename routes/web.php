@@ -52,3 +52,13 @@ Route::get('/admin/administrator-login', function () {
 
 Route::post('/admin/administrator-login', [AdministratorAuthController::class, 'login'])
     ->name('administrator.login.submit');
+
+/*
+|--------------------------------------------------------------------------
+| Dummy Page: Admin Data Management
+|--------------------------------------------------------------------------
+*/
+
+Route::get('/admin/data-management', function () {
+    return view('pages.admin.data-management');
+});
