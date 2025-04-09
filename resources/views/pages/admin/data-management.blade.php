@@ -21,6 +21,8 @@
     flex-direction: column;
     justify-content: space-between;
     padding: 20px 0;
+    font-family: 'Poppins', sans-serif;
+    
   }
 
   .sidebar h2 {
@@ -59,6 +61,7 @@
     font-weight: bold;
     cursor: pointer;
     transition: 0.2s;
+    font-family: 'Poppins', sans-serif;
   }
 
   .logout-btn:hover {
@@ -68,12 +71,15 @@
   .main {
     flex: 1;
     padding: 40px 60px;
+    color: #22577A;
+    font-family: 'Poppins', sans-serif;
   }
 
   .header {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    font-family: 'Poppins', sans-serif;
   }
 
   .form-box {
@@ -87,8 +93,9 @@
   .form-box h3 {
     font-size: 22px;
     margin-bottom: 25px;
-    color: #1e3d59;
+    color: #22577A;
     font-weight: bold;
+    font-family: 'Poppins', sans-serif;
   }
 
   .form-group {
@@ -98,7 +105,7 @@
   .form-group label {
     display: block;
     font-weight: 600;
-    color: #1e3d59;
+    color: #22577A;
     margin-bottom: 8px;
   }
 
@@ -106,7 +113,7 @@
   .form-group select {
     width: 100%;
     padding: 12px;
-    border: 2px solid #4a6781;
+    border: 2px solid #22577A;
     border-radius: 8px;
     font-size: 16px;
     background-color: #fff;
@@ -117,7 +124,7 @@
     align-items: center;
     margin-top: 20px;
     font-weight: 600;
-    color: #1e3d59;
+    color: #22577A;
   }
 
   .switch {
@@ -144,6 +151,7 @@
     background-color: #ccc;
     transition: 0.4s;
     border-radius: 24px;
+    border: 2px solid #22577A;
   }
 
   .slider:before {
@@ -153,13 +161,13 @@
     width: 18px;
     left: 3px;
     bottom: 3px;
-    background-color: white;
+    background-color: #22577A;
     transition: 0.4s;
     border-radius: 50%;
   }
 
   input:checked + .slider {
-    background-color: #00c27a;
+    background-color:rgb(142, 159, 170);
   }
 
   input:checked + .slider:before {
@@ -207,13 +215,18 @@
   <!-- Main Content -->
   <div class="main">
     <div class="header">
-      <h2 style="color: #22577A;">Data Management</h2>
-      <div style="font-weight: 500;">Hello, User! 👤</div>
-    </div>
+  <h2 style="color: #22577A;">Data Management</h2>
+  <div style="display: flex; align-items: center; font-weight: 500;">
+    <span style="margin-right: 8px; color: #22577A;">Hello, User!</span>
+    <img src="{{ asset('assets/Group 402.png') }}" alt="User Icon" style="width: 40px; height: 40px;" />
+  </div>
+</div>
+
 
     <div class="form-box">
-      <h3>Configure Simulations</h3>
-      <form>
+    <h3 style="text-align: center; color: #22577A;">Configure Simulations</h3>
+      
+    <form>
         <div class="form-group">
           <label for="frequency">Frequency of data generation:</label>
           <input type="text" id="frequency" placeholder="e.g., every 10 seconds" />
@@ -242,6 +255,7 @@
           </label>
         </div>
       </form>
+
     </div>
   </div>
 </div>
