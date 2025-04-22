@@ -20,7 +20,7 @@
 
     .admin-select-container h2 {
         color: #fff;
-        font-size: 22px;
+        font-size: 18px;
         margin-bottom: 45px;
         text-align: center;
     }
@@ -35,8 +35,8 @@
     .role-card {
         background-color: #fff;
         color: #22577A;
-        width: 300px;
-        height: 340px;
+        width: 250px;
+        height: 280px;
         border-radius: 20px;
         padding: 25px 20px;
         text-align: center;
@@ -53,14 +53,14 @@
     }
 
     .role-card h3 {
-        font-size: 24px;
+        font-size: 20px;
         margin-bottom: 12px;
         font-weight: 600;
     }
 
     .icon {
-        height: 100px;
-        width: 100px;
+        height: 70px;
+        width: 70px;
         object-fit: contain;
         margin: 0 auto 20px;
     }
@@ -70,12 +70,13 @@
         color: #fff;
         border: none;
         width: 100%;
-        padding: 12px 0;
+
         border-radius: 12px;
         font-size: 17px;
         font-weight: 500;
         cursor: pointer;
         transition: all 0.3s ease;
+        height:40px;
     }
 
     .login-btn:hover {
@@ -84,9 +85,10 @@
     }
 
     .pureair-logo {
-        height: 120px;
+        margin-top:-10px;
+        height: 110px;
         width: auto;
-        margin-bottom: 25px;
+       
     }
 
     @media (max-width: 768px) {
