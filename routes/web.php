@@ -2,7 +2,9 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\User\AirQualityController;
-use App\Http\Controllers\Admin\AdministratorAuthController;
+use App\Http\Controllers\Admin\WebMasterAuthController;
+use App\Http\Controllers\Admin\AdminAuthController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -37,28 +39,64 @@ Route::get('/admin/role-selection', function () {
 */
 
 Route::get('/admin/login', function () {
-    return 'Admin login placeholder';
+    return view('pages.auth.admin-login');
 })->name('admin.login');
 
-/*
-|--------------------------------------------------------------------------
-| Administrator Login Page & Submit
-|--------------------------------------------------------------------------
-*/
-
-Route::get('/admin/administrator-login', function () {
-    return view('pages.auth.administrator-login');
-})->name('administrator.login');
-
-Route::post('/admin/administrator-login', [AdministratorAuthController::class, 'login'])
-    ->name('administrator.login.submit');
+Route::post('/admin/login', [AdminAuthController::class, 'login'])->name('admin.login.submit');
 
 /*
 |--------------------------------------------------------------------------
-| Dummy Page: Admin Data Management
+| WebMaster Login Page & Submit
 |--------------------------------------------------------------------------
 */
 
-Route::get('/admin/data-management', function () {
-    return view('pages.admin.data-management');
-});
+Route::get('/admin/webmaster-login', function () {
+    return view('pages.auth.webmaster-login');
+})->name('webmaster.login');
+
+Route::post('/admin/webmaster-login', [WebMasterAuthController::class, 'login'])->name('webmaster.login.submit');
+/*
+|--------------------------------------------------------------------------
+| Dummy Page:  Data Management
+|--------------------------------------------------------------------------
+*/
+
+
+
+
+/*
+|--------------------------------------------------------------------------
+| Dummy Page: Dashboard
+|--------------------------------------------------------------------------
+*/
+
+
+/*
+|--------------------------------------------------------------------------
+| aqi status
+|--------------------------------------------------------------------------
+*/
+Route::get('/admin/aqi-status', function () {
+    return view('pages.admin.full-aqi-status');
+})->name('admin.aqi.full');
+
+/*
+|--------------------------------------------------------------------------
+| Dummy Page: Admin user management
+|--------------------------------------------------------------------------
+*/
+
+
+/*
+|--------------------------------------------------------------------------
+| Dummy Page: Sensor management
+|--------------------------------------------------------------------------
+*/
+
+
+
+/*
+|--------------------------------------------------------------------------
+| Dummy Page: Alert Configuration
+|--------------------------------------------------------------------------
+*/
