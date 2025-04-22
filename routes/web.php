@@ -85,7 +85,9 @@ Route::get('/admin/aqi-status', function () {
 | Dummy Page: Admin user management
 |--------------------------------------------------------------------------
 */
-
+Route::get('/admin/user-management', function () {
+    return view('pages.admin.user-management');
+})->name('admin.user.management');
 
 /*
 |--------------------------------------------------------------------------
