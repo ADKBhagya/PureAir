@@ -23,8 +23,10 @@
         display: flex;
         align-items: center;
         margin-bottom: 10px;
-        font-size: 16px;
+        font-size: 14px;
     }
+
+
 
     .legend-color {
         width: 20px;
@@ -34,19 +36,23 @@
     }
 
     .map-container {
-        border: 1px solid #ccc;
-        border-radius: 12px;
-        padding: 0;
-        margin-bottom: 30px;
-        position: relative;
-    }
+    border: 1px solid #ccc;
+    border-radius: 12px;
+    padding: 0;
+    margin-bottom: 30px;
+    position: relative;
+    width: 1000px;
+    margin-left: auto;
+    margin-right: auto; /* 🔥 This centers the map container */
+}
+
 
     #colomboMap {
-        width: 100%;
-        height: 480px;
-        border-radius: 8px;
-        z-index: 0;
-    }
+    width: 100%;
+    height: 450px; /* Must have height */
+    border-radius: 8px;
+}
+
 
     .map-btn-location {
         position: absolute;
@@ -58,24 +64,27 @@
         padding: 10px 18px;
         border-radius: 8px;
         font-family: 'Poppins', sans-serif;
+        font-size:12px;
         font-weight: 500;
         z-index: 999;
         box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
     }
 
     .input-group {
-        margin-top: -30px;
+        margin-top: -40px;
     }
 
     .input-group-text {
         background-color: #22577A;
         border: none;
         color: white;
+        font-size:14px;
     }
 
     .form-select {
         font-family: 'Poppins', sans-serif;
         color: #22577A;
+        font-size:12px;
     }
 
     .leaflet-popup-content-wrapper {
@@ -123,59 +132,65 @@
     <!-- Dropdown Filter -->
     <div class="row justify-content-center mb-4">
         <div class="col-md-6">
-            <div class="input-group">
-                <label class="input-group-text" for="locationSelect">Select Location</label>
-                <select id="locationSelect" class="form-select">
-                    <option value="">-- Choose a city --</option>
-                    <option value="homagama">Homagama</option>
-                    <option value="moratuwa">Moratuwa</option>
-                    <option value="colombo">Colombo Central</option>
-                </select>
-            </div>
+        <div class="input-group">
+    <label class="input-group-text" for="locationSelect">Select Location</label>
+    <select id="locationSelect" class="form-select">
+        <option value="">-- Choose a city --</option>
+        <option value="homagama">Homagama</option>
+        <option value="moratuwa">Moratuwa</option>
+        <option value="colombo">Colombo Central</option>
+    </select>
+</div>
+
         </div>
     </div>
 
     <!-- Map Section -->
+    <div class="d-flex justify-content-center">
     <div class="map-container">
         <div id="colomboMap"></div>
         <button id="userLocationButton" class="map-btn-location">📍 Detect My Location</button>
     </div>
+</div>
+
 
  <!-- AQI Legend and Summary -->
 <div class="row justify-content-between align-items-start mt-4">
     <div class="col-md-6">
         <div class="aqi-legend-box">
-            <h5 class="primary-blue fw-semibold mb-3 text-center">AQI Color Levels</h5>
-            <div class="legend-labels-container" style="padding-left: 90px;">
-    <div class="legend-label"><div class="legend-color" style="background-color: #0A6304;"></div> -- Good (0–50)</div>
-    <div class="legend-label"><div class="legend-color" style="background-color: #FFD70E;"></div> -- Moderate (51–100)</div>
-    <div class="legend-label"><div class="legend-color" style="background-color: #FF7700;"></div> -- Unhealthy for Sensitive Groups (101–150)</div>
-    <div class="legend-label"><div class="legend-color" style="background-color: #980000;"></div> -- Unhealthy (151–200)</div>
-    <div class="legend-label"><div class="legend-color" style="background-color: #681E83;"></div> -- Very Unhealthy (201–300)</div>
-    <div class="legend-label"><div class="legend-color" style="background-color: #551515;"></div> -- Hazardous (301–500)</div>
-</div>
+            <h5 class="primary-blue fw-semibold mb-3 text-center" style="font-size: 16px;">AQI Color Levels</h5>
+         <div class="legend-labels-container" style="padding-left: 90px; font-size: 14px;">
+            <div class="legend-label"><div class="legend-color" style="background-color: #0A6304;"></div> -- Good (0–50)</div>
+            <div class="legend-label"><div class="legend-color" style="background-color: #FFD70E;"></div> -- Moderate (51–100)</div>
+            <div class="legend-label"><div class="legend-color" style="background-color: #FF7700;"></div> -- Unhealthy Sensitive Groups (101–150)</div>
+            <div class="legend-label"><div class="legend-color" style="background-color: #980000;"></div> -- Unhealthy (151–200)</div>
+            <div class="legend-label"><div class="legend-color" style="background-color: #681E83;"></div> -- Very Unhealthy (201–300)</div>
+            <div class="legend-label"><div class="legend-color" style="background-color: #551515;"></div> -- Hazardous (301–500)</div>
+        
+        </div>
+
         </div>
     </div>
 
     <!-- Quote Container -->
     <div class="col-md-6">
         <div class="aqi-legend-box" style="height: 100%;">
-            <h5 class="primary-blue fw-semibold mb-3 text-center">🌱 Thought for the Air</h5>
+            <h5 class="primary-blue fw-semibold mb-3 text-center" style="font-size: 16px;">🌱 Thought for the Air</h5>
             <div style="display: flex; align-items: flex-start;">
-                <div style="font-size: 16px; color: #2F3E46; font-style: italic; margin-left:40px; padding-bottom:32px;">
-                    “Breathe clean. Live green. The quality of the air reflects the quality of our care.”
-                </div>
+            <div style="font-size: 14px; color: #2F3E46; font-style: italic; margin-left:40px; padding-bottom:32px;">
+                “Breathe clean. Live green. The quality of the air reflects the quality of our care.”
+            </div>
             </div>
 
             <div class="mb-3">
-            <h6 class="primary-blue fw-semibold mb-3 text-center" style="font-size:20px">🌬️ Air Tip of the Day</h6>
-            <p style="font-size: 16px; color: #2F3E46; font-style: italic; margin-left:40px; padding-bottom:20px;">
-                Keep indoor plants like <strong>peace lily</strong> or <strong>snake plant</strong> – they help purify the air naturally. 
+            <h6 class="primary-blue fw-semibold mb-3 text-center" style="font-size:16px">🌬️ Air Tip of the Day</h6>
+            <p style="font-size: 14px; color: #2F3E46; font-style: italic; margin-left:40px; padding-bottom:20px;">
+                Keep indoor plants like <strong>peace lily</strong> or <strong>snake plant</strong> – they help purify the air naturally.
             </p>
         </div>
         </div>
     </div>
-</div>
+
 
     </div>
 </div>
@@ -239,11 +254,11 @@ document.addEventListener("DOMContentLoaded", function () {
     function createPopup(id, location, emoji, color, value, status, time, date, chartData) {
         return `
             <div style="font-family: 'Poppins'; background-color: #F3F4F6; padding: 20px; width: 280px; border-radius: 20px; border: 1px solid #ccc;">
-                <div style="display: flex; justify-content: space-between; font-size: 20px; font-weight: 500; color: #22577A;">
+                <div style="display: flex; justify-content: space-between; font-size: 14px; font-weight: 500; color: #22577A;">
                     <span>${location}</span>
                 </div>
                 <hr style="margin: 10px 0; border-color: #477390;">
-                <div style="background-color: ${color}; color: white; border-radius: 20px; padding: 12px 16px; font-size: 20px; display: flex; justify-content: center; align-items: center; gap: 10px;">
+                <div style="background-color: ${color}; color: white; border-radius: 20px; padding: 10px 10px; font-size: 14px; display: flex; justify-content: center; align-items: center; gap: 10px; height:40px;">
                     <span style="font-size: 22px;">${emoji}</span>
                     <span>${value} - ${status}</span>
                 </div>
@@ -254,7 +269,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     <canvas id="${id}" width="250" height="100"></canvas>
                     <span style="position: absolute; top: 5px; right: 0; font-size: 11px; color: #666;">AQI US</span>
                 </div>
-                <button style="margin-top: 18px; background-color: #22577A; color: white; font-size: 16px; border: none; padding: 10px; width: 100%; border-radius: 12px;">
+                <button style="margin-top: 18px; background-color: #22577A; color: white; font-size: 14px; border: none; padding: 10px; width: 100%; border-radius: 12px; height:40px;">
                     Click For More Information
                 </button>
             </div>

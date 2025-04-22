@@ -19,6 +19,12 @@
         margin-bottom: 30px;
     }
 
+    .form-label,
+    .form-select {
+        font-size: 14px;
+    }
+
+
     .filter-buttons button {
         border: none;
         padding: 8px 20px;
@@ -41,23 +47,27 @@
         padding: 20px;
         border-radius: 16px;
         box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+        height:480px;
     }
 
     .section-header {
-        font-size: 22px;
+        font-size: 16px;
         font-weight: 600;
         font-family: 'Poppins', sans-serif;
         text-align: center;
-        margin-bottom: 20px;
+        margin-bottom: 10px;
         color: #22577A;
     }
 </style>
 
 <div class="container mt-5 mb-5">
-    <div class="text-center mb-4">
-        <h3 class="fw-bold primary-blue" style="margin-top:-30px;">Historical AQI Trends</h3>
-        <p class="text-muted">Visualize past air quality data across different time periods</p>
-    </div>
+<div class="text-center mb-4"> 
+    <h3 class=" fw-bold primary-blue" style="margin-top:-50px; font-size: 17px;">
+    Visualize past air quality data across different time periods
+    </h3>
+ 
+</div>
+
 
     <!-- Sensor Location Selector -->
     <div class="sensor-select-box">
@@ -72,10 +82,11 @@
                 </select>
             </div>
             <div class="col-md-6 text-md-end mt-3 mt-md-0 filter-buttons">
-                <button class="active" data-range="day">Last Day</button>
-                <button data-range="week">Last Week</button>
-                <button data-range="month">Last Month</button>
+                <button class="active" data-range="day" style="font-size: 14px;">Last Day</button>
+                <button data-range="week" style="font-size: 14px;">Last Week</button>
+                <button data-range="month" style="font-size: 14px;">Last Month</button>
             </div>
+
         </div>
     </div>
 
