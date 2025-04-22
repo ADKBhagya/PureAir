@@ -33,43 +33,49 @@
     }
 </style>
 
-<div class="container mt-5">
-    <div class="text-center mb-5">
-        <h3 class="fw-bold primary-blue" style="margin-bottom: 20px; padding-top: 40px;">
-            Real-Time Air Quality Monitoring 🌍✨
-        </h3>
-        <p class="text-secondary" style="font-size: 17.6px; line-height: 33px;">
-            Stay informed with real-time air quality updates, monitor AQI levels with precision,<br>
-            Make informed decisions to safeguard your health, adapt to changing air conditions,<br>
-            Empower communities, embrace sustainability, reduce exposure, foster awareness, and breathe confidently.
-        </p>
-        <img src="{{ asset('assets/image.png') }}" alt="Icons" style="height: 250px; width: 630px; margin-bottom:20px;" class="img-fluid mt-4" />
-    </div>
+<div class="container mt-5 mb-2">
 
-    <div class="row">
+<div class="text-center mb-2" >
+    <h3 class="fw-bold primary-blue" style="margin-bottom: 15px; font-size: 22px;">
+        Real-Time Air Quality Monitoring 🌍✨
+    </h3>
+
+    <p class="text-secondary" style=" line-height: 28px; font-size: 16px; ">
+        Stay informed with real-time air quality updates, monitor AQI levels with precision,<br>
+        Make informed decisions to safeguard your health, adapt to changing air conditions,<br>
+        Empower communities, embrace sustainability, reduce exposure, foster awareness, and breathe confidently.
+    </p>
+    <img src="{{ asset('assets/image.png') }}" alt="Icons" style="height: 220px; width: 600px; padding-bottom:5px " class="img-fluid mt-4" />
+</div>
+
+
+    <div class="row" style="margin-top:50px;">
         <!-- Left Column -->
         <div class="col-md-5 mb-4">
-            <h5 class="primary-blue fw-semibold mb-4 text-center" style="font-size: 30px;">Main Sources of Air Pollution</h5>
-            <div class="bg-card p-4 d-flex flex-column justify-content-between" style="border-radius: 16px; min-height: 685px;">
-                @php
-                    $pollutionSources = [
-                        ['icon' => 'factory.png', 'title' => 'Industrial Emissions', 'desc' => 'Factories release pollutants like sulfur dioxide and nitrogen oxides.'],
-                        ['icon' => 'car.png', 'title' => 'Vehicle Exhaust', 'desc' => 'Fumes from vehicles contribute heavily to urban air pollution.'],
-                        ['icon' => 'burning.png', 'title' => 'Open Burning', 'desc' => 'Burning of waste and biomass releases dangerous particles.'],
-                        ['icon' => 'dust.png', 'title' => 'Construction Dust', 'desc' => 'Unregulated construction causes dust and particulate spread.'],
-                    ];
-                @endphp
+            <h5 class="primary-blue fw-semibold mb-4 text-center" style="font-size: 22px;">Main Sources of Air Pollution</h5>
+            <div class="bg-card p-4 d-flex flex-column justify-content-between" style="border-radius: 16px; min-height: 705px;">
+             @php
+                $pollutionSources = [
+                    ['icon' => 'factory.png', 'title' => 'Industrial Emissions', 'desc' => 'Factories release pollutants like sulfur dioxide and nitrogen oxides.'],
+                    ['icon' => 'car.png', 'title' => 'Vehicle Exhaust', 'desc' => 'Fumes from vehicles contribute heavily to urban air pollution.'],
+                    ['icon' => 'burning.png', 'title' => 'Open Burning', 'desc' => 'Burning of waste and biomass releases dangerous particles.'],
+                    ['icon' => 'dust.png', 'title' => 'Construction Dust', 'desc' => 'Unregulated construction causes dust and particulate spread.'],
+                    ['icon' => 'garbage.png', 'title' => 'Garbage Decomposition', 'desc' => 'Improper waste dumping releases methane and harmful gases, worsening air quality.'],
+
+                ];
+            @endphp
+
 
                 @foreach ($pollutionSources as $source)
-                    <div class="d-flex align-items-start mb-4" style="gap: 15px;">
+                    <div class="d-flex align-items-start mb-4" style="gap: 20px;">
                         <div style="flex-shrink: 0;">
                             <img src="{{ asset('assets/' . $source['icon']) }}"
                                  alt="{{ $source['title'] }}"
                                  style="height: 80px; width: 80px; object-fit: cover; border-radius: 12px; box-shadow: 0 2px 6px rgba(0,0,0,0.1);">
                         </div>
                         <div>
-                            <h6 class="primary-blue fw-semibold mb-2" style="font-size: 20px;">{{ $source['title'] }}</h6>
-                            <p class="text-muted mb-0" style="font-size: 17px; line-height: 1.6;">{{ $source['desc'] }}</p>
+                            <h6 class="primary-blue fw-semibold mb-2" style="font-size: 18px;">{{ $source['title'] }}</h6>
+                            <p class="text-muted mb-0" style="font-size: 15px; line-height: 1.6;">{{ $source['desc'] }}</p>
                         </div>
                     </div>
                 @endforeach
@@ -80,18 +86,18 @@
         <div class="col-md-7">
             <!-- Infographic Section -->
             <div class="bg-card px-4 py-4 mb-4">
-                <h5 class="primary-blue fw-semibold mb-4 text-center" style="font-size: 24px;">Why Air Quality Matters</h5>
+                <h5 class="primary-blue fw-semibold mb-4 text-center" style="font-size: 22px;">Why Air Quality Matters</h5>
                 <div class="row text-center">
                     @php
                         $infographics = [
-                            ['img' => 'eco.png', 'text' => 'Illness Reduction'],
+                            ['img' => 'eco.png', 'text' => 'Supports Breathing'],
                             ['img' => 'tree.png', 'text' => 'Protects Environment'],
                             ['img' => 'health.png', 'text' => 'Boosts Overall Health'],
                         ];
                     @endphp
                     @foreach($infographics as $info)
                         <div class="col-md-4">
-                            <div style="background-color: #fff; border-radius: 16px; padding: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+                            <div style="background-color: #fff; border-radius: 16px; padding: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); font-size: 15px;">
                                 <img src="{{ asset('assets/' . $info['img']) }}" alt="Icon" style="height: 60px; border-radius: 16px;">
                                 <p class="text-muted mt-3">{{ $info['text'] }}</p>
                             </div>
@@ -102,7 +108,7 @@
 
             <!-- Health Tips Section -->
             <div class="bg-card px-4 py-4 mb-4 health-card">
-                <h5 class="primary-blue fw-semibold mb-4 text-center" style="font-size: 26px;">Health Tips</h5>
+                <h5 class="primary-blue fw-semibold mb-4 text-center" style="font-size: 22px;">Health Tips</h5>
                 <div class="row">
                     @php
                         $tips = [
@@ -131,7 +137,7 @@
 
             <!-- Facts Slider -->
             <div class="bg-card p-3 mb-5" style="border-radius: 14px;">
-                <h5 class="primary-blue fw-semibold mb-3 text-center" style="font-size: 22px;">📌 Did You Know?</h5>
+                <h5 class="primary-blue fw-semibold mb-3 text-center" style="font-size: 20px;">📌 Did You Know?</h5>
                 <div id="factSlider" class="carousel slide" data-bs-ride="carousel">
                     <div class="carousel-inner text-center mt-2">
                         <div class="carousel-item active">

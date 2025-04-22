@@ -1,11 +1,9 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-white fixed-top" 
-     style="font-family: 'Poppins', sans-serif; height: 80px; width: 1450px; border-radius: 20px; 
-            margin: auto; z-index: 9999; left: 0; right: 0; 
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);">
+     style="font-family: 'Poppins', sans-serif; height: 70px; width: 1200px; border-radius: 20px; margin: auto; z-index: 9999; left: 0; right: 0; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);">
     <div class="container-fluid px-4">
         <!-- Logo -->
         <a class="navbar-brand d-flex align-items-center" href="{{ url('/') }}">
-            <img src="{{ asset('assets/logo.png') }}" alt="PureAir Logo" style="height: 80px;">
+            <img src="{{ asset('assets/logo.png') }}" alt="PureAir Logo" style="height: 70px;">
         </a>
 
         <!-- Toggler -->
@@ -17,21 +15,20 @@
 
         <!-- Nav Links & User Greeting -->
         <div class="collapse navbar-collapse justify-content-between" style=" gap:20px;" id="navbarContent">
-            <ul class="navbar-nav mx-auto gap-3" style="font-size:18px;">
-    <li class="nav-item">
-        <a class="nav-link fw-semibold nav-link-custom {{ request()->is('/') ? 'active' : '' }}" href="{{ url('/') }}">Home</a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link fw-semibold nav-link-custom {{ request()->is('air-quality') ? 'active' : '' }}" href="{{ url('/air-quality') }}">Air Quality</a>
-    </li>
-    <li class="nav-item">
-    <a class="nav-link fw-semibold nav-link-custom {{ request()->is('historical-data') ? 'active' : '' }}" href="{{ url('/historical-data') }}">Reports</a>
-
-    </li>
-</ul>
+        <ul class="navbar-nav mx-auto gap-3" style="font-size:15px;">
+        <li class="nav-item">
+            <a class="nav-link fw-semibold nav-link-custom {{ request()->is('/') ? 'active' : '' }}" href="{{ url('/') }}">Home</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link fw-semibold nav-link-custom {{ request()->is('air-quality') ? 'active' : '' }}" href="{{ url('/air-quality') }}">Air Quality</a>
+        </li>
+        <li class="nav-item">
+        <a class="nav-link fw-semibold nav-link-custom {{ request()->is('historical-data') ? 'active' : '' }}" href="{{ url('/historical-data') }}">Reports</a>
+        </li>
+        </ul>
 
             <!-- Hello User -->
-            <span class="fw-semibold primary-blue" style="font-size:20px;">Hello User!</span>
+            <span class="fw-semibold primary-blue" style="font-size:15px;">Hello User!</span>
         </div>
     </div>
 </nav>
