@@ -107,10 +107,10 @@
 
     <div class="card-wrapper">
         <div class="role-card">
-            <h3>Administrator</h3>
+            <h3>Web Master</h3>
             <img src="{{ asset('assets/user-icon.png.png') }}" class="icon" alt="Administrator">
-            <a href="{{ route('admin.login') }}">
-                <button class="login-btn">Log In</button>
+            <a href="{{ route('webmaster.login') }}">
+            <button class="login-btn">Log In</button>
             </a>
         </div>
 
