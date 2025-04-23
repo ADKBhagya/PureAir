@@ -1,271 +1,136 @@
 @extends('layouts.admin')
 
+@section('title', 'Data Management')
+
 @section('content')
 <style>
-  body {
-    font-family: 'Segoe UI', sans-serif;
-    margin: 0;
-    background-color: #f5f6fa;
-  }
+    .simulation-wrapper {
+        background-color: #f5f5f5;
+        border-radius: 18px;
+        padding: 40px;
+        max-width: 600px;
+        margin: 40px auto;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    }
 
-  .container {
-    display: flex;
-    height: 100vh;
-  }
+    .simulation-wrapper h4 {
+        font-size: 20px;
+        font-weight: 600;
+        color: #22577A;
+        text-align: center;
+        margin-bottom: 30px;
+    }
 
-  .sidebar {
-    background-color: #22577A;
-    width: 240px;
-    color: white;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    padding: 20px 0;
-    font-family: 'Poppins', sans-serif;
-    
-  }
+    .simulation-wrapper label {
+        font-weight: 500;
+        color: #22577A;
+        display: block;
+        margin-bottom: 8px;
+        font-size: 14px;
+    }
 
-  .sidebar h2 {
-    text-align: center;
-    margin-bottom: 30px;
-    font-size: 24px;
-  }
+    .simulation-wrapper input,
+    .simulation-wrapper select {
+        width: 100%;
+        padding: 10px 14px;
+        font-size: 15px;
+        border: 2px solid #22577A;
+        border-radius: 8px;
+        margin-bottom: 24px;
+        background-color: white;
+        color: #22577A;
+    }
 
-  .nav-item {
-    padding: 15px 30px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    color: #ccc;
-    cursor: pointer;
-    text-decoration: none;
-  }
+    .toggle-container {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        font-weight: 500;
+        font-size: 14px;
+        color: #22577A;
+    }
 
-  .nav-item.active {
-    background-color: #ff8000;
-    color: white;
-  }
+    .switch {
+        position: relative;
+        display: inline-block;
+        width: 46px;
+        height: 24px;
+    }
 
-  .nav-item:hover {
-    background-color: #ff8000;
-    color: white;
-  }
+    .switch input {
+        opacity: 0;
+        width: 0;
+        height: 0;
+    }
 
-  .logout-btn {
-    margin: 20px 30px;
-    padding: 8px;
-    background-color: white;
-    color: #1e3d59;
-    border: none;
-    border-radius: 6px;
-    font-weight: bold;
-    cursor: pointer;
-    transition: 0.2s;
-    font-family: 'Poppins', sans-serif;
-  }
+    .slider {
+        position: absolute;
+        cursor: pointer;
+        top: 0; left: 0;
+        right: 0; bottom: 0;
+        background-color: #ccc;
+        transition: .4s;
+        border-radius: 34px;
+    }
 
-  .logout-btn:hover {
-    background-color: #eee;
-  }
+    .slider:before {
+        position: absolute;
+        content: "";
+        height: 18px;
+        width: 18px;
+        left: 3px;
+        bottom: 3px;
+        background-color: white;
+        transition: .4s;
+        border-radius: 50%;
+    }
 
-  .main {
-    flex: 1;
-    padding: 40px 60px;
-    color: #22577A;
-    font-family: 'Poppins', sans-serif;
-  }
+    input:checked + .slider {
+        background-color: #22577A;
+    }
 
-  .header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-family: 'Poppins', sans-serif;
-  }
-
-  .form-box {
-    background: #f0f2f5;
-    border-radius: 16px;
-    padding: 40px;
-    max-width: 600px;
-    margin-top: 50px;
-  }
-
-  .form-box h3 {
-    font-size: 22px;
-    margin-bottom: 25px;
-    color: #22577A;
-    font-weight: bold;
-    font-family: 'Poppins', sans-serif;
-  }
-
-  .form-group {
-    margin-bottom: 20px;
-  }
-
-  .form-group label {
-    display: block;
-    font-weight: 600;
-    color: #22577A;
-    margin-bottom: 8px;
-  }
-
-  .form-group input,
-  .form-group select {
-    width: 100%;
-    padding: 12px;
-    border: 2px solid #22577A;
-    border-radius: 8px;
-    font-size: 16px;
-    background-color: #fff;
-  }
-
-  .toggle-container {
-    display: flex;
-    align-items: center;
-    margin-top: 20px;
-    font-weight: 600;
-    color: #22577A;
-  }
-
-  .switch {
-    position: relative;
-    display: inline-block;
-    width: 48px;
-    height: 24px;
-    margin-left: 12px;
-  }
-
-  .switch input {
-    opacity: 0;
-    width: 0;
-    height: 0;
-  }
-
-  .slider {
-    position: absolute;
-    cursor: pointer;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: #ccc;
-    transition: 0.4s;
-    border-radius: 24px;
-    border: 2px solid #22577A;
-  }
-
-  .slider:before {
-    position: absolute;
-    content: "";
-    height: 18px;
-    width: 18px;
-    left: 3px;
-    bottom: 3px;
-    background-color: #22577A;
-    transition: 0.4s;
-    border-radius: 50%;
-  }
-
-  input:checked + .slider {
-    background-color:rgb(142, 159, 170);
-  }
-
-  input:checked + .slider:before {
-    transform: translateX(24px);
-  }
+    input:checked + .slider:before {
+        transform: translateX(22px);
+    }
 </style>
 
-<div class="container">
-
-  <!-- Sidebar -->
-  <div class="sidebar">
-  <div>
-  <div style="text-align: center; margin-bottom: 20px;">
-  <img src="{{ asset('assets/logo2.png') }}" alt="Pureair Logo" style="width: 122px; height: 105px;">
-</div>
-
-
-    <a class="nav-item" href="#">
-      <img src="{{ asset('assets/Grid.png') }}" alt="Dashboard" class="nav-icon"> Dashboard
-    </a>
-
-    <a class="nav-item" href="#">
-      <img src="{{ asset('assets/User.png') }}" alt="Admin User Management" class="nav-icon"> Admin User Management
-    </a>
-
-    <a class="nav-item" href="#">
-      <img src="{{ asset('assets/image 27.png') }}" alt="Sensor Management" class="nav-icon"> Sensor Management
-    </a>
-
-    <a class="nav-item active" href="#">
-      <img src="{{ asset('assets/image 28.png') }}" alt="Data Management" class="nav-icon"> Data Management
-    </a>
-
-    <a class="nav-item" href="#">
-      <img src="{{ asset('assets/Alert circle.png') }}" alt="Alert Configuration" class="nav-icon"> Alert Configuration
-    </a>
-  </div>
-
-  <button class="logout-btn">Log Out</button>
-  </div>
-
-
-
-
-  <!-- Main Content -->
-  <div class="main">
-    <div class="header">
-  <h2 style="color: #22577A;">Data Management</h2>
-  <div style="display: flex; align-items: center; font-weight: 500;">
-    <span style="margin-right: 8px; color: #22577A;">Hello, User!</span>
-    <img src="{{ asset('assets/Group 402.png') }}" alt="User Icon" style="width: 40px; height: 40px;" />
-  </div>
-</div>
-
-
-    <div class="form-box">
-    <h3 style="text-align: center; color: #22577A;">Configure Simulations</h3>
-      
-    <form>
-        <div class="form-group">
-          <label for="frequency">Frequency of data generation:</label>
-          <input type="text" id="frequency" placeholder="e.g., every 10 seconds" />
-        </div>
-
-        <div class="form-group">
-          <label for="baseline">Baseline AQI Levels:</label>
-          <input type="text" id="baseline" placeholder="e.g., 75" />
-        </div>
-
-        <div class="form-group">
-          <label for="pattern">Variation Pattern:</label>
-          <select id="pattern">
-            <option value="">Select pattern</option>
-            <option value="linear">Linear</option>
-            <option value="random">Random</option>
-            <option value="wave">Wave</option>
-          </select>
-        </div>
-
-        <div class="toggle-container">
-          Simulation status: <span id="status-label" style="margin-left: 5px;">stopped</span>
-          <label class="switch">
-            <input type="checkbox" id="status-toggle" />
-            <span class="slider"></span>
-          </label>
-        </div>
-      </form>
-
+<div class="simulation-wrapper">
+    <h4>Configure Simulations</h4>
+    
+    <div>
+        <label for="frequency">Frequency of data generation:</label>
+        <input type="text" id="frequency" placeholder="e.g., every 5 minutes">
     </div>
-  </div>
+
+    <div>
+        <label for="baseline">Baseline AQI Levels:</label>
+        <input type="number" id="baseline" placeholder="e.g., 70">
+    </div>
+
+    <div>
+        <label for="variation">Variation Pattern:</label>
+        <select id="variation">
+            <option selected disabled>Select pattern</option>
+            <option>Random</option>
+            <option>Increasing</option>
+            <option>Fluctuating</option>
+        </select>
+    </div>
+
+    <div class="toggle-container">
+        <span>Simulation status: <strong id="status-text">stopped</strong></span>
+        <label class="switch">
+            <input type="checkbox" id="simulationToggle" onchange="toggleSimulationStatus()">
+            <span class="slider"></span>
+        </label>
+    </div>
 </div>
 
 <script>
-  const toggle = document.getElementById('status-toggle');
-  const statusLabel = document.getElementById('status-label');
-
-  toggle.addEventListener('change', function () {
-    statusLabel.textContent = this.checked ? 'running' : 'stopped';
-  });
+    function toggleSimulationStatus() {
+        const toggle = document.getElementById('simulationToggle');
+        const status = document.getElementById('status-text');
+        status.innerText = toggle.checked ? 'running' : 'stopped';
+    }
 </script>
 @endsection
