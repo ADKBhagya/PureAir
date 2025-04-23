@@ -4,7 +4,7 @@
 
 @section('content')
 <style>
-    .admin-wrapper { color: #22577A; font-size: 14px; }
+    .admin-wrapper { color: #22577A; }
 
     .header-bar {
         display: flex;
@@ -60,7 +60,11 @@
         color: #22577A;
     }
 
-    .admin-details h6 { font-weight: 600; margin-bottom: 3px; font-size: 16px; }
+    .admin-details h6 {
+        font-weight: 600;
+        margin-bottom: 3px;
+        font-size: 16px;
+    }
 
     .status-badge {
         padding: 6px 16px;
@@ -176,10 +180,10 @@
         <div>Actions</div>
     </div>
 
-    <!-- Admin cards will be dynamically inserted here -->
+    {{-- Admin Cards (Insert dynamically or blade loop here) --}}
 </div>
 
-<!-- Add Admin Modal -->
+{{-- Add Admin Modal --}}
 <div class="modal-overlay" id="addAdminModal">
     <div class="modal-box">
         <div class="modal-close" onclick="hideModal()">&times;</div>
@@ -197,7 +201,7 @@
     </div>
 </div>
 
-<!-- Edit Admin Modal -->
+{{-- Edit Admin Modal --}}
 <div class="modal-overlay" id="editAdminModal" data-editing-card-id="">
     <div class="modal-box">
         <div class="modal-close" onclick="hideEditModal()">&times;</div>
@@ -216,14 +220,6 @@
 </div>
 
 <script>
-    function isValidName(name) {
-        return /^[A-Za-z\s]+$/.test(name);
-    }
-
-    function isValidEmail(email) {
-        return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-    }
-
     function showModal() {
         document.getElementById('addAdminModal').style.display = 'flex';
     }
@@ -244,6 +240,7 @@
         document.querySelector('input[name="editEmail"]').value = email;
         document.querySelector('select[name="editRole"]').value = role;
         document.querySelector('select[name="editStatus"]').value = status;
+
         document.getElementById('editAdminModal').style.display = 'flex';
     }
 
@@ -258,14 +255,9 @@
 
     function addAdmin(e) {
         e.preventDefault();
-        const name = document.getElementById('addName');
-        const email = document.getElementById('addEmail');
-        const password = document.getElementById('addPassword');
-
-        if (!isValidName(name.value)) return name.style.borderColor = 'red';
-        if (!isValidEmail(email.value)) return email.style.borderColor = 'red';
-        if (password.value.length < 6) return password.style.borderColor = 'red';
-
+        const name = document.getElementById('addName').value;
+        const email = document.getElementById('addEmail').value;
+        const password = document.getElementById('addPassword').value;
         const role = document.getElementById('addRole').value;
         const status = document.getElementById('addStatus').value;
 
@@ -274,8 +266,8 @@
             <div class="admin-info">
                 <i class="bi bi-person-circle"></i>
                 <div class="admin-details">
-                    <h6>${name.value}</h6>
-                    <small>${email.value}</small>
+                    <h6>${name}</h6>
+                    <small>${email}</small>
                 </div>
             </div>
             <div><span class="status-badge ${status === 'Active' ? 'status-active' : 'status-inactive'}">${status}</span></div>
@@ -286,7 +278,6 @@
                 <button class="action-btn text-danger" onclick="deleteAdmin(this)"><i class="bi bi-trash-fill"></i></button>
             </div>
         </div>`;
-
         document.querySelector('.admin-wrapper').insertAdjacentHTML('beforeend', card);
         hideModal();
         e.target.reset();
@@ -295,22 +286,17 @@
     function updateAdmin(e) {
         e.preventDefault();
         const form = e.target;
-        const name = form.querySelector('input[name="editName"]');
-        const email = form.querySelector('input[name="editEmail"]');
-        const password = form.querySelector('input[name="editPassword"]');
-
-        if (!isValidName(name.value)) return name.style.borderColor = 'red';
-        if (!isValidEmail(email.value)) return email.style.borderColor = 'red';
-        if (password.value && password.value.length < 6) return password.style.borderColor = 'red';
-
+        const name = form.querySelector('input[name="editName"]').value;
+        const email = form.querySelector('input[name="editEmail"]').value;
+        const password = form.querySelector('input[name="editPassword"]').value;
         const role = form.querySelector('select[name="editRole"]').value;
         const status = form.querySelector('select[name="editStatus"]').value;
 
         const cardId = document.getElementById('editAdminModal').dataset.editingCardId;
         const card = document.querySelector(`.admin-card[data-id="${cardId}"]`);
 
-        card.querySelector('.admin-details h6').innerText = name.value;
-        card.querySelector('.admin-details small').innerText = email.value;
+        card.querySelector('.admin-details h6').innerText = name;
+        card.querySelector('.admin-details small').innerText = email;
         card.children[3].innerText = role;
         const badge = card.querySelector('.status-badge');
         badge.innerText = status;
