@@ -4,7 +4,9 @@
 
 @section('content')
 <style>
-    .admin-wrapper { color: #22577A; }
+    .admin-wrapper { 
+        color: #22577A; 
+    }
 
     .header-bar {
         display: flex;
@@ -73,8 +75,15 @@
         font-size: 14px;
     }
 
-    .status-active { background-color: #198754; color: white; }
-    .status-inactive { background-color: #dc3545; color: white; }
+    .status-active {
+        background-color: #198754; 
+        color: white; 
+    }
+
+    .status-inactive {
+        background-color: #dc3545;
+        color: white; 
+    }
 
     .action-btn {
         background: none;
@@ -88,7 +97,9 @@
         gap: 6px;
     }
 
-    .action-btn.text-danger { color: #dc3545; }
+    .action-btn.text-danger { 
+        color: #dc3545; 
+    }
 
     .modal-overlay {
         position: fixed;
