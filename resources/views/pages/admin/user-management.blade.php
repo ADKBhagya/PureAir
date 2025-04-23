@@ -5,36 +5,163 @@
 @section('content')
 <style>
     .admin-wrapper { color: #22577A; font-size: 14px; }
-    .header-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; }
-    .header-bar h3 { font-weight: 600; color: #22577A; font-size: 18px; }
-    .add-btn { background-color: #22577A; color: white; padding: 6px 16px; font-weight: 500; font-size: 13px; border-radius: 6px; border: none; }
-    .admin-list-headings { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr 1fr; font-weight: 600; font-size: 13px; color: #22577A; margin-bottom: 10px; }
-    .admin-card { background-color: rgba(228, 228, 228, 0.45); border-radius: 14px; padding: 16px 24px; margin-bottom: 16px; display: grid; grid-template-columns: 2fr 1fr 1fr 1fr 1fr; align-items: center; gap: 10px; }
-    .admin-info { display: flex; align-items: center; gap: 12px; }
-    .admin-info i { font-size: 22px; color: #22577A; }
+
+    .header-bar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 18px;
+    }
+
+    .header-bar h3 {
+        font-weight: 600;
+        color: #22577A;
+        font-size: 20px;
+    }
+
+    .add-btn {
+        background-color: #22577A;
+        color: white;
+        padding: 8px 20px;
+        font-weight: 500;
+        font-size: 14px;
+        border-radius: 6px;
+        border: none;
+    }
+
+    .admin-list-headings {
+        display: grid;
+        grid-template-columns: 2fr 1fr 1fr 1fr 1fr;
+        font-weight: 600;
+        font-size: 14px;
+        color: #22577A;
+        margin-bottom: 10px;
+    }
+
+    .admin-card {
+        background-color: rgba(228, 228, 228, 0.45);
+        border-radius: 14px;
+        padding: 16px 24px;
+        margin-bottom: 16px;
+        display: grid;
+        grid-template-columns: 2fr 1fr 1fr 1fr 1fr;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .admin-info {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+
+    .admin-info i {
+        font-size: 22px;
+        color: #22577A;
+    }
+
     .admin-details h6 { font-weight: 600; font-size: 14px; margin-bottom: 2px; }
     .admin-details small { font-size: 12px; color: #444; }
-    .status-badge { padding: 4px 12px; border-radius: 6px; font-weight: 500; font-size: 12px; }
+
+    .status-badge {
+        padding: 4px 12px;
+        border-radius: 6px;
+        font-weight: 500;
+        font-size: 12px;
+    }
+
     .status-active { background-color: #198754; color: white; }
     .status-inactive { background-color: #dc3545; color: white; }
-    .action-btn { background: none; border: none; font-size: 14px; cursor: pointer; color: #22577A; }
+
+    .action-btn {
+        background: none;
+        border: none;
+        font-size: 14px;
+        cursor: pointer;
+        color: #22577A;
+    }
+
     .action-btn.text-danger { color: #dc3545; }
-    .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.5); display: none; justify-content: center; align-items: center; z-index: 9999; }
-    .modal-box { background: #fff; padding: 24px 20px; border-radius: 14px; width: 360px; position: relative; box-shadow: 0 6px 16px rgba(0,0,0,0.15); }
-    .modal-box h5 { font-weight: 700; text-align: center; color: #22577A; margin-bottom: 20px; font-size: 16px; }
-    .modal-box input, .modal-box select { border-radius: 8px; border: 2px solid #ccc; width: 100%; padding: 8px 10px; margin-bottom: 12px; font-size: 13px; transition: all 0.2s ease; }
-    .modal-box input:focus, .modal-box select:focus { border-color: #80bdff; outline: none; box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25); }
-    .modal-box input::placeholder { color: #999; font-size: 12.5px; }
-    .btn-submit { background-color: #22577A; color: white; width: 100%; padding: 9px; border: none; border-radius: 8px; font-size: 13px; font-weight: 500; }
-    .modal-close { position: absolute; top: 10px; right: 14px; font-size: 18px; color: #FF7700; cursor: pointer; font-weight: bold; }
+
+    .modal-overlay {
+        position: fixed;
+        top: 0; left: 0;
+        width: 100%; height: 100%;
+        background-color: rgba(0,0,0,0.5);
+        display: none;
+        justify-content: center;
+        align-items: center;
+        z-index: 9999;
+    }
+
+    .modal-box {
+        background: #fff;
+        padding: 24px 20px;
+        border-radius: 14px;
+        width: 360px;
+        position: relative;
+        box-shadow: 0 6px 16px rgba(0,0,0,0.15);
+    }
+
+    .modal-box h5 {
+        font-weight: 700;
+        text-align: center;
+        color: #22577A;
+        margin-bottom: 20px;
+        font-size: 16px;
+    }
+
+    .modal-box input,
+    .modal-box select {
+        border-radius: 8px;
+        border: 2px solid #ccc;
+        width: 100%;
+        padding: 8px 10px;
+        margin-bottom: 12px;
+        font-size: 13px;
+        transition: all 0.2s ease;
+    }
+
+    .modal-box input:focus,
+    .modal-box select:focus {
+        border-color: #80bdff;
+        outline: none;
+        box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25);
+    }
+
+    .modal-box input::placeholder {
+        color: #999;
+        font-size: 12.5px;
+    }
+
+    .btn-submit {
+        background-color: #22577A;
+        color: white;
+        width: 100%;
+        padding: 9px;
+        border: none;
+        border-radius: 8px;
+        font-size: 13px;
+        font-weight: 500;
+    }
+
+    .modal-close {
+        position: absolute;
+        top: 10px;
+        right: 14px;
+        font-size: 18px;
+        color: #FF7700;
+        cursor: pointer;
+        font-weight: bold;
+    }
 </style>
 
 <div class="admin-wrapper">
     <div class="header-bar">
         <h3>Admin User Management</h3>
-        <div class="d-flex flex-column align-items-end">
-            <div class="text-muted mb-2" style="font-size: 13px;">Hello, User! <i class="bi bi-person-circle ms-1"></i></div>
-            <button class="add-btn mt-1" onclick="showModal()">
+        <div class="text-end">
+            <div class="text-muted mb-2">Hello, User! <i class="bi bi-person-circle ms-1"></i></div>
+            <button class="add-btn" onclick="showModal()">
                 <i class="bi bi-person-plus me-2"></i>Add Admins
             </button>
         </div>
@@ -47,6 +174,8 @@
         <div>Role</div>
         <div>Actions</div>
     </div>
+
+    <!-- Cards dynamically injected via JS -->
 </div>
 
 <!-- Add Modal -->
@@ -102,6 +231,21 @@
         document.getElementById('addAdminModal').style.display = 'none';
     }
 
+    function openEditModal(btn) {
+        const card = btn.closest('.admin-card');
+        const name = card.querySelector('.admin-details h6').innerText;
+        const email = card.querySelector('.admin-details small').innerText;
+        const role = card.children[3].innerText.trim();
+        const status = card.children[1].innerText.trim();
+
+        document.getElementById('editAdminModal').dataset.editingCardId = card.dataset.id;
+        document.querySelector('input[name="editName"]').value = name;
+        document.querySelector('input[name="editEmail"]').value = email;
+        document.querySelector('select[name="editRole"]').value = role;
+        document.querySelector('select[name="editStatus"]').value = status;
+        document.getElementById('editAdminModal').style.display = 'flex';
+    }
+
     function hideEditModal() {
         document.getElementById('editAdminModal').style.display = 'none';
     }
@@ -145,21 +289,6 @@
         document.querySelector('.admin-wrapper').insertAdjacentHTML('beforeend', card);
         hideModal();
         e.target.reset();
-    }
-
-    function openEditModal(btn) {
-        const card = btn.closest('.admin-card');
-        const name = card.querySelector('.admin-details h6').innerText;
-        const email = card.querySelector('.admin-details small').innerText;
-        const role = card.children[3].innerText.trim();
-        const status = card.children[1].innerText.trim();
-
-        document.getElementById('editAdminModal').dataset.editingCardId = card.dataset.id;
-        document.querySelector('input[name="editName"]').value = name;
-        document.querySelector('input[name="editEmail"]').value = email;
-        document.querySelector('select[name="editRole"]').value = role;
-        document.querySelector('select[name="editStatus"]').value = status;
-        document.getElementById('editAdminModal').style.display = 'flex';
     }
 
     function updateAdmin(e) {
