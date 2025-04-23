@@ -4,8 +4,8 @@
 
 @section('content')
 <style>
-    .admin-wrapper { 
-        color: #22577A; 
+    .admin-wrapper {
+        color: #22577A;
     }
 
     .header-bar {
@@ -76,13 +76,13 @@
     }
 
     .status-active {
-        background-color: #198754; 
-        color: white; 
+        background-color: #198754;
+        color: white;
     }
 
     .status-inactive {
         background-color: #dc3545;
-        color: white; 
+        color: white;
     }
 
     .action-btn {
@@ -97,14 +97,16 @@
         gap: 6px;
     }
 
-    .action-btn.text-danger { 
-        color: #dc3545; 
+    .action-btn.text-danger {
+        color: #dc3545;
     }
 
     .modal-overlay {
         position: fixed;
-        top: 0; left: 0;
-        width: 100%; height: 100%;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
         background-color: rgba(0,0,0,0.5);
         display: none;
         justify-content: center;
@@ -190,8 +192,6 @@
         <div>Role</div>
         <div>Actions</div>
     </div>
-
-    {{-- Admin Cards (Insert dynamically or blade loop here) --}}
 </div>
 
 {{-- Add Admin Modal --}}
@@ -261,7 +261,9 @@
 
     function deleteAdmin(btn) {
         const card = btn.closest('.admin-card');
-        card.remove();
+        card.style.transition = 'opacity 0.3s ease';
+        card.style.opacity = '0';
+        setTimeout(() => card.remove(), 300);
     }
 
     function addAdmin(e) {
@@ -289,6 +291,7 @@
                 <button class="action-btn text-danger" onclick="deleteAdmin(this)"><i class="bi bi-trash-fill"></i></button>
             </div>
         </div>`;
+
         document.querySelector('.admin-wrapper').insertAdjacentHTML('beforeend', card);
         hideModal();
         e.target.reset();
