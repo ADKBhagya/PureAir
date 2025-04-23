@@ -10,13 +10,13 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
-        margin-bottom: 18px;
+        margin-bottom: 24px;
     }
 
     .header-bar h3 {
         font-weight: 600;
         color: #22577A;
-        font-size: 20px;
+        font-size: 21px;
     }
 
     .add-btn {
@@ -25,7 +25,7 @@
         padding: 8px 20px;
         font-weight: 500;
         font-size: 14px;
-        border-radius: 6px;
+        border-radius: 8px;
         border: none;
     }
 
@@ -33,16 +33,16 @@
         display: grid;
         grid-template-columns: 2fr 1fr 1fr 1fr 1fr;
         font-weight: 600;
-        font-size: 14px;
+        font-size: 15px;
         color: #22577A;
-        margin-bottom: 10px;
+        margin-bottom: 12px;
     }
 
     .admin-card {
         background-color: rgba(228, 228, 228, 0.45);
-        border-radius: 14px;
-        padding: 16px 24px;
-        margin-bottom: 16px;
+        border-radius: 16px;
+        padding: 20px 30px;
+        margin-bottom: 20px;
         display: grid;
         grid-template-columns: 2fr 1fr 1fr 1fr 1fr;
         align-items: center;
@@ -52,22 +52,21 @@
     .admin-info {
         display: flex;
         align-items: center;
-        gap: 12px;
+        gap: 15px;
     }
 
     .admin-info i {
-        font-size: 22px;
+        font-size: 28px;
         color: #22577A;
     }
 
-    .admin-details h6 { font-weight: 600; font-size: 14px; margin-bottom: 2px; }
-    .admin-details small { font-size: 12px; color: #444; }
+    .admin-details h6 { font-weight: 600; margin-bottom: 3px; font-size: 16px; }
 
     .status-badge {
-        padding: 4px 12px;
-        border-radius: 6px;
+        padding: 6px 16px;
+        border-radius: 8px;
         font-weight: 500;
-        font-size: 12px;
+        font-size: 14px;
     }
 
     .status-active { background-color: #198754; color: white; }
@@ -76,9 +75,13 @@
     .action-btn {
         background: none;
         border: none;
-        font-size: 14px;
+        font-size: 16px;
+        font-weight: 500;
         cursor: pointer;
         color: #22577A;
+        display: flex;
+        align-items: center;
+        gap: 6px;
     }
 
     .action-btn.text-danger { color: #dc3545; }
@@ -96,19 +99,18 @@
 
     .modal-box {
         background: #fff;
-        padding: 24px 20px;
-        border-radius: 14px;
-        width: 360px;
+        padding: 30px;
+        border-radius: 18px;
+        width: 400px;
         position: relative;
-        box-shadow: 0 6px 16px rgba(0,0,0,0.15);
+        box-shadow: 0 8px 18px rgba(0,0,0,0.2);
     }
 
     .modal-box h5 {
         font-weight: 700;
         text-align: center;
         color: #22577A;
-        margin-bottom: 20px;
-        font-size: 16px;
+        margin-bottom: 24px;
     }
 
     .modal-box input,
@@ -116,10 +118,10 @@
         border-radius: 8px;
         border: 2px solid #ccc;
         width: 100%;
-        padding: 8px 10px;
-        margin-bottom: 12px;
-        font-size: 13px;
-        transition: all 0.2s ease;
+        padding: 8px 12px;
+        margin-bottom: 16px;
+        font-size: 14px;
+        transition: all 0.3s ease;
     }
 
     .modal-box input:focus,
@@ -138,18 +140,17 @@
         background-color: #22577A;
         color: white;
         width: 100%;
-        padding: 9px;
+        padding: 10px;
         border: none;
         border-radius: 8px;
-        font-size: 13px;
         font-weight: 500;
     }
 
     .modal-close {
         position: absolute;
-        top: 10px;
-        right: 14px;
-        font-size: 18px;
+        top: 12px;
+        right: 16px;
+        font-size: 20px;
         color: #FF7700;
         cursor: pointer;
         font-weight: bold;
@@ -175,10 +176,10 @@
         <div>Actions</div>
     </div>
 
-    <!-- Cards dynamically injected via JS -->
+    <!-- Admin cards will be dynamically inserted here -->
 </div>
 
-<!-- Add Modal -->
+<!-- Add Admin Modal -->
 <div class="modal-overlay" id="addAdminModal">
     <div class="modal-box">
         <div class="modal-close" onclick="hideModal()">&times;</div>
@@ -196,7 +197,7 @@
     </div>
 </div>
 
-<!-- Edit Modal -->
+<!-- Edit Admin Modal -->
 <div class="modal-overlay" id="editAdminModal" data-editing-card-id="">
     <div class="modal-box">
         <div class="modal-close" onclick="hideEditModal()">&times;</div>
