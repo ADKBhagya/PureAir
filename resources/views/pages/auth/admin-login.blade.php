@@ -1,6 +1,6 @@
 @extends('layouts.clean')
 
-@section('title', 'Web Master Login')
+@section('title', 'Admin Login')
 
 @section('content')
 <style>
@@ -19,24 +19,33 @@
 
     .login-card {
         background-color: #fff;
-        padding: 30px 25px;
-        border-radius: 16px;
-        box-shadow: 0 6px 16px rgba(0,0,0,0.15);
-        max-width: 360px;
+        padding: 32px 28px;
+        border-radius: 18px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        max-width: 370px;
         width: 100%;
     }
 
     .login-card h3 {
         color: #22577A;
-        margin-bottom: 18px;
-        font-size: 18px;
+        margin-bottom: 22px;
+        font-size: 20px;
+        font-weight: 600;
         text-align: center;
     }
 
     .form-control {
         border-radius: 8px;
         font-size: 13px;
-        padding: 8px 10px;
+        padding: 10px;
+        border: 2px solid #ccc;
+        transition: all 0.2s ease;
+    }
+
+    .form-control:focus {
+        border-color: #80bdff;
+        outline: none;
+        box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25);
     }
 
     .btn-login {
@@ -46,21 +55,22 @@
         font-size: 14px;
         border: none;
         border-radius: 8px;
-        padding: 9px;
+        padding: 10px;
         width: 100%;
-        margin-top: 12px;
+        margin-top: 14px;
         transition: all 0.3s ease;
     }
 
     .btn-login:hover {
         background-color: #e56700;
-        box-shadow: 0 0 8px rgba(255, 119, 0, 0.4);
+        box-shadow: 0 0 10px rgba(255, 119, 0, 0.4);
     }
 
     label {
         font-size: 13px;
         color: #2F3E46;
-        margin-bottom: 4px;
+        margin-bottom: 6px;
+        display: block;
     }
 
     .form-check-input {
@@ -76,7 +86,7 @@
     .forgot-password {
         font-size: 12px;
         color: #999;
-        margin-top: 6px;
+        margin-top: 8px;
         display: block;
         text-align: right;
         text-decoration: none;
@@ -90,15 +100,30 @@
 <div class="login-wrapper">
     <div class="login-card">
         <h3>Admin Login</h3>
-        <form action="{{ route('webmaster.login.submit') }}" method="POST">
+        <form action="{{ route('webmaster.login.submit') }}" method="POST" novalidate>
             @csrf
-            <div class="mb-2">
+            <div class="mb-3">
                 <label for="email">Email</label>
-                <input type="email" id="email" name="email" class="form-control" placeholder="Enter email" required>
+                <input 
+                    type="email"
+                    id="email"
+                    name="email"
+                    class="form-control"
+                    placeholder="example@mail.com"
+                    required
+                >
             </div>
-            <div class="mb-2">
+            <div class="mb-3">
                 <label for="password">Password</label>
-                <input type="password" id="password" name="password" class="form-control" placeholder="Enter password" required>
+                <input 
+                    type="password"
+                    id="password"
+                    name="password"
+                    class="form-control"
+                    placeholder="Minimum 6 characters"
+                    minlength="6"
+                    required
+                >
             </div>
 
             <div class="form-check text-start mb-2">
@@ -106,7 +131,6 @@
                 <label class="form-check-label" for="remember">Remember me</label>
             </div>
 
-            <a class="forgot-password" href="#">Forgot Password?</a>
             <button type="submit" class="btn btn-login">Log In</button>
         </form>
     </div>
