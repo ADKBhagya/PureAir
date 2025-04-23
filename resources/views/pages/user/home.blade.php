@@ -85,7 +85,7 @@
         <!-- Right Column -->
         <div class="col-md-7">
             <!-- Infographic Section -->
-            <div class="bg-card px-4 py-4 mb-4">
+            <div class=" px-4 py-4 mb-4">
                 <h5 class="primary-blue fw-semibold mb-4 text-center" style="font-size: 22px;">Why Air Quality Matters</h5>
                 <div class="row text-center">
                     @php
