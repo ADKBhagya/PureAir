@@ -60,7 +60,9 @@ Route::post('/admin/webmaster-login', [WebMasterAuthController::class, 'login'])
 | Dummy Page:  Data Management
 |--------------------------------------------------------------------------
 */
-
+Route::get('/admin/data-management', function () {
+    return view('pages.admin.data-management');
+})->name('admin.data.management');
 
 
 
@@ -69,7 +71,9 @@ Route::post('/admin/webmaster-login', [WebMasterAuthController::class, 'login'])
 | Dummy Page: Dashboard
 |--------------------------------------------------------------------------
 */
-
+Route::get('/admin/dashboard', function () {
+    return view('pages.admin.dashboard');
+})->name('admin.dashboard');
 
 /*
 |--------------------------------------------------------------------------
@@ -94,7 +98,9 @@ Route::get('/admin/user-management', function () {
 | Dummy Page: Sensor management
 |--------------------------------------------------------------------------
 */
-
+Route::get('/admin/sensor-management', function () {
+    return view('pages.admin.sensor-management');
+})->name('admin.sensor.management');
 
 
 /*
@@ -102,3 +108,8 @@ Route::get('/admin/user-management', function () {
 | Dummy Page: Alert Configuration
 |--------------------------------------------------------------------------
 */
+Route::get('/admin/alert-configuration', function () {
+    return view('pages.admin.alerts'); // 👈 match the actual blade file path
+})->name('admin.alert');
+
+
