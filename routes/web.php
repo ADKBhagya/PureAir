@@ -1,17 +1,18 @@
-<?php
+<?php 
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\User\AirQualityController;
 use App\Http\Controllers\Admin\WebMasterAuthController;
 use App\Http\Controllers\Admin\AdminAuthController;
+use App\Http\Controllers\Admin\SensorController;
+
 
 
 /*
 |--------------------------------------------------------------------------
-| User Routes
+| Public User Routes
 |--------------------------------------------------------------------------
 */
-
 Route::get('/', function () {
     return view('pages.user.home');
 })->name('home');
@@ -27,17 +28,15 @@ Route::get('/historical-data', [AirQualityController::class, 'historicalData'])-
 | Admin Role Selection
 |--------------------------------------------------------------------------
 */
-
 Route::get('/admin/role-selection', function () {
     return view('pages.auth.admin-selection');
 })->name('admin.role.selection');
 
 /*
 |--------------------------------------------------------------------------
-| Admin Login Placeholder (for monitoring Admin role)
+| Admin Login (Monitoring Admin)
 |--------------------------------------------------------------------------
 */
-
 Route::get('/admin/login', function () {
     return view('pages.auth.admin-login');
 })->name('admin.login');
@@ -46,70 +45,64 @@ Route::post('/admin/login', [AdminAuthController::class, 'login'])->name('admin.
 
 /*
 |--------------------------------------------------------------------------
-| WebMaster Login Page & Submit
+| Web Master Login
 |--------------------------------------------------------------------------
 */
-
 Route::get('/admin/webmaster-login', function () {
     return view('pages.auth.webmaster-login');
 })->name('webmaster.login');
 
 Route::post('/admin/webmaster-login', [WebMasterAuthController::class, 'login'])->name('webmaster.login.submit');
-/*
-|--------------------------------------------------------------------------
-| Dummy Page:  Data Management
-|--------------------------------------------------------------------------
-*/
-Route::get('/admin/data-management', function () {
-    return view('pages.admin.data-management');
-})->name('admin.data.management');
-
 
 
 /*
 |--------------------------------------------------------------------------
-| Dummy Page: Dashboard
+| logout
 |--------------------------------------------------------------------------
 */
-Route::get('/admin/dashboard', function () {
-    return view('pages.admin.dashboard');
-})->name('admin.dashboard');
-
-/*
-|--------------------------------------------------------------------------
-| aqi status
-|--------------------------------------------------------------------------
-*/
-Route::get('/admin/aqi-status', function () {
-    return view('pages.admin.full-aqi-status');
-})->name('admin.aqi.full');
-
-/*
-|--------------------------------------------------------------------------
-| Dummy Page: Admin user management
-|--------------------------------------------------------------------------
-*/
-Route::get('/admin/user-management', function () {
-    return view('pages.admin.user-management');
-})->name('admin.user.management');
-
-/*
-|--------------------------------------------------------------------------
-| Dummy Page: Sensor management
-|--------------------------------------------------------------------------
-*/
-Route::get('/admin/sensor-management', function () {
-    return view('pages.admin.sensor-management');
-})->name('admin.sensor.management');
+Route::post('/logout', function () {
+    auth()->logout();
+    request()->session()->invalidate();
+    request()->session()->regenerateToken();
+    return redirect()->route('admin.role.selection');
+})->name('logout');
 
 
 /*
 |--------------------------------------------------------------------------
-| Dummy Page: Alert Configuration
+| Admin Dashboard (Shared for Both Roles)
 |--------------------------------------------------------------------------
 */
-Route::get('/admin/alert-configuration', function () {
-    return view('pages.admin.alerts'); // 👈 match the actual blade file path
-})->name('admin.alert');
+Route::middleware('auth')->group(function () {
+    Route::get('/admin/dashboard', function () {
+        return view('pages.admin.dashboard');
+    })->name('admin.dashboard');
 
+    Route::get('/admin/aqi-status', function () {
+        return view('pages.admin.full-aqi-status');
+    })->name('admin.aqi.full');
+
+    // Sensor Management
+Route::get('/admin/sensor-management', [SensorController::class, 'index'])->name('admin.sensor.management');
+Route::post('/admin/sensors', [SensorController::class, 'store'])->name('sensors.store');
+Route::put('/admin/sensors/{id}', [SensorController::class, 'update'])->name('sensors.update');
+Route::delete('/admin/sensors/{id}', [SensorController::class, 'destroy'])->name('sensors.destroy');
+
+
+
+    Route::get('/admin/alert-configuration', function () {
+        return view('pages.admin.alerts');
+    })->name('admin.alert');
+
+    Route::get('/admin/data-management', function () {
+        return view('pages.admin.data-management');
+    })->name('admin.data.management');
+
+    // ✅ Only Web Masters can access Admin User Management
+    Route::get('/admin/user-management', function () {
+        return view('pages.admin.user-management');
+    })->middleware('auth')->name('admin.user.management');
+    
+    
+});
 

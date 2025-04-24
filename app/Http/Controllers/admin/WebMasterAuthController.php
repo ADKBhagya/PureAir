@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
@@ -7,28 +8,20 @@ use Illuminate\Support\Facades\Auth;
 
 class WebMasterAuthController extends Controller
 {
-    public function showLoginForm()
-    {
-        return view('pages.auth.webmaster-login');
-    }
-
     public function login(Request $request)
     {
-        $request->validate([
-            'email' => ['required', 'email'],
-            'password' => ['required', 'min:6'],
-        ]);
+        $credentials = $request->only('email', 'password');
 
-        if (Auth::attempt($request->only('email', 'password'))) {
-            $user = Auth::user();
-            if ($user->role === 'webmaster') {
-                return redirect()->route('admin.dashboard');
-            } else {
-                Auth::logout();
-                return redirect()->route('login.webmaster')->withErrors(['access' => 'Access denied']);
-            }
+        $credentials['role'] = 'web_master'; // Only allow web masters
+        $credentials['status'] = true;       // Only active users
+
+        if (Auth::attempt($credentials, $request->filled('remember'))) {
+            $request->session()->regenerate();
+            return redirect()->route('admin.dashboard');
         }
 
-        return redirect()->route('login.webmaster')->withErrors(['login' => 'Invalid credentials']);
+        return back()->withErrors([
+            'email' => 'Invalid credentials or unauthorized access.',
+        ])->onlyInput('email');
     }
 }
