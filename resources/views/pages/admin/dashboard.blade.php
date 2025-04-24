@@ -9,10 +9,16 @@
         font-family: 'Poppins', sans-serif;
     }
 
+    .header-bar h3 {
+        font-size: 19px;
+        font-weight: 600;
+        color: #22577A;
+    }
+
     .summary-card {
-        background-color: rgba(228, 228, 228, 0.45);
-        border-radius: 14px;
-        padding: 16px 18px;
+        background: rgba(228, 228, 228, 0.45);
+        border-radius: 12px;
+        padding: 14px 16px;
         display: flex;
         align-items: center;
         justify-content: space-between;
@@ -20,53 +26,80 @@
     }
 
     .summary-card:hover {
-        transform: translateY(-3px);
+        transform: translateY(-2px);
     }
 
     .summary-icon {
-        font-size: 22px;
+        font-size: 20px;
         background: #22577A;
-        color: white;
-        padding: 12px;
-        border-radius: 10px;
+        color: #fff;
+        padding: 10px;
+        border-radius: 8px;
     }
 
     .summary-value {
-        font-size: 18px;
+        font-size: 16px;
         font-weight: 600;
         color: #22577A;
     }
 
     .summary-label {
-        margin-top: 2px;
         font-size: 12px;
         color: #3d4b52;
-    }
-
-    .header-bar h3 {
-        font-weight: 600;
-        color: #22577A;
-        font-size: 18px;
     }
 
     .text-primary {
         color: #22577A !important;
     }
 
-    .status-box {
-        background-color: rgba(228, 228, 228, 0.45);
+    .status-section {
+        background: rgba(228, 228, 228, 0.45);
         padding: 20px;
-        border-radius: 14px;
+        border-radius: 12px;
+        font-size: 14px;
     }
 
-    .badge {
+    .status-heading {
+        font-size: 15px;
+        font-weight: 600;
+        color: #22577A;
+        margin-bottom: 14px;
+    }
+
+    .status-row {
+        color: #22577A;
+        font-size: 13px;
+        margin-bottom: 10px;
+    }
+
+    .badge-box {
+        min-width: 100px;
+        font-weight: 500;
+        font-size: 13px;
+        padding: 6px 12px;
+        border-radius: 6px;
+        display: inline-block;
+        text-align: center;
+    }
+
+    .btn-see-more {
+        background-color: #22577A;
+        padding: 5px 14px;
+        font-size: 13px;
         border-radius: 8px;
+        color: white;
+    }
+
+    .btn-see-more i {
+        font-size: 15px;
     }
 </style>
 
 <div class="header-bar d-flex justify-content-between align-items-center mb-3">
     <h3>Dashboard</h3>
-    <div class="text-muted" style="font-size: 13px;">Hello, User! <i class="bi bi-person-circle ms-2"></i></div>
+    <div class="text-muted mb-2" style="font-size: 13px;">
+        Hello, {{ auth()->user()->full_name }} <i class="bi bi-person-circle ms-1"></i>
+    </div>
 </div>
 
 {{-- Summary Cards --}}
@@ -108,32 +141,29 @@
 
 {{-- AQI Status Section --}}
 <div class="d-flex justify-content-between align-items-center mb-3 mt-4">
-    <h5 class="text-primary fw-bold mb-0" style="font-size: 16px;">Status</h5>
-    <a href="{{ route('admin.aqi.full') }}" 
-       class="btn btn-sm text-white d-flex align-items-center gap-1"
-       style="background-color: #22577A; padding: 6px 16px; border-radius: 8px;"
-       title="View full AQI breakdown">
-       See more <i class="bi bi-arrow-right text-white fs-5"></i>
+    <h5 class="text-primary fw-bold mb-0" style="font-size: 15px;">Status</h5>
+    <a href="{{ route('admin.aqi.full') }}" class="btn btn-see-more d-flex align-items-center gap-1" title="View full AQI breakdown">
+        See more <i class="bi bi-arrow-right"></i>
     </a>
 </div>
 
-<div style="background-color: rgba(228, 228, 228, 0.45); border-radius: 14px; padding: 22px;">
-    <div class="row text-primary fw-semibold" style="font-size: 15px; margin-bottom: 15px;">
+<div class="status-section">
+    <div class="row fw-semibold status-heading">
         <div class="col-md-4">City</div>
         <div class="col-md-4">Condition</div>
         <div class="col-md-4">AQI</div>
     </div>
-    <div class="row align-items-center mb-3" style="color: #22577A; font-size: 14px;">
+    <div class="row align-items-center status-row">
         <div class="col-md-4">Homagama</div>
         <div class="col-md-4">
-            <span class="d-inline-block text-white text-center px-3 py-1 rounded" style="background-color: #137f1f; font-weight: 500; min-width: 110px;">Good</span>
+            <span class="badge-box text-white" style="background-color: #137f1f;">Good</span>
         </div>
         <div class="col-md-4">37</div>
     </div>
-    <div class="row align-items-center" style="color: #22577A; font-size: 14px;">
+    <div class="row align-items-center status-row">
         <div class="col-md-4">Moratuwa</div>
         <div class="col-md-4">
-            <span class="d-inline-block text-dark text-center px-3 py-1 rounded" style="background-color: #FFD400; font-weight: 500; min-width: 110px;">Moderate</span>
+            <span class="badge-box text-dark" style="background-color: #FFD400;">Moderate</span>
         </div>
         <div class="col-md-4">62</div>
     </div>

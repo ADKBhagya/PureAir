@@ -117,7 +117,7 @@
         </div>
 
         <div class="role-card">
-            <h3>Admin</h3>
+            <h3>Monitoring Admin</h3>
             <img src="{{ asset('assets/user-icon.png.png') }}" class="icon" alt="Admin">
             <a href="{{ route('admin.login') }}">
                 <button class="login-btn">Log In</button>

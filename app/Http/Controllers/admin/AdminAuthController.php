@@ -6,14 +6,14 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class WebMasterAuthController extends Controller
+class AdminAuthController extends Controller
 {
     public function login(Request $request)
     {
         $credentials = $request->only('email', 'password');
 
-        $credentials['role'] = 'web_master'; // Only allow web masters
-        $credentials['status'] = true;       // Only active users
+        $credentials['role'] = 'admin'; // Only allow admins
+        $credentials['status'] = true;  // Only active users
 
         if (Auth::attempt($credentials, $request->filled('remember'))) {
             $request->session()->regenerate();

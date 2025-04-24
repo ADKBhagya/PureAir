@@ -73,21 +73,31 @@
         cursor: pointer;
     }
 
+    
+
     .form-label {
         font-size: 13px;
         font-weight: 500;
         color: #22577A;
     }
 
-    .form-select, .form-control {
+    .form-select,
+    .form-control {
         font-size: 13px;
         padding: 8px;
         border-radius: 6px;
         border: 2px solid #ccc;
         margin-bottom: 12px;
+        color: #000; /* ✅ Black text for filled input */
     }
 
-    .form-select:focus, .form-control:focus {
+    .form-select::placeholder,
+    .form-control::placeholder {
+        color: rgba(0, 0, 0, 0.45); /* ✅ Soft gray for placeholders */
+    }
+
+    .form-select:focus,
+    .form-control:focus {
         border-color: #80bdff;
         box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
         outline: none;
@@ -131,7 +141,9 @@
 <div class="alert-header">
     <h3>Alert Configuration</h3>
     <div class="text-end">
-        <div class="text-muted mb-2">Hello, User <i class="bi bi-person-circle ms-1"></i></div>
+        <div class="text-muted mb-2" style="font-size: 13px;">
+            Hello, {{ auth()->user()->full_name }}! <i class="bi bi-person-circle ms-1"></i>
+        </div>
         <button class="add-rule-btn" onclick="showRuleModal()">
             <i class="bi bi-plus-circle me-1"></i> Add Rule
         </button>

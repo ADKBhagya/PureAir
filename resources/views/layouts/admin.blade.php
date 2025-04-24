@@ -99,6 +99,8 @@
         <a href="{{ route('admin.user.management') }}" class="nav-link {{ request()->routeIs('admin.user.management') ? 'active' : '' }}">
             <i class="bi bi-person"></i> Admin User Management
         </a>
+
+
         <a href="{{ route('admin.sensor.management') }}" class="nav-link {{ request()->routeIs('admin.sensor.management') ? 'active' : '' }}">
             <i class="bi bi-broadcast-pin"></i> Sensor Management
         </a>
@@ -110,8 +112,12 @@
         </a>
     </div>
     <div class="logout-btn">
-        <button>Log Out</button>
+        <form action="{{ route('logout') }}" method="POST">
+            @csrf
+            <button type="submit">Log Out</button>
+        </form>
     </div>
+
 </div>
 
 <div class="main-content">

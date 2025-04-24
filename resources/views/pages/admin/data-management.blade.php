@@ -24,7 +24,7 @@
     .simulation-wrapper label {
         font-size: 13px;
         font-weight: 500;
-        color: #22577A;
+        color: #22577A; /* ✅ Theme color */
         margin-bottom: 6px;
         display: block;
     }
@@ -38,11 +38,13 @@
         width: 100%;
         margin-bottom: 20px;
         transition: border 0.2s, box-shadow 0.2s;
+        color: #000; /* ✅ Black text for filled fields */
     }
 
-    .simulation-wrapper input::placeholder {
+    .simulation-wrapper input::placeholder,
+    .simulation-wrapper select::placeholder {
+        color: rgba(0, 0, 0, 0.45); /* ✅ Soft gray placeholder */
         font-size: 12.5px;
-        color: #aaa;
     }
 
     .simulation-wrapper input:focus,
@@ -116,6 +118,13 @@
     }
 </style>
 
+<div class="header-bar d-flex justify-content-between align-items-center mb-3">
+    <h3 style="font-size: 18px;">Data Management</h3>
+    <div class="text-muted mb-2" style="font-size: 13px;">
+        Hello, {{ auth()->user()->full_name }}! <i class="bi bi-person-circle ms-1"></i>
+    </div>
+</div>
+
 <div class="simulation-wrapper">
     <h4><i class="bi bi-gear-fill me-2"></i>Simulation Settings</h4>
     
@@ -131,7 +140,7 @@
 
     <div>
         <label for="variation">AQI Variation Pattern</label>
-        <select id="variation">
+        <select id="variation" style="color:rgba(0, 0, 0, 0.45);">
             <option disabled selected>Select a pattern</option>
             <option value="random">Random</option>
             <option value="increasing">Increasing</option>

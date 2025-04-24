@@ -83,24 +83,13 @@
         font-size: 13px;
     }
 
-    .forgot-password {
-        font-size: 12px;
-        color: #999;
-        margin-top: 8px;
-        display: block;
-        text-align: right;
-        text-decoration: none;
-    }
-
-    .forgot-password:hover {
-        text-decoration: underline;
-    }
+  
 </style>
 
 <div class="login-wrapper">
     <div class="login-card">
-        <h3>Admin Login</h3>
-        <form action="{{ route('webmaster.login.submit') }}" method="POST" novalidate>
+        <h3>Monitoring Admin Login</h3>
+        <form id="loginForm" action="{{ route('admin.login.submit') }}" method="POST">
             @csrf
             <div class="mb-3">
                 <label for="email">Email</label>
@@ -135,4 +124,16 @@
         </form>
     </div>
 </div>
+
+<script>
+    document.getElementById('loginForm').addEventListener('submit', function (e) {
+        const email = document.getElementById('email').value.trim();
+        const password = document.getElementById('password').value.trim();
+
+        if (!email || !password) {
+            e.preventDefault();
+            alert("Please fill out all required fields.");
+        }
+    });
+</script>
 @endsection
