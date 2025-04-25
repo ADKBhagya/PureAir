@@ -4,6 +4,10 @@
 
 @section('content')
 <style>
+     body {
+        background: #ffffff;
+        font-family: 'Poppins', sans-serif;
+    }
     .alert-header {
         display: flex;
         justify-content: space-between;
