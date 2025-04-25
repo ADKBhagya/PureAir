@@ -7,7 +7,6 @@ use App\Http\Controllers\Admin\AdminAuthController;
 use App\Http\Controllers\Admin\SensorController;
 
 
-
 /*
 |--------------------------------------------------------------------------
 | Public User Routes
@@ -34,7 +33,7 @@ Route::get('/admin/role-selection', function () {
 
 /*
 |--------------------------------------------------------------------------
-| Admin Login (Monitoring Admin)
+| Admin Logins
 |--------------------------------------------------------------------------
 */
 Route::get('/admin/login', function () {
@@ -43,21 +42,15 @@ Route::get('/admin/login', function () {
 
 Route::post('/admin/login', [AdminAuthController::class, 'login'])->name('admin.login.submit');
 
-/*
-|--------------------------------------------------------------------------
-| Web Master Login
-|--------------------------------------------------------------------------
-*/
 Route::get('/admin/webmaster-login', function () {
     return view('pages.auth.webmaster-login');
 })->name('webmaster.login');
 
 Route::post('/admin/webmaster-login', [WebMasterAuthController::class, 'login'])->name('webmaster.login.submit');
 
-
 /*
 |--------------------------------------------------------------------------
-| logout
+| Logout
 |--------------------------------------------------------------------------
 */
 Route::post('/logout', function () {
@@ -67,10 +60,9 @@ Route::post('/logout', function () {
     return redirect()->route('admin.role.selection');
 })->name('logout');
 
-
 /*
 |--------------------------------------------------------------------------
-| Admin Dashboard (Shared for Both Roles)
+| Admin Dashboard + Features (for authenticated users)
 |--------------------------------------------------------------------------
 */
 Route::middleware('auth')->group(function () {
@@ -82,14 +74,16 @@ Route::middleware('auth')->group(function () {
         return view('pages.admin.full-aqi-status');
     })->name('admin.aqi.full');
 
-    // Sensor Management
-Route::get('/admin/sensor-management', [SensorController::class, 'index'])->name('admin.sensor.management');
-Route::post('/admin/sensors', [SensorController::class, 'store'])->name('sensors.store');
-Route::put('/admin/sensors/{id}', [SensorController::class, 'update'])->name('sensors.update');
-Route::delete('/admin/sensors/{id}', [SensorController::class, 'destroy'])->name('sensors.destroy');
+    // ✅ Sensor Management
+    
+    Route::get('/admin/sensor-management', [SensorController::class, 'index'])->name('admin.sensor.management');
+    Route::post('/admin/sensors', [SensorController::class, 'store'])->name('sensors.store');
+    Route::delete('/admin/sensors/{id}', [SensorController::class, 'destroy'])->name('sensors.destroy');
+    Route::put('/admin/sensors/{id}', [SensorController::class, 'update'])->name('sensors.update');
 
+   
 
-
+    // Alert + Data + User Management
     Route::get('/admin/alert-configuration', function () {
         return view('pages.admin.alerts');
     })->name('admin.alert');
@@ -98,11 +92,7 @@ Route::delete('/admin/sensors/{id}', [SensorController::class, 'destroy'])->name
         return view('pages.admin.data-management');
     })->name('admin.data.management');
 
-    // ✅ Only Web Masters can access Admin User Management
     Route::get('/admin/user-management', function () {
         return view('pages.admin.user-management');
     })->middleware('auth')->name('admin.user.management');
-    
-    
 });
-

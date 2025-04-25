@@ -8,57 +8,47 @@ use App\Models\Sensor;
 
 class SensorController extends Controller
 {
-    // Show all sensors to the Blade view
     public function index()
     {
         $sensors = Sensor::all();
         return view('pages.admin.sensor-management', compact('sensors'));
     }
 
-    // Store new sensor
     public function store(Request $request)
     {
-        $request->validate([
-            'sensor_id' => 'required|unique:sensors,sensor_id',
-            'location' => 'required',
+        $validated = $request->validate([
+            'sensor_id' => 'required|unique:sensors',
+            'location' => 'required|string',
             'aqi' => 'required|integer',
             'status' => 'required|in:active,inactive',
+            'lat' => 'required|numeric',
+            'lng' => 'required|numeric',
         ]);
 
-        Sensor::create($request->all());
-
-        return redirect()->back()->with('success', 'Sensor added successfully.');
+        Sensor::create($validated);
+        return redirect()->route('admin.sensor.management')->with('success', 'Sensor added successfully!');
     }
 
-    // Update sensor
     public function update(Request $request, $id)
     {
-        $sensor = Sensor::findOrFail($id);
-
-        $request->validate([
-            'sensor_id' => 'required|unique:sensors,sensor_id,' . $sensor->id,
-            'location' => 'required',
+        $validated = $request->validate([
+            'sensor_id' => 'required|string',
+            'location' => 'required|string',
             'aqi' => 'required|integer',
             'status' => 'required|in:active,inactive',
+            'lat' => 'required|numeric',
+            'lng' => 'required|numeric',
         ]);
 
-        $sensor->update($request->all());
+        $sensor = Sensor::findOrFail($id);
+        $sensor->update($validated);
 
-        return redirect()->back()->with('success', 'Sensor updated successfully.');
+        return redirect()->route('admin.sensor.management')->with('success', 'Sensor updated successfully!');
     }
 
-    // Delete sensor
     public function destroy($id)
     {
-        $sensor = Sensor::findOrFail($id);
-        $sensor->delete();
-
-        return redirect()->back()->with('success', 'Sensor deleted.');
-    }
-
-    // Optional: For API (fetching as JSON)
-    public function apiIndex()
-    {
-        return Sensor::all();
+        Sensor::findOrFail($id)->delete();
+        return back()->with('success', 'Sensor deleted successfully!');
     }
 }

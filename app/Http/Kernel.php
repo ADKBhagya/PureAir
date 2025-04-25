@@ -33,5 +33,8 @@ class Kernel extends HttpKernel
         'auth' => \App\Http\Middleware\Authenticate::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'can:web_master' => \App\Http\Middleware\IsWebMaster::class,
+        'is_webmaster' => \App\Http\Middleware\IsWebMaster::class,
+
+
     ];
 }

@@ -13,12 +13,15 @@ return new class extends Migration
     {
         Schema::create('sensors', function (Blueprint $table) {
             $table->id();
-            $table->string('sensor_id')->unique(); // e.g., Sensor #001
-            $table->string('location');            // City or Place
-            $table->integer('aqi');                // AQI value
+            $table->string('sensor_id')->unique();
+            $table->string('location');
+            $table->integer('aqi');
             $table->enum('status', ['active', 'inactive']);
+            $table->decimal('lat', 10, 7);
+            $table->decimal('lng', 10, 7);
             $table->timestamps();
         });
+        
     }
 
     /**
@@ -29,3 +32,4 @@ return new class extends Migration
         Schema::dropIfExists('sensors');
     }
 };
+
