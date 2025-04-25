@@ -4,6 +4,10 @@
 
 @section('content')
 <style>
+     body {
+        background: #ffffff;
+        font-family: 'Poppins', sans-serif;
+    }
     .header-bar h3 {
         font-weight: 500;
         color: #22577A;
