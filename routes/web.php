@@ -5,6 +5,7 @@ use App\Http\Controllers\User\AirQualityController;
 use App\Http\Controllers\Admin\WebMasterAuthController;
 use App\Http\Controllers\Admin\AdminAuthController;
 use App\Http\Controllers\Admin\SensorController;
+use App\Http\Controllers\Admin\UserController;
 
 
 /*
@@ -66,6 +67,7 @@ Route::post('/logout', function () {
 |--------------------------------------------------------------------------
 */
 Route::middleware('auth')->group(function () {
+
     Route::get('/admin/dashboard', function () {
         return view('pages.admin.dashboard');
     })->name('admin.dashboard');
@@ -82,7 +84,6 @@ Route::middleware('auth')->group(function () {
     Route::put('/admin/sensors/{id}', [SensorController::class, 'update'])->name('sensors.update');
 
    
-
     // Alert + Data + User Management
     Route::get('/admin/alert-configuration', function () {
         return view('pages.admin.alerts');
@@ -92,7 +93,10 @@ Route::middleware('auth')->group(function () {
         return view('pages.admin.data-management');
     })->name('admin.data.management');
 
-    Route::get('/admin/user-management', function () {
-        return view('pages.admin.user-management');
-    })->middleware('auth')->name('admin.user.management');
+    Route::get('/admin/user-management', [UserController::class, 'index'])->name('admin.user.management');
+    Route::post('/admin/user-management', [UserController::class, 'store'])->name('admin.user.store');
+    Route::put('/admin/user-management/{id}', [UserController::class, 'update'])->name('admin.user.update');
+    Route::delete('/admin/user-management/{id}', [UserController::class, 'destroy'])->name('admin.user.delete');
+    
+
 });
