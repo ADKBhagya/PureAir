@@ -11,9 +11,9 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // Call your custom UserSeeder
         $this->call([
-            UserSeeder::class,
+            UserSeeder::class
         ]);
     }
+    
 }
