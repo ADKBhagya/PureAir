@@ -3,7 +3,6 @@
 @section('title', 'Sensor Management')
 
 @section('content')
-<!-- Leaflet CSS -->
 <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
 
 <style>
@@ -76,6 +75,8 @@
         height: 16px;
         border-radius: 4px;
     }
+
+    
     .modal-overlay {
         position: fixed;
         top: 0; left: 0;
@@ -103,6 +104,7 @@
     .modal-box .form-label {
         font-size: 13px;
         margin-bottom: 4px;
+        color: #22577A;
     }
     .modal-box input,
     .modal-box select {
@@ -139,10 +141,11 @@
     }
     .modal-close {
         position: absolute;
-        top: 8px;
-        right: 12px;
-        font-size: 18px;
+        top: 10px;
+        right: 14px;
+        font-size: 20px;
         color: #FF7700;
+        font-weight: bold;
         cursor: pointer;
     }
 </style>
@@ -150,77 +153,176 @@
 <div class="sensor-header">
     <h3>Sensor Management</h3>
     <div class="text-end">
-        <div class="text-muted mb-2" style="font-size: 13px;">Hello, User! <i class="bi bi-person-circle ms-1"></i></div>
+        <div class="text-muted mb-2" style="font-size: 13px;">
+            Hello, {{ auth()->user()->full_name }}! <i class="bi bi-person-circle ms-1"></i>
+        </div>
         <button class="add-sensor-btn" onclick="showSensorModal()"><i class="bi bi-broadcast-pin me-1"></i>Add Sensor</button>
+    </div>
+
+</div>
+
+<!-- Add Sensor Modal -->
+<div class="modal-overlay" id="sensorModal">
+    <div class="modal-box">
+        <div class="modal-close" onclick="hideSensorModal()">&times;</div>
+        <h5>Add Sensor</h5>
+        <form method="POST" action="{{ route('sensors.store') }}" style="z-index: 1001;">
+            @csrf
+
+            <label class="form-label">Sensor ID</label>
+            <input type="text" name="sensor_id" placeholder="eg: Sensor #001" required>
+
+            <label class="form-label">City / Location</label>
+            <input type="text" name="location" placeholder="Location" required>
+
+            <div style="display: flex; gap: 12px;">
+                <div style="flex: 1;">
+                    <label class="form-label">Latitude</label>
+                    <input type="text" name="lat" placeholder="eg: 6.9271" required>
+                </div>
+                <div style="flex: 1;">
+                    <label class="form-label">Longitude</label>
+                    <input type="text" name="lng" placeholder="eg: 79.8612" required>
+                </div>
+            </div>
+
+            <div style="display: flex; gap: 12px;">
+                <div style="flex: 1;">
+                    <label class="form-label">AQI Level</label>
+                    <input type="number" name="aqi" placeholder="AQI" required>
+                </div>
+                <div style="flex: 1;">
+                    <label class="form-label">Status</label>
+                    <select name="status" required>
+                        <option value="active">Active</option>
+                        <option value="inactive">Inactive</option>
+                    </select>
+                </div>
+            </div>
+
+            <button type="submit" class="btn-submit" style="margin-top: 10px;">Add</button>
+        </form>
+
     </div>
 </div>
 
+<!-- Sensor Layout -->
 <div class="sensor-layout">
-    <div class="sensor-left" id="sensorContainer"></div>
+    <div class="sensor-left" id="sensorContainer">
+        @foreach ($sensors as $sensor)
+        <div class="sensor-card" id="{{ $sensor->sensor_id }}">
+            <div class="sensor-info">
+                <h6>{{ $sensor->sensor_id }}</h6>
+                <small>{{ $sensor->location }}</small><br>
+                <small>AQI: {{ $sensor->aqi }}</small>
+            </div>
+            <div>
+                <span class="sensor-status {{ $sensor->status === 'active' ? 'active-status' : 'inactive-status' }}">
+                    {{ ucfirst($sensor->status) }}
+                </span>
+            </div>
+            <div class="sensor-actions d-flex align-items-center">
+    <button onclick="showEditModal({{ $sensor }})"><i class="bi bi-pencil-square"></i></button>
+
+    <form onsubmit="event.preventDefault(); confirmDelete('{{ route('sensors.destroy', $sensor->id) }}')">
+        @csrf
+        @method('DELETE')
+        <button type="submit"><i class="bi bi-trash-fill delete-icon"></i></button>
+    </form>
+</div>
+
+        </div>
+        @endforeach
+    </div>
+
     <div class="sensor-right">
         <div id="map"></div>
         <div class="legend-labels-container">
-            <div class="legend-label"><div class="legend-color" style="background:#0A6304;"></div>(0–50)</div>
-            <div class="legend-label"><div class="legend-color" style="background:#FFD70E;"></div>(51–100)</div>
-            <div class="legend-label"><div class="legend-color" style="background:#FF7700;"></div>(101–150)</div>
-            <div class="legend-label"><div class="legend-color" style="background:#980000;"></div>(151–200)</div>
-            <div class="legend-label"><div class="legend-color" style="background:#681E83;"></div>(201–300)</div>
-            <div class="legend-label"><div class="legend-color" style="background:#551515;"></div>(301–500)</div>
+            <div class="legend-label"><div class="legend-color" style="background:#0A6304;"></div>-(0–50)</div>
+            <div class="legend-label"><div class="legend-color" style="background:#FFD70E;"></div>-(51–100)</div>
+            <div class="legend-label"><div class="legend-color" style="background:#FF7700;"></div>-(101–150)</div>
+            <div class="legend-label"><div class="legend-color" style="background:#980000;"></div>-(151–200)</div>
+            <div class="legend-label"><div class="legend-color" style="background:#681E83;"></div>-(201–300)</div>
+            <div class="legend-label"><div class="legend-color" style="background:#551515;"></div>-(301–500)</div>
         </div>
     </div>
 </div>
 
-<!-- Modals -->
-<div class="modal-overlay" id="sensorModal">
-    <div class="modal-box">
-        <div class="modal-close" onclick="hideSensorModal()">&times;</div>
-        <h5 style="font-weight: 600; color: #22577A; font-size: 18px; ">Add Sensor</h5>
-        <form onsubmit="addSensor(event)">
-            <label class="form-label">Sensor ID</label>
-            <input type="text" id="newSensorID" placeholder="eg: Sensor #001" required>
-            <label class="form-label">City / Location</label>
-            <input type="text" id="newLocation" placeholder="Location" required>
-            <label class="form-label">AQI Level</label>
-            <input type="number" id="newAQI" placeholder="AQI" required>
-            <label class="form-label">Status</label>
-            <select id="newStatus">
-                <option value="active">Active</option>
-                <option value="inactive">Inactive</option>
-            </select>
-            <button type="submit" class="btn-submit">Add</button>
-        </form>
-    </div>
-</div>
-
+<!-- Edit Sensor Modal -->
 <div class="modal-overlay" id="editSensorModal">
     <div class="modal-box">
-        <div class="modal-close" onclick="hideEditSensorModal()">&times;</div>
-        <h5 style="font-weight: 600; color: #22577A; font-size: 18px; ">Edit Sensor</h5>
-        <form>
+        <div class="modal-close" onclick="hideEditModal()">&times;</div>
+        <h5>Edit Sensor</h5>
+        <form method="POST" id="editSensorForm">
+            @csrf
+            @method('PUT')
+
             <label class="form-label">Sensor ID</label>
-            <input type="text" id="editSensorID" required>
+            <input type="text" name="sensor_id" id="editSensorId" required>
+
             <label class="form-label">City / Location</label>
-            <input type="text" id="editLocation" required>
-            <label class="form-label">AQI Level</label>
-            <input type="number" id="editAQI" required>
-            <label class="form-label">Status</label>
-            <select id="editStatus">
-                <option value="active">Active</option>
-                <option value="inactive">Inactive</option>
-            </select>
-            <button type="submit" class="btn-submit">Update</button>
+            <input type="text" name="location" id="editLocation" required>
+
+            <div style="display: flex; gap: 12px;">
+                <div style="flex: 1;">
+                    <label class="form-label">Latitude</label>
+                    <input type="text" name="lat" id="editLat" required>
+                </div>
+                <div style="flex: 1;">
+                    <label class="form-label">Longitude</label>
+                    <input type="text" name="lng" id="editLng" required>
+                </div>
+            </div>
+
+            <div style="display: flex; gap: 12px;">
+                <div style="flex: 1;">
+                    <label class="form-label">AQI Level</label>
+                    <input type="number" name="aqi" id="editAqi" required>
+                </div>
+                <div style="flex: 1;">
+                    <label class="form-label">Status</label>
+                    <select name="status" id="editStatus" required>
+                        <option value="active">Active</option>
+                        <option value="inactive">Inactive</option>
+                    </select>
+                </div>
+            </div>
+
+            <button type="submit" class="btn-submit" style="margin-top: 10px;">Update</button>
         </form>
     </div>
 </div>
 
-<!-- Leaflet JS -->
-<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-<!-- Inside your existing <script> tag -->
-<script>
-    let map = L.map('map').setView([6.9271, 79.8612], 11);
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
 
-    const sensorMarkers = {};
+<!-- Delete Confirmation Modal -->
+<div class="modal-overlay" id="deleteConfirmModal">
+    <div class="modal-box" style="max-width: 360px; text-align: center;">
+        <div class="modal-close" onclick="hideDeleteModal()">&times;</div>
+        <h5>Confirm Deletion</h5>
+        <p>Are you sure you want to delete this sensor?</p>
+        <form id="deleteForm" method="POST">
+            @csrf
+            @method('DELETE')
+            <button type="submit" class="btn-submit" style="background-color: #FF7700; margin-bottom:5px;">Yes, Delete</button>
+            <button type="button" onclick="hideDeleteModal()" class="btn-submit" style="background-color: #E4E4E4; color: #22577A;">Cancel</button>
+        </form>
+    </div>
+</div>
+
+
+
+
+<!-- Leaflet -->
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+<!-- ✅ Inside <script> tag at the bottom -->
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+<script>
+    const map = L.map('map', { zoomControl: false }).setView([6.9271, 79.8612], 11);
+    L.control.zoom({
+    position: 'bottomright'
+    }).addTo(map);
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
 
     function getAQIColor(aqi) {
         if (aqi <= 50) return '#0A6304';
@@ -231,11 +333,27 @@
         return '#551515';
     }
 
-    function randomizeCoordinates() {
-        const lat = 6.9271 + (Math.random() - 0.5) * 0.2;
-        const lng = 79.8612 + (Math.random() - 0.5) * 0.2;
-        return [lat, lng];
+    // ✅ Render markers for each saved sensor in DB
+    const sensorsFromDB = @json($sensors);
+    sensorsFromDB.forEach(sensor => {
+    if (sensor.lat && sensor.lng) {
+        const marker = L.circleMarker([sensor.lat, sensor.lng], {
+            radius: 8,
+            fillColor: getAQIColor(sensor.aqi),
+            color: '#fff',
+            weight: 1,
+            opacity: 1,
+            fillOpacity: 0.8
+        }).addTo(map).bindPopup(`
+            <strong>${sensor.sensor_id}</strong><br>
+            Location: ${sensor.location}<br>
+            AQI: ${sensor.aqi}<br>
+            Status: ${sensor.status}
+        `);
     }
+});
+
+
 
     function showSensorModal() {
         document.getElementById('sensorModal').style.display = 'flex';
@@ -245,131 +363,31 @@
         document.getElementById('sensorModal').style.display = 'none';
     }
 
-    function hideEditSensorModal() {
-        document.getElementById('editSensorModal').style.display = 'none';
+    function confirmDelete(actionUrl) {
+        const form = document.getElementById('deleteForm');
+        form.setAttribute('action', actionUrl);
+        document.getElementById('deleteConfirmModal').style.display = 'flex';
     }
 
-    function addSensor(event) {
-        event.preventDefault();
-
-        const idInput = document.getElementById('newSensorID');
-        const locationInput = document.getElementById('newLocation');
-        const aqiInput = document.getElementById('newAQI');
-        const status = document.getElementById('newStatus').value;
-
-        const id = idInput.value.trim();
-        const location = locationInput.value.trim();
-        const aqi = aqiInput.value.trim();
-
-        let isValid = true;
-        idInput.style.borderColor = "#ccc";
-        aqiInput.style.borderColor = "#ccc";
-
-        const idPattern = /^Sensor\s?#\d+$/i;
-        if (!idPattern.test(id)) {
-            idInput.style.borderColor = "red";
-            isValid = false;
-        }
-
-        if (!/^\d+$/.test(aqi)) {
-            aqiInput.style.borderColor = "red";
-            isValid = false;
-        }
-
-        if (!isValid) return;
-
-        const aqiNum = parseInt(aqi);
-        const statusClass = status === 'active' ? 'active-status' : 'inactive-status';
-
-        const sensorHTML = `
-            <div class="sensor-card" id="${id}">
-                <div class="sensor-info">
-                    <h6>${id}</h6>
-                    <small>${location}</small><br>
-                    <small>AQI: ${aqiNum}</small>
-                </div>
-                <div><span class="sensor-status ${statusClass}">${capitalize(status)}</span></div>
-                <div class="sensor-actions">
-                    <button onclick="editSensor('${id}', '${location}', ${aqiNum}, '${status}')"><i class="bi bi-pencil-square"></i></button>
-                    <button onclick="deleteSensor('${id}')"><i class="bi bi-trash-fill delete-icon"></i></button>
-                </div>
-            </div>
-        `;
-
-        document.getElementById('sensorContainer').insertAdjacentHTML('beforeend', sensorHTML);
-
-        const coords = randomizeCoordinates();
-        const marker = L.circleMarker(coords, {
-            radius: 8,
-            fillColor: getAQIColor(aqiNum),
-            color: '#fff',
-            weight: 1,
-            opacity: 1,
-            fillOpacity: 0.8
-        }).addTo(map).bindPopup(`<strong>${id}</strong><br>AQI Level: ${aqiNum}`);
-
-        sensorMarkers[id] = marker;
-        hideSensorModal();
+    function hideDeleteModal() {
+        document.getElementById('deleteConfirmModal').style.display = 'none';
     }
 
-    function editSensor(id, location, aqi, status) {
-        document.getElementById('editSensorID').value = id;
-        document.getElementById('editLocation').value = location;
-        document.getElementById('editAQI').value = aqi;
-        document.getElementById('editStatus').value = status;
+    function showEditModal(sensor) {
+    document.getElementById('editSensorForm').action = `/admin/sensors/${sensor.id}`;
+    document.getElementById('editSensorId').value = sensor.sensor_id;
+    document.getElementById('editLocation').value = sensor.location;
+    document.getElementById('editLat').value = sensor.lat;
+    document.getElementById('editLng').value = sensor.lng;
+    document.getElementById('editAqi').value = sensor.aqi;
+    document.getElementById('editStatus').value = sensor.status;
+    document.getElementById('editSensorModal').style.display = 'flex';
+}
 
-        document.getElementById('editSensorModal').onsubmit = function (e) {
-            e.preventDefault();
-            const updatedId = document.getElementById('editSensorID').value;
-            const updatedLocation = document.getElementById('editLocation').value;
-            const updatedAQI = parseInt(document.getElementById('editAQI').value);
-            const updatedStatus = document.getElementById('editStatus').value;
-            const updatedStatusClass = updatedStatus === 'active' ? 'active-status' : 'inactive-status';
+function hideEditModal() {
+    document.getElementById('editSensorModal').style.display = 'none';
+}
 
-            const card = document.getElementById(updatedId);
-            if (card) {
-                card.querySelector('.sensor-info h6').textContent = updatedId;
-                card.querySelector('.sensor-info small').textContent = updatedLocation;
-                card.querySelectorAll('.sensor-info small')[1].textContent = `AQI: ${updatedAQI}`;
-                const statusSpan = card.querySelector('.sensor-status');
-                statusSpan.className = `sensor-status ${updatedStatusClass}`;
-                statusSpan.textContent = capitalize(updatedStatus);
-
-                if (sensorMarkers[updatedId]) {
-                    sensorMarkers[updatedId].remove();
-                }
-
-                const coords = randomizeCoordinates();
-                const newMarker = L.circleMarker(coords, {
-                    radius: 8,
-                    fillColor: getAQIColor(updatedAQI),
-                    color: '#fff',
-                    weight: 1,
-                    opacity: 1,
-                    fillOpacity: 0.8
-                }).addTo(map).bindPopup(`<strong>${updatedId}</strong><br>AQI Level: ${updatedAQI}`);
-
-                sensorMarkers[updatedId] = newMarker;
-            }
-
-            hideEditSensorModal();
-        };
-
-        document.getElementById('editSensorModal').style.display = 'flex';
-    }
-
-    function deleteSensor(id) {
-        const card = document.getElementById(id);
-        if (card) card.remove();
-        if (sensorMarkers[id]) {
-            map.removeLayer(sensorMarkers[id]);
-            delete sensorMarkers[id];
-        }
-    }
-
-    function capitalize(text) {
-        return text.charAt(0).toUpperCase() + text.slice(1);
-    }
 </script>
 
 @endsection
