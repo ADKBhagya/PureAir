@@ -3,22 +3,16 @@
 namespace App\Http\Middleware;
 
 use Closure;
-use Illuminate\Http\Request;
-use Symfony\Component\HttpFoundation\Response;
+use Illuminate\Support\Facades\Auth;
 
 class IsWebMaster
 {
-    /**
-     * Handle an incoming request.
-     */
-    public function handle(Request $request, Closure $next): Response
+    public function handle($request, Closure $next)
     {
-        // Check if the user is logged in and has role 'web_master'
-        if (auth()->check() && auth()->user()->role === 'web_master') {
+        if (Auth::check() && Auth::user()->role === 'web_master') {
             return $next($request);
         }
 
-        // If not authorized, show 403 page
-        abort(403, 'Access denied. You are not authorized to view this page.');
+        return redirect()->route('admin.dashboard')->with('error', 'Access denied.');
     }
 }
