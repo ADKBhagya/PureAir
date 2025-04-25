@@ -105,7 +105,7 @@
             <i class="bi bi-broadcast-pin"></i> Sensor Management
         </a>
         <a href="{{ route('admin.data.management') }}" class="nav-link {{ request()->routeIs('admin.data.management') ? 'active' : '' }}">
-            <i class="bi bi-bar-chart-line"></i> Data Management
+            <i class="bi bi-bar-chart-line"></i> Data Simulation Management
         </a>
         <a href="{{ route('admin.alert') }}" class="nav-link {{ request()->routeIs('admin.alert') ? 'active' : '' }}">
             <i class="bi bi-info-circle"></i> Alert Configuration

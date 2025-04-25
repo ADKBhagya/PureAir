@@ -4,13 +4,17 @@
 
 @section('content')
 <style>
+    body {
+        background: #ffffff;
+        font-family: 'Poppins', sans-serif;
+    }
+
     .simulation-wrapper {
         background-color: rgba(228, 228, 228, 0.45);
         border-radius: 16px;
-        padding: 36px 28px;
+        padding: 20px 28px;
         max-width: 520px;
-        margin: 40px auto;
-        font-family: 'Poppins', sans-serif;
+        margin: 30px auto;
     }
 
     .simulation-wrapper h4 {
@@ -24,7 +28,7 @@
     .simulation-wrapper label {
         font-size: 13px;
         font-weight: 500;
-        color: #22577A; /* ✅ Theme color */
+        color: #22577A;
         margin-bottom: 6px;
         display: block;
     }
@@ -37,14 +41,7 @@
         padding: 9px 12px;
         width: 100%;
         margin-bottom: 20px;
-        transition: border 0.2s, box-shadow 0.2s;
-        color: #000; /* ✅ Black text for filled fields */
-    }
-
-    .simulation-wrapper input::placeholder,
-    .simulation-wrapper select::placeholder {
-        color: rgba(0, 0, 0, 0.45); /* ✅ Soft gray placeholder */
-        font-size: 12.5px;
+        color: #000;
     }
 
     .simulation-wrapper input:focus,
@@ -84,19 +81,19 @@
         right: 0; bottom: 0;
         background-color: #ccc;
         border-radius: 34px;
-        transition: background-color 0.4s;
+        transition: 0.4s;
     }
 
     .slider:before {
-        position: absolute;
         content: "";
+        position: absolute;
         height: 18px;
         width: 18px;
         left: 3px;
         bottom: 3px;
         background-color: white;
         border-radius: 50%;
-        transition: transform 0.4s;
+        transition: 0.4s;
     }
 
     input:checked + .slider {
@@ -116,6 +113,65 @@
         color: #dc3545;
         font-weight: 600;
     }
+
+    .filter-bar {
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 12px;
+        margin-bottom: 20px;
+        align-items: center;
+    }
+
+    .filter-bar select,
+    .filter-bar input[type="date"] {
+        padding: 6px 12px;
+        border-radius: 8px;
+        font-size: 13px;
+        border: 1.5px solid #ccc;
+    }
+
+    .filter-bar input:focus,
+    .filter-bar select:focus {
+        border-color: #80bdff;
+        outline: none;
+        box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25);
+    }
+
+    .table-section {
+        background-color: rgba(228, 228, 228, 0.45);
+        border-radius: 16px;
+        padding: 24px;
+        margin-top: 40px;
+    }
+
+    .table-section h4 {
+        color: #22577A;
+        font-size: 20px;
+        font-weight: 600;
+        margin-bottom: 16px;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 14px;
+    }
+
+    table th, table td {
+        padding: 12px 20px;
+        text-align: left;
+    }
+
+    table thead {
+        color: #22577A;
+        border-bottom: 1px solid #ccc;
+    }
+
+    table tbody {
+        color: #22577A;
+    }
+
 </style>
 
 <div class="header-bar d-flex justify-content-between align-items-center mb-3">
@@ -140,7 +196,7 @@
 
     <div>
         <label for="variation">AQI Variation Pattern</label>
-        <select id="variation" style="color:rgba(0, 0, 0, 0.45);">
+        <select id="variation">
             <option disabled selected>Select a pattern</option>
             <option value="random">Random</option>
             <option value="increasing">Increasing</option>
@@ -155,21 +211,136 @@
             <span class="slider"></span>
         </label>
     </div>
+
+    <div style="text-align: center; margin-top: 20px;">
+        <button onclick="saveSimulationSettings()" class="btn btn-primary" style="background-color:#22577A; border:none; padding:8px 18px; border-radius:6px; font-size:13px;">
+            Save Settings
+        </button>
+    </div>
+</div>
+
+<div class="table-section">
+    <div class="filter-bar">
+        <h4 style="font-size: 16px;">Recent AQI Readings</h4>
+        <div style="display: flex; gap: 10px;">
+            <select id="sensorFilter" onchange="applyFilters()">
+                <option value="all">All Sensors</option>
+            </select>
+            <input type="date" id="dateFilter" onchange="applyFilters()">
+        </div>
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Sensor ID</th>
+                <th>AQI</th>
+                <th>Recorded At</th>
+            </tr>
+        </thead>
+        <tbody id="readingsBody">
+            <!-- JS injects rows -->
+        </tbody>
+    </table>
 </div>
 
 <script>
     function toggleSimulationStatus() {
         const toggle = document.getElementById('simulationToggle');
         const statusText = document.getElementById('status-text');
-        if (toggle.checked) {
-            statusText.textContent = 'Running';
-            statusText.classList.remove('stopped');
-            statusText.classList.add('running');
-        } else {
-            statusText.textContent = 'Stopped';
-            statusText.classList.remove('running');
-            statusText.classList.add('stopped');
-        }
+
+        fetch("{{ route('simulation.settings.toggle') }}", {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': '{{ csrf_token() }}'
+            },
+        })
+        .then(response => response.json())
+        .then(data => {
+            statusText.textContent = data.is_running ? 'Running' : 'Stopped';
+            statusText.classList.toggle('running', data.is_running);
+            statusText.classList.toggle('stopped', !data.is_running);
+        });
     }
+
+    function saveSimulationSettings() {
+        const frequency = document.getElementById('frequency').value;
+        const baseline = document.getElementById('baseline').value;
+        const variation = document.getElementById('variation').value;
+
+        fetch("{{ route('simulation.settings.store') }}", {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': '{{ csrf_token() }}'
+            },
+            body: JSON.stringify({ frequency, baseline, variation })
+        })
+        .then(res => res.json())
+        .then(data => alert(data.message || 'Settings saved!'))
+        .catch(() => alert('Error saving settings'));
+    }
+
+    function getConditionColor(aqi) {
+        if (aqi <= 50) return '#0A6304';
+        if (aqi <= 100) return '#FFD70E';
+        if (aqi <= 150) return '#FF7700';
+        if (aqi <= 200) return '#980000';
+        if (aqi <= 300) return '#681E83';
+        return '#551515';
+    }
+
+    function loadReadings(sensor = 'all', date = null) {
+        fetch("/admin/data-readings")
+            .then(res => res.json())
+            .then(data => {
+                const tbody = document.getElementById('readingsBody');
+                tbody.innerHTML = '';
+
+                const filtered = data.filter(r => {
+                    const matchSensor = sensor === 'all' || r.sensor_id === sensor;
+                    const matchDate = !date || r.created_at.startsWith(date);
+                    return matchSensor && matchDate;
+                });
+
+                filtered.forEach(reading => {
+                    const color = getConditionColor(reading.aqi);
+                    tbody.innerHTML += `
+                        <tr>
+                            <td style="padding: 10px;">${reading.sensor_id}</td>
+                            <td style="padding: 10px;">
+                                <span style="background:${color}; color:white; padding:6px 12px; border-radius:20px; font-size:13px; display:inline-block; text-align:center;">
+                                    ${reading.aqi}
+                                </span>
+                            </td>
+                            <td style="padding: 10px;">${new Date(reading.created_at).toLocaleString()}</td>
+                        </tr>
+                    `;
+                });
+
+                const select = document.getElementById('sensorFilter');
+                if (select.options.length <= 1) {
+                    const sensors = [...new Set(data.map(r => r.sensor_id))];
+                    sensors.forEach(sensorId => {
+                        const opt = document.createElement('option');
+                        opt.value = sensorId;
+                        opt.textContent = sensorId;
+                        select.appendChild(opt);
+                    });
+                }
+            });
+    }
+
+    function applyFilters() {
+        const sensor = document.getElementById('sensorFilter').value;
+        const date = document.getElementById('dateFilter').value;
+        loadReadings(sensor, date);
+    }
+
+    window.onload = () => {
+        applyFilters();
+        setInterval(applyFilters, 60000);
+    };
 </script>
 @endsection

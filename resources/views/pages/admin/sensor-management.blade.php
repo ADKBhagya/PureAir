@@ -6,7 +6,8 @@
 <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
 
 <style>
-    body {
+     body {
+        background: #ffffff;
         font-family: 'Poppins', sans-serif;
     }
     .sensor-header {

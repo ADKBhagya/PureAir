@@ -6,6 +6,8 @@ use App\Http\Controllers\Admin\WebMasterAuthController;
 use App\Http\Controllers\Admin\AdminAuthController;
 use App\Http\Controllers\Admin\SensorController;
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Admin\SimulationController;
+
 
 
 /*
@@ -77,26 +79,32 @@ Route::middleware('auth')->group(function () {
     })->name('admin.aqi.full');
 
     // ✅ Sensor Management
-    
     Route::get('/admin/sensor-management', [SensorController::class, 'index'])->name('admin.sensor.management');
     Route::post('/admin/sensors', [SensorController::class, 'store'])->name('sensors.store');
     Route::delete('/admin/sensors/{id}', [SensorController::class, 'destroy'])->name('sensors.destroy');
     Route::put('/admin/sensors/{id}', [SensorController::class, 'update'])->name('sensors.update');
 
    
-    // Alert + Data + User Management
+    // Alert - Configuration
     Route::get('/admin/alert-configuration', function () {
         return view('pages.admin.alerts');
     })->name('admin.alert');
-
-    Route::get('/admin/data-management', function () {
-        return view('pages.admin.data-management');
-    })->name('admin.data.management');
-
+    
+    // ✅Data simulation Management
+    Route::get('/admin/data-management', [SimulationController::class, 'index'])->name('admin.data.management');
+    Route::post('/admin/simulation-settings', [SimulationController::class, 'store'])->name('simulation.settings.store');
+    Route::post('/admin/simulation-toggle', [SimulationController::class, 'toggleStatus'])->name('simulation.settings.toggle');
+    
+    // User Management
     Route::get('/admin/user-management', [UserController::class, 'index'])->name('admin.user.management');
     Route::post('/admin/user-management', [UserController::class, 'store'])->name('admin.user.store');
     Route::put('/admin/user-management/{id}', [UserController::class, 'update'])->name('admin.user.update');
     Route::delete('/admin/user-management/{id}', [UserController::class, 'destroy'])->name('admin.user.delete');
     
+    // ✅ Load AQI readings for the frontend table
+    Route::get('/admin/data-readings', function () {
+        return \App\Models\SensorReading::latest()->take(20)->get(); // Fetch last 20 readings
+    });
+
 
 });
