@@ -1,0 +1,149 @@
+body {
+    margin: 0;
+    font-family: 'Segoe UI', sans-serif;
+    display: flex;
+    background: #fff;
+  }
+  
+  .sidebar {
+    width: 220px;
+    background: #1c4b6f;
+    color: #fff;
+    padding: 20px 15px;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  
+  .sidebar h2 span {
+    color: #ffa500;
+  }
+  
+  .sidebar ul {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .sidebar ul li {
+    padding: 12px 0;
+    cursor: pointer;
+  }
+  
+  .sidebar ul li.active,
+  .sidebar ul li:hover {
+    background: #ff8000;
+    padding-left: 10px;
+  }
+  
+  .logout {
+    background: #fff;
+    color: #1c4b6f;
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .main {
+    flex-grow: 1;
+    padding: 25px;
+  }
+  
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .status-section h2 {
+    margin-top: 30px;
+  }
+  
+ 
+  
+  table {
+    border-collapse: collapse;
+    width: 100%;
+  }
+  
+  th, td {
+    text-align: left;
+    padding: 12px 18px;
+  }
+  
+  th {
+    color: #1c4b6f;
+    font-weight: bold;
+  }
+  
+  .condition-good {
+    background: green;
+    color: white;
+    padding: 5px 15px;
+    border-radius: 8px;
+    text-align: center;
+  }
+  
+  .condition-moderate {
+    background: gold;
+    color: black;
+    padding: 5px 15px;
+    border-radius: 8px;
+    text-align: center;
+  }
+  
+  .status-section {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .table-container {
+    background: #f0f0f0;
+    border-radius: 12px;
+    padding: 20px;
+    width: fit-content;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .see-more {
+    background: #1c4b6f;
+    color: #fff;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 15px;
+    align-self: flex-end; /* This will align the button to the right side */
+  }
+  
+
+  .detailed-report {
+    background: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    margin-top: 20px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .detailed-report h3 {
+    color: #1c4b6f;
+  }
+  
+  .detailed-report table {
+    margin-top: 15px;
+    border-collapse: collapse;
+  }
+  
+  .detailed-report th, .detailed-report td {
+    text-align: left;
+    padding: 12px 18px;
+  }
+  
+  .detailed-report th {
+    background-color: #f4f4f4;
+  }
+  
+  

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>PureAir Dashboard</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="sidebar">
+    <h2>Pure<span>air</span></h2>
+    <ul>
+      <li class="active">Dashboard</li>
+      <li>Admin User Management</li>
+      <li>Sensor Management</li>
+      <li>Data Simulation</li>
+      <li>Alert Configuration</li>
+    </ul>
+    <button class="logout">Log Out</button>
+  </div>
+
+  <div class="main">
+    <div class="header">
+      <h1>Dashboard</h1>
+      <span>Hello, User!</span>
+    </div>
+
+    <div class="status-section">
+      <h2>Status</h2>
+      <button class="see-more">See more</button>
+        <!-- Hidden detailed report section -->
+  <div class="detailed-report" id="detailedReport" style="display:none;">
+    <h3>Full Air Quality Report</h3>
+    <p>This section displays detailed AQI data for all monitored cities.</p>
+    <table>
+      <thead>
+        <tr>
+          <th>City</th>
+          <th>Condition</th>
+          <th>AQI</th>
+        </tr>
+      </thead>
+      <tbody id="detailed-report-body">
+        <!-- JS will populate this -->
+      </tbody>
+    </table>
+  </div>
+  
+      <div class="table-container">
+      
+        <table>
+          <thead>
+            <tr>
+              <th>City</th>
+              <th>Condition</th>
+              <th>AQI</th>
+            </tr>
+          </thead>
+          <tbody id="status-table-body">
+            <!-- JS will populate this -->
+          </tbody>
+        </table>
+      
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
