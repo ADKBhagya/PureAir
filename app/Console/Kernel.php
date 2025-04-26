@@ -4,7 +4,9 @@ namespace App\Console;
 
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
-use App\Console\Commands\SimulateSensorData; // ✅ Include your command class
+use App\Console\Commands\SimulateSensorData;
+use App\Console\Commands\SimulateAQI;
+use App\Console\Commands\CheckSensorAlerts; // ✅ Add this new command!
 
 class Kernel extends ConsoleKernel
 {
@@ -12,7 +14,9 @@ class Kernel extends ConsoleKernel
      * Register custom Artisan commands.
      */
     protected $commands = [
-        SimulateSensorData::class, // ✅ Register the SimulateSensorData command
+        SimulateSensorData::class,
+        SimulateAQI::class,
+        CheckSensorAlerts::class, // ✅ Register the CheckSensorAlerts command
     ];
 
     /**
@@ -20,8 +24,9 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        // ✅ This tells Laravel to run your simulation every 5 minutes
         $schedule->command('simulate:sensor-data')->everyFiveMinutes();
+        $schedule->command('simulate:aqi')->everyFiveMinutes();
+        $schedule->command('check:sensor-alerts')->everyFiveMinutes(); // ✅ Auto run every 5 minutes
     }
 
     /**
