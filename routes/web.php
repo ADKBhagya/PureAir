@@ -7,6 +7,8 @@ use App\Http\Controllers\Admin\AdminAuthController;
 use App\Http\Controllers\Admin\SensorController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\SimulationController;
+use App\Http\Controllers\Admin\AlertRuleController;
+use App\Http\Controllers\Admin\DashboardController;
 
 
 
@@ -70,13 +72,8 @@ Route::post('/logout', function () {
 */
 Route::middleware('auth')->group(function () {
 
-    Route::get('/admin/dashboard', function () {
-        return view('pages.admin.dashboard');
-    })->name('admin.dashboard');
+    Route::get('/admin/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
 
-    Route::get('/admin/aqi-status', function () {
-        return view('pages.admin.full-aqi-status');
-    })->name('admin.aqi.full');
 
     // ✅ Sensor Management
     Route::get('/admin/sensor-management', [SensorController::class, 'index'])->name('admin.sensor.management');
@@ -86,13 +83,15 @@ Route::middleware('auth')->group(function () {
 
    
     // Alert - Configuration
-    Route::get('/admin/alert-configuration', function () {
-        return view('pages.admin.alerts');
-    })->name('admin.alert');
+    Route::get('/admin/alert-configuration', [AlertRuleController::class, 'index'])->name('admin.alert');
+    Route::post('/admin/alerts', [AlertRuleController::class, 'store'])->name('alerts.store');
+    Route::delete('/admin/alerts/{id}', [AlertRuleController::class, 'destroy'])->name('alerts.destroy');
     
     // ✅Data simulation Management
     Route::get('/admin/data-management', [SimulationController::class, 'index'])->name('admin.data.management');
     Route::post('/admin/simulation-settings', [SimulationController::class, 'store'])->name('simulation.settings.store');
+    Route::get('/admin/alerts/{id}', [AlertRuleController::class, 'show'])->name('alerts.show');
+    Route::put('/admin/alerts/{id}', [AlertRuleController::class, 'update'])->name('alerts.update');
     Route::post('/admin/simulation-toggle', [SimulationController::class, 'toggleStatus'])->name('simulation.settings.toggle');
     
     // User Management
