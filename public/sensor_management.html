@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Sensor Management - Colombo FECT Station AQI</title>
+  <link rel="stylesheet" href="style.css" />
+  <!-- Leaflet CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+</head>
+<body>
+  <div class="sidebar">
+    <h2>Pure<span>air</span></h2>
+    <ul>
+      <li>Dashboard</li>
+      <li>Admin User Management</li>
+      <li class="active">Sensor Management</li>
+      <li>Data Simulation</li>
+      <li>Alert Configuration</li>
+    </ul>
+    <button class="logout">Log Out</button>
+  </div>
+
+  <div class="main-content">
+    <header>
+      <h2>Sensor Management</h2>
+      <div class="user-info">
+        <p>Hello, User!</p>
+        <button id="addSensorBtn">Add Sensor</button>
+      </div>
+    </header>
+
+    <div class="sensor-map-wrapper">
+      <div class="sensor-list">
+        <div class="sensor-header">
+          <h3>City</h3>
+          <h3>Status</h3>
+        </div>
+        <div id="sensor-list" class="sensor-rows">
+          <!-- JS loads data here -->
+        </div>
+      </div>
+
+      <div class="map-container">
+        <div id="map-wrapper">
+          <div id="aqi-map"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Sensor Modal -->
+  <div id="sensorModal" class="modal">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <h2>Add New sensors</h2>
+      <form id="addSensorForm">
+        <div class="form-group">
+          <label for="city">city:</label>
+          <input type="text" id="city" name="city" required>
+        </div>
+        <div class="form-group">
+          <label for="aqiValue">Semulate AQI value:</label>
+          <input type="number" id="aqiValue" name="aqiValue" required>
+        </div>
+        <button type="submit" class="add-btn">Add</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Leaflet JavaScript -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <!-- Custom JavaScript -->
+  <script src="map.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
