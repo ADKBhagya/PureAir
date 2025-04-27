@@ -145,7 +145,7 @@
         top: 10px;
         right: 14px;
         font-size: 20px;
-        color: #FF7700;
+        color: #22577A;
         font-weight: bold;
         cursor: pointer;
     }
@@ -166,8 +166,8 @@
 <div class="modal-overlay" id="sensorModal">
     <div class="modal-box">
         <div class="modal-close" onclick="hideSensorModal()">&times;</div>
-        <h5>Add Sensor</h5>
-        <form method="POST" action="{{ route('sensors.store') }}" style="z-index: 1001;">
+        <h5 style="font-weight:bold;">Add Sensor</h5>
+        <form method="POST" action="{{ route('sensors.store') }}" style="z-index: 1001;" id="addSensorForm">
             @csrf
 
             <label class="form-label">Sensor ID</label>
@@ -187,6 +187,10 @@
                 </div>
             </div>
 
+            <div style="text-align: right; margin-bottom: 10px;">
+                <button type="button" onclick="fetchAQI()" class="btn-submit" style="background-color: #FF7700; padding: 6px 10px; width: auto;">Fetch AQI</button>
+            </div>
+
             <div style="display: flex; gap: 12px;">
                 <div style="flex: 1;">
                     <label class="form-label">AQI Level</label>
@@ -203,9 +207,9 @@
 
             <button type="submit" class="btn-submit" style="margin-top: 10px;">Add</button>
         </form>
-
     </div>
 </div>
+
 
 <!-- Sensor Layout -->
 <div class="sensor-layout">
@@ -253,7 +257,7 @@
 <div class="modal-overlay" id="editSensorModal">
     <div class="modal-box">
         <div class="modal-close" onclick="hideEditModal()">&times;</div>
-        <h5>Edit Sensor</h5>
+        <h5 style="font-weight:bold;">Edit Sensor</h5>
         <form method="POST" id="editSensorForm">
             @csrf
             @method('PUT')
@@ -299,8 +303,8 @@
 <div class="modal-overlay" id="deleteConfirmModal">
     <div class="modal-box" style="max-width: 360px; text-align: center;">
         <div class="modal-close" onclick="hideDeleteModal()">&times;</div>
-        <h5>Confirm Deletion</h5>
-        <p>Are you sure you want to delete this sensor?</p>
+        <h5 style="font-weight:bold;">Confirm Deletion</h5>
+        <p style="color:#737577">Are you sure you want to delete this sensor?</p>
         <form id="deleteForm" method="POST">
             @csrf
             @method('DELETE')
@@ -313,15 +317,12 @@
 
 
 
-<!-- Leaflet -->
-<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 <!-- ✅ Inside <script> tag at the bottom -->
 <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> <!-- SweetAlert2 -->
 <script>
     const map = L.map('map', { zoomControl: false }).setView([6.9271, 79.8612], 11);
-    L.control.zoom({
-    position: 'bottomright'
-    }).addTo(map);
+    L.control.zoom({ position: 'bottomright' }).addTo(map);
 
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
 
@@ -334,27 +335,25 @@
         return '#551515';
     }
 
-    // ✅ Render markers for each saved sensor in DB
+    // ✅ Render markers for each saved sensor from DB
     const sensorsFromDB = @json($sensors);
     sensorsFromDB.forEach(sensor => {
-    if (sensor.lat && sensor.lng) {
-        const marker = L.circleMarker([sensor.lat, sensor.lng], {
-            radius: 8,
-            fillColor: getAQIColor(sensor.aqi),
-            color: '#fff',
-            weight: 1,
-            opacity: 1,
-            fillOpacity: 0.8
-        }).addTo(map).bindPopup(`
-            <strong>${sensor.sensor_id}</strong><br>
-            Location: ${sensor.location}<br>
-            AQI: ${sensor.aqi}<br>
-            Status: ${sensor.status}
-        `);
-    }
-});
-
-
+        if (sensor.lat && sensor.lng) {
+            const marker = L.circleMarker([sensor.lat, sensor.lng], {
+                radius: 8,
+                fillColor: getAQIColor(sensor.aqi),
+                color: '#fff',
+                weight: 1,
+                opacity: 1,
+                fillOpacity: 0.8
+            }).addTo(map).bindPopup(`
+                <strong>${sensor.sensor_id}</strong><br>
+                Location: ${sensor.location}<br>
+                AQI: ${sensor.aqi}<br>
+                Status: ${sensor.status}
+            `);
+        }
+    });
 
     function showSensorModal() {
         document.getElementById('sensorModal').style.display = 'flex';
@@ -375,20 +374,95 @@
     }
 
     function showEditModal(sensor) {
-    document.getElementById('editSensorForm').action = `/admin/sensors/${sensor.id}`;
-    document.getElementById('editSensorId').value = sensor.sensor_id;
-    document.getElementById('editLocation').value = sensor.location;
-    document.getElementById('editLat').value = sensor.lat;
-    document.getElementById('editLng').value = sensor.lng;
-    document.getElementById('editAqi').value = sensor.aqi;
-    document.getElementById('editStatus').value = sensor.status;
-    document.getElementById('editSensorModal').style.display = 'flex';
-}
+        document.getElementById('editSensorForm').action = `/admin/sensors/${sensor.id}`;
+        document.getElementById('editSensorId').value = sensor.sensor_id;
+        document.getElementById('editLocation').value = sensor.location;
+        document.getElementById('editLat').value = sensor.lat;
+        document.getElementById('editLng').value = sensor.lng;
+        document.getElementById('editAqi').value = sensor.aqi;
+        document.getElementById('editStatus').value = sensor.status;
+        document.getElementById('editSensorModal').style.display = 'flex';
+    }
 
-function hideEditModal() {
-    document.getElementById('editSensorModal').style.display = 'none';
-}
+    function hideEditModal() {
+        document.getElementById('editSensorModal').style.display = 'none';
+    }
 
+    // ✅ Fetch AQI from external API with PureAir theme popup
+    async function fetchAQI() {
+        const lat = document.querySelector('input[name="lat"]').value;
+        const lng = document.querySelector('input[name="lng"]').value;
+        const token = '72ce87196fb7d13d00b15fed355e2ff75e677a44'; // 👉 Your real API token
+
+        if (!lat || !lng) {
+            Swal.fire({
+                icon: 'warning',
+                title: '<span style="color: #FF7700; font-family: Poppins, sans-serif;">Missing Data</span>',
+                text: 'Please enter Latitude and Longitude first.',
+                confirmButtonColor: '#22577A',
+                background: '#ffffff',
+                color: '#737577',
+                customClass: {
+                    popup: 'rounded-3xl',
+                    confirmButton: 'rounded-lg'
+                }
+            });
+            return;
+        }
+
+        try {
+            const response = await fetch(`https://api.waqi.info/feed/geo:${lat};${lng}/?token=${token}`);
+            const data = await response.json();
+
+            if (data.status === 'ok') {
+                document.querySelector('input[name="aqi"]').value = data.data.aqi;
+                Swal.fire({
+                icon: 'success',
+                title: '<span style="color: #22577A; font-family: Poppins, sans-serif; font-size: 18px;">AQI Fetched!</span>',
+                html: `<div style="color: #737577; font-size: 14px;">AQI Level: <strong>${data.data.aqi}</strong></div>`,
+                confirmButtonColor: '#22577A',
+                background: '#ffffff',
+                width: 320, // ✅ Smaller popup
+                padding: '1.2em', // ✅ Less padding
+                customClass: {
+                    popup: 'rounded-xl',
+                    confirmButton: 'rounded-md'
+                }
+            });
+
+            } else {
+                Swal.fire({
+                icon: 'error',
+                title: '<span style="color: #dc3545; font-family: Poppins, sans-serif; font-size: 18px;">Fetch Failed</span>',
+                html: `<div style="color: #737577; font-size: 14px;">Unable to fetch AQI. API returned an error.</div>`,
+                confirmButtonColor: '#22577A',
+                background: '#ffffff',
+                width: 320,
+                padding: '1.2em',
+                customClass: {
+                    popup: 'rounded-xl',
+                    confirmButton: 'rounded-md'
+                }
+            });
+
+            }
+        } catch (error) {
+            console.error('Error fetching AQI:', error);
+            Swal.fire({
+                icon: 'error',
+                title: '<span style="color: #dc3545; font-family: Poppins, sans-serif; font-size: 18px;">Network Error</span>',
+                html: `<div style="color: #737577; font-size: 14px;">Failed to fetch AQI. Please try again.</div>`,
+                confirmButtonColor: '#22577A',
+                background: '#ffffff',
+                width: 320,
+                padding: '1.2em',
+                customClass: {
+                    popup: 'rounded-xl',
+                    confirmButton: 'rounded-md'
+                }
+            });
+
+        }
+    }
 </script>
-
 @endsection

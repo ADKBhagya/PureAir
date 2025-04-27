@@ -13,6 +13,10 @@ class SensorReading extends Model
 
     protected $fillable = [
         'sensor_id',
+        'location',
+        'status',      // ✅ added
+        'lat',         // ✅ added
+        'lng',         // ✅ added
         'aqi',
         'created_at',
     ];

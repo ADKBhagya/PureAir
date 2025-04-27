@@ -10,6 +10,7 @@ return new class extends Migration {
         Schema::create('sensor_readings', function (Blueprint $table) {
             $table->id();
             $table->string('sensor_id');
+            $table->string('location'); // ✅ NEW: Store sensor's location
             $table->integer('aqi');
             $table->timestamp('created_at')->useCurrent();
         });

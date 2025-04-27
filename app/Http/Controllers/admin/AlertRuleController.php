@@ -85,6 +85,18 @@ public function update(Request $request, $id)
     return response()->json(['message' => 'Rule and related alerts deleted successfully'], 200);
 }
 
+public function markSeen(Request $request)
+{
+    $ids = $request->ids;
+
+    if (!empty($ids)) {
+        \App\Models\TriggeredAlert::whereIn('id', $ids)->update(['status' => 'read']);
+    }
+
+    return response()->json(['message' => 'Selected alerts marked as seen']);
+}
+
+
 
     /**
      * Show details of a specific alert rule (for editing).

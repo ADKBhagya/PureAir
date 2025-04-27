@@ -107,7 +107,7 @@
     <div class="col-md-4">
         <div class="summary-card">
             <div>
-                <div class="summary-value">12</div>
+            <div class="summary-value">{{ $activeSensorsCount }}</div>
                 <div class="summary-label">Active Sensors</div>
             </div>
             <div class="summary-icon">
@@ -118,54 +118,110 @@
     <div class="col-md-4">
         <div class="summary-card">
             <div>
-                <div class="summary-value">5</div>
-                <div class="summary-label">Pending Alerts</div>
-            </div>
+            <div class="summary-value">{{ $unreadCount }}</div>
+            <div class="summary-label">Pending Alerts</div>
+        </div>
             <div class="summary-icon bg-warning text-dark">
                 <i class="bi bi-exclamation-triangle"></i>
             </div>
         </div>
     </div>
     <div class="col-md-4">
-        <div class="summary-card">
+            <div class="summary-card">
             <div>
-                <div class="summary-value">Running</div>
+                <div class="summary-value">{{ $simulationStatus }}</div>
                 <div class="summary-label">Simulation Status</div>
             </div>
-            <div class="summary-icon bg-success text-white">
+            <div class="summary-icon 
+                {{ $simulationStatus === 'Running' ? 'bg-success text-white' : 'bg-danger text-white' }}">
                 <i class="bi bi-activity"></i>
             </div>
         </div>
+
     </div>
 </div>
 
-{{-- AQI Status Section --}}
-<div class="d-flex justify-content-between align-items-center mb-3 mt-4">
-    <h5 class="text-primary fw-bold mb-0" style="font-size: 15px;">Status</h5>
-    <a href="{{ route('admin.aqi.full') }}" class="btn btn-see-more d-flex align-items-center gap-1" title="View full AQI breakdown">
-        See more <i class="bi bi-arrow-right"></i>
-    </a>
+
+
+
+
+{{-- Live Alerts Section --}}
+<div class="summary-card p-4" style="flex-direction: column; align-items: start;">
+    <div class="d-flex justify-content-between align-items-center w-100 mb-3" style="border-bottom: 2px solid #22577A; padding-bottom: 8px;">
+        <h5 class="text-primary fw-bold mb-0" style="font-size: 17px;">Live Alerts 🚨</h5>
+        <small class="text-muted" style="font-size: 12px;">Last updated: {{ now()->format('h:i A') }}</small>
+    </div>
+
+    @if($alerts->isEmpty())
+        <div class="w-100 text-center mt-3">
+            <div class="summary-value">No Alerts</div>
+            <div class="summary-label">All sensors normal ✅</div>
+        </div>
+    @else
+        @foreach($alerts as $alert)
+            <div class="d-flex justify-content-between align-items-center w-100 py-2 px-1 mb-1 alert-hover" style="border-bottom: 1px solid rgba(0,0,0,0.1);">
+                <div>
+                    <div class="summary-value" style="font-size: 14px;">{{ $alert->sensor_id }}</div>
+                    <div class="summary-label" style="font-size: 12px;">{{ $alert->pollutant_type }} — {{ $alert->aqi_value }}</div>
+                </div>
+                <div class="summary-icon bg-danger text-white" style="font-size: 16px;">
+                    <i class="bi bi-exclamation-triangle"></i>
+                </div>
+            </div>
+        @endforeach
+    @endif
 </div>
 
-<div class="status-section">
-    <div class="row fw-semibold status-heading">
-        <div class="col-md-4">City</div>
-        <div class="col-md-4">Condition</div>
-        <div class="col-md-4">AQI</div>
+{{-- Today's Air Quality Summary --}}
+<div class="summary-card p-4 mt-4" style="flex-direction: column; align-items: start;">
+    <div class="d-flex justify-content-between align-items-center w-100 mb-3" style="border-bottom: 2px solid #22577A; padding-bottom: 8px;">
+        <h5 class="text-primary fw-bold mb-0" style="font-size: 17px;">Today's Air Quality Summary 🌿</h5>
     </div>
-    <div class="row align-items-center status-row">
-        <div class="col-md-4">Homagama</div>
-        <div class="col-md-4">
-            <span class="badge-box text-white" style="background-color: #137f1f;">Good</span>
+
+    <div class="w-100">
+        <div class="d-flex justify-content-between mb-3">
+            <div class="summary-label">Average AQI Today</div>
+            <div class="summary-value">{{ $averageAQI }}</div>
         </div>
-        <div class="col-md-4">37</div>
-    </div>
-    <div class="row align-items-center status-row">
-        <div class="col-md-4">Moratuwa</div>
-        <div class="col-md-4">
-            <span class="badge-box text-dark" style="background-color: #FFD400;">Moderate</span>
+
+        <div class="d-flex justify-content-between mb-3">
+            <div class="summary-label">Overall Condition</div>
+            <div class="summary-value 
+                {{ $averageAQI <= 50 ? 'text-success' : ($averageAQI <= 100 ? 'text-warning' : 'text-danger') }}">
+                {{ getAQICondition($averageAQI) }}
+            </div>
         </div>
-        <div class="col-md-4">62</div>
+
+        <div class="d-flex justify-content-between">
+            <div class="summary-label">Recommendation</div>
+            <div class="summary-value" style="font-size: 12px;">
+                {{ getAQIAdvice($averageAQI) }}
+            </div>
+        </div>
     </div>
 </div>
+@php
+function getAQICondition($aqi) {
+    if ($aqi <= 50) return 'Good';
+    if ($aqi <= 100) return 'Moderate';
+    if ($aqi <= 150) return 'Unhealthy for Sensitive Groups';
+    if ($aqi <= 200) return 'Unhealthy';
+    if ($aqi <= 300) return 'Very Unhealthy';
+    return 'Hazardous';
+}
+
+function getAQIAdvice($aqi) {
+    if ($aqi <= 50) return 'Air quality is excellent 🌿';
+    if ($aqi <= 100) return 'Acceptable, but sensitive groups should limit outdoors';
+    if ($aqi <= 150) return 'Reduce prolonged outdoor exertion';
+    if ($aqi <= 200) return 'Avoid outdoor activities if possible';
+    if ($aqi <= 300) return 'Health warnings of emergency conditions';
+    return 'Everyone should avoid outdoor activities!';
+}
+@endphp
+
+
+
+
+
 @endsection

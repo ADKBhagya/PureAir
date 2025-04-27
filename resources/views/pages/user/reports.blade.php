@@ -4,171 +4,159 @@
 
 @section('content')
 <style>
-    .primary-blue { color: #22577A; }
-    .accent-orange { color: #FF7700; }
-    .bg-card {
-        background-color: rgba(228, 228, 228, 0.45);
-        border-radius: 10px;
-    }
-
-    .sensor-select-box {
-        background-color: white;
-        padding: 20px;
-        border-radius: 12px;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-        margin-bottom: 30px;
-    }
-
-    .form-label,
-    .form-select {
-        font-size: 14px;
-    }
-
-
-    .filter-buttons button {
-        border: none;
-        padding: 8px 20px;
-        margin: 0 5px;
-        border-radius: 8px;
-        background-color: #22577A;
-        color: white;
-        font-family: 'Poppins';
-        font-weight: 500;
-        transition: background-color 0.2s;
-    }
-
-    .filter-buttons button.active,
-    .filter-buttons button:hover {
-        background-color: #FF7700;
-    }
-
-    .chart-card {
-        background-color: rgba(228, 228, 228, 0.45);
-        padding: 20px;
-        border-radius: 16px;
-        box-shadow: 0 2px 6px rgba(0,0,0,0.08);
-        height:480px;
-    }
-
-    .section-header {
-        font-size: 16px;
-        font-weight: 600;
+    body {
+        background: #ffffff;
         font-family: 'Poppins', sans-serif;
-        text-align: center;
-        margin-bottom: 10px;
+    }
+    .section-title {
         color: #22577A;
+        font-weight: 800;
+        font-size: 26px;
+        margin-bottom: 10px;
+    }
+    .section-subtitle {
+        color: #22577A;
+        font-weight: 500;
+        font-size: 16px;
+        margin-top: -40px;
+    }
+    .content-card {
+        background: rgba(228, 228, 228, 0.45);
+        border-radius: 16px;
+        padding: 25px;
+        margin-top: 25px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        text-align: center;
+    }
+    .content-title {
+        font-size: 20px;
+        font-weight: 600;
+        color: #22577A;
+        margin-bottom: 10px;
+    }
+    .content-text {
+        font-size: 15px;
+        color: #2F3E46;
+        line-height: 1.7;
+    }
+    .what-we-offer {
+        display: flex;
+        justify-content: center;
+        gap: 15px;
+        flex-wrap: wrap;
+        margin-top: 20px;
+    }
+    .offer-item {
+        background: white;
+        border: 1px solid #ccc;
+        border-radius: 12px;
+        padding: 15px 20px;
+        font-size: 14px;
+        font-weight: 500;
+        color: #22577A;
+        min-width: 180px;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+    }
+    .team-section {
+        margin-top: 40px;
+        text-align: center;
+    }
+    .team-members {
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+        flex-wrap: wrap;
+        margin-top: 20px;
+    }
+    .member {
+        background: white;
+        padding: 15px;
+        border-radius: 16px;
+        width: 150px;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+    }
+    .member img {
+        width: 70px;
+        height: 70px;
+        object-fit: cover;
+        border-radius: 50%;
+        border: 2px solid #22577A;
+        margin-bottom: 8px;
+    }
+    .member div {
+        font-weight: 600;
+        font-size: 13px;
+        color: #2F3E46;
+    }
+    .member small {
+        color: #6c757d;
+        font-size: 12px;
     }
 </style>
 
 <div class="container mt-5 mb-5">
-<div class="text-center mb-4"> 
-    <h3 class=" fw-bold primary-blue" style="margin-top:-50px; font-size: 17px;">
-    Visualize past air quality data across different time periods
-    </h3>
- 
-</div>
+    <div class="text-center">
+        <p class="section-subtitle">Cleaner Air, Healthier Lives 🌍</p>
+    </div>
 
+    <div class="content-card">
+        <div class="content-title">Our Mission</div>
+        <p class="content-text">
+            To empower communities with real-time air quality data and drive awareness towards healthier, sustainable environments.
+        </p>
+    </div>
 
-    <!-- Sensor Location Selector -->
-    <div class="sensor-select-box">
-        <div class="row align-items-center">
-            <div class="col-md-6 mb-2">
-                <label for="sensorLocation" class="form-label primary-blue">Select Sensor Location</label>
-                <select id="locationSelect" class="form-select" style="color:#22577A;">
-                    <option value="">-- Choose a city --</option>
-                    <option value="homagama">Homagama</option>
-                    <option value="moratuwa">Moratuwa</option>
-                    <option value="colombo">Colombo Central</option>
-                </select>
-            </div>
-            <div class="col-md-6 text-md-end mt-3 mt-md-0 filter-buttons">
-                <button class="active" data-range="day" style="font-size: 14px;">Last Day</button>
-                <button data-range="week" style="font-size: 14px;">Last Week</button>
-                <button data-range="month" style="font-size: 14px;">Last Month</button>
-            </div>
+    <div class="content-card">
+        <div class="content-title">Our Vision</div>
+        <p class="content-text">
+            A future where everyone can breathe freely, supported by technology and collective action.
+        </p>
+    </div>
 
+    <div class="content-card">
+        <div class="content-title">What We Offer</div>
+        <div class="what-we-offer">
+            <div class="offer-item">🌱 Live Air Quality Maps</div>
+            <div class="offer-item">🌱 Historical AQI Reports</div>
+            <div class="offer-item">🌱 Health Tips Based on AQI</div>
+            <div class="offer-item">🌱 Dynamic Pollution Alerts</div>
         </div>
     </div>
 
-    <!-- Chart Section -->
-    <div class="chart-card mt-4">
-        <h5 class="section-header">AQI Overview</h5>
-        <canvas id="aqiChart" height="120"></canvas>
+    <div class="team-section">
+        <h4 class="section-title mt-5">Meet Our Team</h4>
+        <div class="team-members">
+            <div class="member">
+                <img src="{{ asset('assets/profile1.jpg') }}" alt="Team Member">
+                <div>Kaushani Bhagya</div>
+                <small>Project Lead</small>
+            </div>
+            <div class="member">
+                <img src="{{ asset('assets/profile2.jpg') }}" alt="Team Member">
+                <div>Pramith Charuka</div>
+                
+            </div>
+            <div class="member">
+                <img src="{{ asset('assets/profile2.jpg') }}" alt="Team Member">
+                <div>Malith Adikaram</div>
+               
+            </div>
+            <div class="member">
+                <img src="{{ asset('assets/profile1.jpg') }}" alt="Team Member">
+                <div>Chamodya De Silva</div>
+                
+            </div>
+            <div class="member">
+                <img src="{{ asset('assets/profile1.jpg') }}" alt="Team Member">
+                <div>Yenuli Ahasna</div>
+               
+            </div>
+            <div class="member">
+                <img src="{{ asset('assets/profile1.jpg') }}" alt="Team Member">
+                <div>Amandi Jayasinghe</div>
+                
+            </div>
+        </div>
     </div>
 </div>
-@endsection
-
-@section('scripts')
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script>
-document.addEventListener("DOMContentLoaded", function () {
-    const ctx = document.getElementById('aqiChart').getContext('2d');
-
-    let chart = new Chart(ctx, {
-        type: 'line',
-        data: {
-            labels: ['12AM', '4AM', '8AM', '12PM', '4PM', '8PM'],
-            datasets: [{
-                label: 'AQI',
-                data: [55, 60, 70, 80, 76, 65],
-                borderColor: '#FF7700',
-                backgroundColor: 'rgba(255, 119, 0, 0.2)',
-                tension: 0.3,
-                fill: true
-            }]
-        },
-        options: {
-            responsive: true,
-            scales: {
-                y: {
-                    beginAtZero: true,
-                    max: 200,
-                    ticks: {
-                        color: '#22577A',
-                        font: { family: 'Poppins' }
-                    }
-                },
-                x: {
-                    ticks: {
-                        color: '#22577A',
-                        font: { family: 'Poppins' }
-                    }
-                }
-            },
-            plugins: {
-                legend: {
-                    labels: {
-                        color: '#22577A',
-                        font: { family: 'Poppins' }
-                    }
-                }
-            }
-        }
-    });
-
-    // Change chart range logic (mock data for now)
-    document.querySelectorAll('.filter-buttons button').forEach(btn => {
-        btn.addEventListener('click', function () {
-            document.querySelectorAll('.filter-buttons button').forEach(b => b.classList.remove('active'));
-            this.classList.add('active');
-
-            const range = this.dataset.range;
-            if (range === 'week') {
-                chart.data.labels = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
-                chart.data.datasets[0].data = [60, 65, 70, 66, 80, 75, 68];
-            
-            } else if (range === 'month') {
-                chart.data.labels = ['Week 1', 'Week 2', 'Week 3', 'Week 4'];
-                chart.data.datasets[0].data = [72, 85, 78, 80];
-               
-            } else {
-                chart.data.labels = ['12AM', '4AM', '8AM', '12PM', '4PM', '8PM'];
-                chart.data.datasets[0].data = [55, 60, 70, 80, 76, 65];
-                
-            }
-            chart.update();
-        });
-    });
-});
-</script>
 @endsection

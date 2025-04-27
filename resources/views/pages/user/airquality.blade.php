@@ -4,6 +4,7 @@
 
 @section('content')
 <style>
+    body { background: #ffffff; font-family: 'Poppins', sans-serif; }
     .primary-blue { color: #22577A; }
     .bg-card {
         background-color: rgba(228, 228, 228, 0.45);
@@ -126,32 +127,39 @@
         font-size: 18px;
         margin-right: 10px;
     }
-</style>
 
+.leaflet-popup-close-button {
+    color: #22577A !important; /* Theme Blue */
+    font-weight: bold !important; /* Bold */
+    font-size: 18px !important; /* Slightly bigger for better UX */
+    top: 5px !important;
+    right: 8px !important;
+}
+
+</style>
 <div class="container mt-5 mb-4">
     <!-- Dropdown Filter -->
     <div class="row justify-content-center mb-4">
         <div class="col-md-6">
-        <div class="input-group">
-    <label class="input-group-text" for="locationSelect">Select Location</label>
-    <select id="locationSelect" class="form-select">
-        <option value="">-- Choose a city --</option>
-        <option value="homagama">Homagama</option>
-        <option value="moratuwa">Moratuwa</option>
-        <option value="colombo">Colombo Central</option>
-    </select>
-</div>
-
+            <div class="input-group">
+                <label class="input-group-text" for="locationSelect">Select Location</label>
+                <select id="locationSelect" class="form-select">
+                    <option value="">-- Choose a city --</option>
+                    @foreach($sensors as $sensor)
+                        <option value="{{ $sensor->id }}">{{ $sensor->location }}</option> <!-- ✅ FIX HERE -->
+                    @endforeach
+                </select>
+            </div>
         </div>
     </div>
 
     <!-- Map Section -->
     <div class="d-flex justify-content-center">
-    <div class="map-container">
-        <div id="colomboMap"></div>
-        <button id="userLocationButton" class="map-btn-location">📍 Detect My Location</button>
+        <div class="map-container">
+            <div id="colomboMap"></div>
+            <button id="userLocationButton" class="map-btn-location">📍 Detect My Location</button>
+        </div>
     </div>
-</div>
 
 
  <!-- AQI Legend and Summary -->
@@ -198,6 +206,7 @@
 
 @section('scripts')
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
 <script>
 document.addEventListener("DOMContentLoaded", function () {
@@ -214,6 +223,24 @@ document.addEventListener("DOMContentLoaded", function () {
         if (aqi <= 200) return '#980000';
         if (aqi <= 300) return '#681E83';
         return '#551515';
+    }
+
+    function getAQIEmoji(aqi) {
+        if (aqi <= 50) return '😊';
+        if (aqi <= 100) return '😐';
+        if (aqi <= 150) return '😷';
+        if (aqi <= 200) return '🤢';
+        if (aqi <= 300) return '🤮';
+        return '☠️';
+    }
+
+    function getAQIStatus(aqi) {
+        if (aqi <= 50) return 'Good';
+        if (aqi <= 100) return 'Moderate';
+        if (aqi <= 150) return 'Unhealthy for Sensitive Groups';
+        if (aqi <= 200) return 'Unhealthy';
+        if (aqi <= 300) return 'Very Unhealthy';
+        return 'Hazardous';
     }
 
     function createAQIMarkerIcon(aqi) {
@@ -235,8 +262,8 @@ document.addEventListener("DOMContentLoaded", function () {
                 new Chart(ctx, {
                     type: 'bar',
                     data: {
-                        labels: ['19.30', '01.30', '01.30', '07.30', '13.30'],
-                        datasets: [{ data: data, backgroundColor: colors }]
+                        labels: ['4h ago', '3h ago', '2h ago', '1h ago', 'Now'],
+                        datasets: [{ data: data.reverse(), backgroundColor: colors }]
                     },
                     options: {
                         responsive: false,
@@ -251,58 +278,78 @@ document.addEventListener("DOMContentLoaded", function () {
         }, 300);
     }
 
-    function createPopup(id, location, emoji, color, value, status, time, date, chartData) {
+    function createPopup(id, location, emoji, color, value, status, updatedAgo, fullDate, chartData) {
+        const latestAQI = chartData.length ? chartData[chartData.length - 1] : value;
         return `
-            <div style="font-family: 'Poppins'; background-color: #F3F4F6; padding: 20px; width: 280px; border-radius: 20px; border: 1px solid #ccc;">
-                <div style="display: flex; justify-content: space-between; font-size: 14px; font-weight: 500; color: #22577A;">
-                    <span>${location}</span>
-                </div>
-                <hr style="margin: 10px 0; border-color: #477390;">
-                <div style="background-color: ${color}; color: white; border-radius: 20px; padding: 10px 10px; font-size: 14px; display: flex; justify-content: center; align-items: center; gap: 10px; height:40px;">
+            <div style="font-family: 'Poppins', sans-serif; background-color: #F9FAFB; padding: 16px; width: 240px; border-radius: 16px; border: 1px solid #ccc; box-shadow: 0 2px 6px rgba(0,0,0,0.1);">
+                <div style="text-align: center; font-weight: 600; color: #22577A; font-size: 16px;">${location}</div>
+                <hr style="margin: 8px 0; border-color: #477390;">
+                <div style="background-color: ${color}; color: white; border-radius: 20px; padding: 8px 10px; font-size: 14px; display: flex; align-items: center; justify-content: center; gap: 8px;">
                     <span style="font-size: 22px;">${emoji}</span>
-                    <span>${value} - ${status}</span>
+                    <span style="font-size: 13px;">${latestAQI} - ${status}</span>
                 </div>
-                <hr style="margin: 16px 0; border-color: #477390;">
-                <p style="color: #22577A; font-weight: bold;">Updated ${time}</p>
-                <p style="color: #2F3E46; font-size: 15px;">${date}</p>
-                <div style="position: relative;">
-                    <canvas id="${id}" width="250" height="100"></canvas>
-                    <span style="position: absolute; top: 5px; right: 0; font-size: 11px; color: #666;">AQI US</span>
+                <hr style="margin: 12px 0; border-color: #477390;">
+                <p style="text-align: center; color: #22577A; font-size: 13px; font-weight: 500;">${updatedAgo}</p>
+                <p style="text-align: center; color: #2F3E46; font-size: 12px;">${fullDate}</p>
+                <div style="position: relative; margin-top: 8px;">
+                    <canvas id="${id}" width="220" height="80"></canvas>
+                    <span style="position: absolute; top: 4px; right: 6px; font-size: 10px; color: #666;">AQI US</span>
                 </div>
-                <button style="margin-top: 18px; background-color: #22577A; color: white; font-size: 14px; border: none; padding: 10px; width: 100%; border-radius: 12px; height:40px;">
-                    Click For More Information
+                <button style="margin-top: 12px; background-color: #22577A; color: white; font-size: 12px; font-weight: 500; border: none; padding: 8px; width: 100%; border-radius: 10px; height: 36px;">
+                    More Info
                 </button>
             </div>
         `;
     }
 
-    const homagamaData = [30, 25, 60, 33, 38];
-    const moratuwaData = [45, 60, 78, 55, 50];
-    const colomboData = [100, 120, 150, 162, 140];
+    const markers = {};
 
-    const markers = {
-        homagama: L.marker([6.8441, 79.9655], { icon: createAQIMarkerIcon(40) })
-            .addTo(colomboMap)
-            .bindPopup(createPopup('homagamaChart', 'Homagama,SriLanka', '😊', getAQIColor(40), 40, 'Good', '3 Hours ago', 'March 25, 2025 2:00 PM', homagamaData))
-            .on('popupopen', () => drawChart('homagamaChart', homagamaData)),
+    @foreach($sensors as $sensor)
+        const marker_{{ $sensor->id }} = L.marker([{{ $sensor->lat }}, {{ $sensor->lng }}], {
+            icon: createAQIMarkerIcon({{ $sensor->aqi }})
+        }).addTo(colomboMap);
 
-        moratuwa: L.marker([6.8449, 79.9020], { icon: createAQIMarkerIcon(78) })
-            .addTo(colomboMap)
-            .bindPopup(createPopup('moratuwaChart', 'Moratuwa,SriLanka', '😐', getAQIColor(78), 78, 'Moderate', '2 Hours ago', 'March 25, 2025 3:00 PM', moratuwaData))
-            .on('popupopen', () => drawChart('moratuwaChart', moratuwaData)),
+        marker_{{ $sensor->id }}.on('click', function () {
+            marker_{{ $sensor->id }}.bindPopup('<div style="padding:20px; color:#22577A; font-weight:600;">Loading AQI data...</div>').openPopup();
 
-        colombo: L.marker([6.9271, 79.8612], { icon: createAQIMarkerIcon(162) })
-            .addTo(colomboMap)
-            .bindPopup(createPopup('colomboChart', 'Colombo Central,SriLanka', '😷', getAQIColor(162), 162, 'Unhealthy', '1 Hour ago', 'March 25, 2025 4:00 PM', colomboData))
-            .on('popupopen', () => drawChart('colomboChart', colomboData))
-    };
+            axios.get('/air-quality/data/{{ $sensor->id }}')
+                .then(response => {
+                    const data = response.data;
+                    const popupContent = createPopup(
+                        'chart_{{ $sensor->id }}',
+                        data.location,
+                        getAQIEmoji(data.aqi),
+                        getAQIColor(data.aqi),
+                        data.aqi,
+                        data.category,
+                        data.updatedAgo,
+                        data.fullDate,
+                        data.last_readings || [30, 45, 50, 35, 40]
+                    );
+                    marker_{{ $sensor->id }}.setPopupContent(popupContent);
+                    drawChart('chart_{{ $sensor->id }}', data.last_readings || [30, 45, 50, 35, 40]);
+                })
+                .catch(error => {
+                    console.error('Failed to fetch AQI data', error);
+                    marker_{{ $sensor->id }}.setPopupContent('<div style="padding:20px; color:red;">Failed to load data</div>');
+                });
+        });
+
+        markers['{{ $sensor->id }}'] = marker_{{ $sensor->id }};
+    @endforeach
 
     document.getElementById('locationSelect').addEventListener('change', function () {
         const selected = this.value;
         if (selected && markers[selected]) {
-            const marker = markers[selected];
-            colomboMap.setView(marker.getLatLng(), 13);
-            marker.openPopup();
+            colomboMap.closePopup();
+            markers[selected].openPopup();
+            colomboMap.flyTo(markers[selected].getLatLng(), 13, {
+                animate: true,
+                duration: 1.5
+            });
+            setTimeout(() => {
+                document.getElementById('locationSelect').selectedIndex = 0;
+            }, 1000);
         }
     });
 
@@ -310,27 +357,42 @@ document.addEventListener("DOMContentLoaded", function () {
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(function (position) {
                 const userLatLng = [position.coords.latitude, position.coords.longitude];
-                const aqi = 88;
-                const data = [65, 78, 88, 72, 81];
+                const liveAQI = Math.floor(Math.random() * 100) + 1;
+                const data = [
+                    liveAQI - 15,
+                    liveAQI - 10,
+                    liveAQI - 5,
+                    liveAQI,
+                    liveAQI + 5
+                ];
+
                 const popupHtml = createPopup(
                     'userLocationChart',
-                    'Your Location',
-                    '🙂',
-                    getAQIColor(aqi),
-                    aqi,
-                    'Moderate',
+                    'Your Location 🌍',
+                    getAQIEmoji(liveAQI),
+                    getAQIColor(liveAQI),
+                    liveAQI,
+                    getAQIStatus(liveAQI),
                     'Just now',
                     new Date().toLocaleString(),
                     data
                 );
-                L.marker(userLatLng, { icon: createAQIMarkerIcon(aqi) })
-                    .addTo(colomboMap)
-                    .bindPopup(popupHtml)
+
+                const userMarker = L.marker(userLatLng, {
+                    icon: createAQIMarkerIcon(liveAQI)
+                }).addTo(colomboMap);
+
+                userMarker.bindPopup(popupHtml)
                     .on('popupopen', () => drawChart('userLocationChart', data))
                     .openPopup();
 
-                colomboMap.setView(userLatLng, 14);
-            }, function () {
+                colomboMap.flyTo(userLatLng, 14, {
+                    animate: true,
+                    duration: 1.5
+                });
+
+            }, function (error) {
+                console.error(error);
                 alert("Unable to retrieve your location.");
             });
         } else {
@@ -340,3 +402,5 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 </script>
 @endsection
+
+
