@@ -42,7 +42,7 @@ body { background: #ffffff; font-family: 'Poppins', sans-serif; }
         Real-Time Air Quality Monitoring 🌍✨
     </h3>
 
-    <p class="text-secondary" style=" line-height: 28px; font-size: 16px; ">
+    <p class="text-secondary" style=" line-height: 28px; font-size: 15px; ">
         Stay informed with real-time air quality updates, monitor AQI levels with precision,<br>
         Make informed decisions to safeguard your health, adapt to changing air conditions,<br>
         Empower communities, embrace sustainability, reduce exposure, foster awareness, and breathe confidently.
@@ -55,7 +55,7 @@ body { background: #ffffff; font-family: 'Poppins', sans-serif; }
         <!-- Left Column -->
         <div class="col-md-5 mb-4">
             <h5 class="primary-blue fw-semibold mb-4 text-center" style="font-size: 22px;">Main Sources of Air Pollution</h5>
-            <div class="bg-card p-4 d-flex flex-column justify-content-between" style="border-radius: 16px; min-height: 705px;">
+            <div class="bg-card p-4 d-flex flex-column justify-content-between" style="border-radius: 16px; min-height: 705px; font-size:14px;">
              @php
                 $pollutionSources = [
                     ['icon' => 'factory.png', 'title' => 'Industrial Emissions', 'desc' => 'Factories release pollutants like sulfur dioxide and nitrogen oxides.'],
@@ -76,7 +76,7 @@ body { background: #ffffff; font-family: 'Poppins', sans-serif; }
                                  style="height: 80px; width: 80px; object-fit: cover; border-radius: 12px; box-shadow: 0 2px 6px rgba(0,0,0,0.1);">
                         </div>
                         <div>
-                            <h6 class="primary-blue fw-semibold mb-2" style="font-size: 18px;">{{ $source['title'] }}</h6>
+                            <h6 class="primary-blue fw-semibold mb-2" style="font-size: 17px;">{{ $source['title'] }}</h6>
                             <p class="text-muted mb-0" style="font-size: 15px; line-height: 1.6;">{{ $source['desc'] }}</p>
                         </div>
                     </div>
@@ -99,7 +99,7 @@ body { background: #ffffff; font-family: 'Poppins', sans-serif; }
                     @endphp
                     @foreach($infographics as $info)
                         <div class="col-md-4">
-                            <div style="background-color: #fff; border-radius: 16px; padding: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); font-size: 15px;">
+                            <div style="background-color: #fff; border-radius: 16px; padding: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); font-size: 14px;">
                                 <img src="{{ asset('assets/' . $info['img']) }}" alt="Icon" style="height: 60px; border-radius: 16px;">
                                 <p class="text-muted mt-3">{{ $info['text'] }}</p>
                             </div>
@@ -111,7 +111,7 @@ body { background: #ffffff; font-family: 'Poppins', sans-serif; }
             <!-- Health Tips Section -->
             <div class="bg-card px-4 py-4 mb-4 health-card">
                 <h5 class="primary-blue fw-semibold mb-4 text-center" style="font-size: 22px;">Health Tips</h5>
-                <div class="row">
+                <div class="row" style="font-size:14px;">
                     @php
                         $tips = [
                             ['icon' => '6.png', 'text' => 'Avoid outdoor exercises'],
