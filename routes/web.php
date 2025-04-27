@@ -21,11 +21,20 @@ Route::get('/', function () {
     return view('pages.user.home');
 })->name('home');
 
-Route::get('/air-quality', function () {
-    return view('pages.user.airquality');
-})->name('airquality');
+Route::get('/air-quality', [AirQualityController::class, 'airQualityPage'])->name('airquality');
+Route::get('/api/sensors', [AirQualityController::class, 'getSensors'])->name('api.sensors');
+Route::get('/air-quality/data/{id}', [AirQualityController::class, 'getSensorData'])->name('airquality.sensor.data');
 
+
+
+
+// User side - Historical Data page
 Route::get('/historical-data', [AirQualityController::class, 'historicalData'])->name('historical.data');
+
+// API endpoint to fetch historical sensor readings
+Route::get('/api/historical-data', [AirQualityController::class, 'fetchHistoricalData'])->name('api.historical.data');
+
+
 
 /*
 |--------------------------------------------------------------------------
@@ -80,12 +89,18 @@ Route::middleware('auth')->group(function () {
     Route::post('/admin/sensors', [SensorController::class, 'store'])->name('sensors.store');
     Route::delete('/admin/sensors/{id}', [SensorController::class, 'destroy'])->name('sensors.destroy');
     Route::put('/admin/sensors/{id}', [SensorController::class, 'update'])->name('sensors.update');
+    Route::post('/admin/sensors/update-aqi/{id}', [SensorController::class, 'updateAqi'])->name('sensors.update.aqi');
+    Route::get('/admin/sensor-history/{sensorId}', [SensorController::class, 'sensorHistory']);
+
+
 
    
     // Alert - Configuration
     Route::get('/admin/alert-configuration', [AlertRuleController::class, 'index'])->name('admin.alert');
     Route::post('/admin/alerts', [AlertRuleController::class, 'store'])->name('alerts.store');
     Route::delete('/admin/alerts/{id}', [AlertRuleController::class, 'destroy'])->name('alerts.destroy');
+    Route::post('/admin/alerts/mark-seen', [AlertRuleController::class, 'markSeen'])->name('alerts.markSeen');
+
     
     // ✅Data simulation Management
     Route::get('/admin/data-management', [SimulationController::class, 'index'])->name('admin.data.management');
