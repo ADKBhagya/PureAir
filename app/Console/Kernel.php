@@ -24,9 +24,9 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->command('simulate:sensor-data')->everyFiveMinutes();
-        $schedule->command('simulate:aqi')->everyFiveMinutes();
-        $schedule->command('check:sensor-alerts')->everyFiveMinutes(); // ✅ Auto run every 5 minutes
+        $schedule->command('simulate:sensor-data')->everyMinute();
+        $schedule->command('simulate:aqi')->everyMinute();
+        $schedule->command('simulate:sensor-data')->everyMinute();
     }
 
     /**
