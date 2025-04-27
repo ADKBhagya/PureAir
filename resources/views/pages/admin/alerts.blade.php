@@ -134,6 +134,7 @@
     }
 @endphp
 
+
 <div class="rule-table" style="background-color:#ffffff;">
     <h5 class="mb-4 fw-" style="font-size:16px; font-weight:600;">Configured Alert Thresholds:</h5>
     <div class="row">
@@ -230,22 +231,45 @@
 
 @if($triggeredAlerts->isNotEmpty())
 <div class="rule-table" style="margin-top: 30px;">
-    <h5 class="mb-3" style="color: #22577A; font-size:16px;  font-weight:600;">Triggered Alerts 📢</h5>
-    <div class="row">
-        @foreach($triggeredAlerts as $alert)
-            <div class="col-md-6 col-lg-4 mb-4">
-                <div class="card p-3" style="background-color: #fff3f3; border: 2px dashed #dc3545; ">
-                <h6 style="font-size: 13px; color:#22577A;">Sensor: {{ $alert->sensor_id }}</h6>
+    <h5 class="mb-3" style="color: #22577A; font-size:16px; font-weight:600;">Triggered Alerts 📢</h5>
 
-                    <p style="font-size: 13px; margin-bottom: 4px; color:#22577A;"><strong>Pollutant:</strong> {{ $alert->pollutant_type }}</p>
-                    <p style="font-size: 13px; margin-bottom: 4px; color:#22577A;"><strong>Threshold:</strong> {{ $alert->threshold }}</p>
-                    <p style="font-size: 13px; color:#22577A;"><strong>Triggered AQI:</strong> {{ $alert->aqi_value }}</p>
-                </div>
-            </div>
-        @endforeach
+    <form id="seenForm">
+    <div class="row">
+    @foreach($triggeredAlerts as $alert)
+    <div class="col-md-6 col-lg-4 mb-4">
+        <div class="card p-3 position-relative"
+            @if($alert->status == 'read')
+                style="background-color: #f0f0f0; border: 2px dashed #bbb; border-radius: 14px;"
+            @else
+                style="background-color: #fff3f3; border: 2px dashed #dc3545; border-radius: 14px;"
+            @endif
+        >
+
+            <!-- Checkbox (right-top) -->
+            <input type="checkbox" name="alerts[]" value="{{ $alert->id }}"
+                @if($alert->status == 'read') checked disabled @endif
+                class="alert-checkbox"
+                style="position: absolute; top: 14px; right: 14px; width: 18px; height: 18px; cursor: pointer; accent-color: #22577A;">
+
+            <!-- Card Content -->
+            <h6 style="color: #22577A; font-weight: 300; margin-top: 10px;">Sensor: {{ $alert->sensor_id }}</h6>
+            <p style="font-size: 13px; margin-bottom: 4px; color: #22577A;"><strong>Pollutant:</strong> {{ $alert->pollutant_type }}</p>
+            <p style="font-size: 13px; margin-bottom: 4px; color: #22577A;"><strong>Threshold:</strong> {{ $alert->threshold }}</p>
+            <p style="font-size: 13px; color: #22577A;"><strong>Triggered AQI:</strong> {{ $alert->aqi_value }}</p>
+        </div>
     </div>
+    @endforeach
+</div>
+
+
+
+
+
+        <button type="button" onclick="markAsSeen()" class="btn btn-primary" style="background-color: #22577A; margin-top: 15px;">Mark as Seen</button>
+    </form>
 </div>
 @endif
+
 
 
 <!-- Toast -->
@@ -364,5 +388,27 @@
         toast.style.display = 'block';
         setTimeout(() => toast.style.display = 'none', 3000);
     }
+
+    function markAsSeen() {
+    const form = document.getElementById('seenForm');
+    const formData = new FormData(form);
+    const selectedIds = formData.getAll('alerts[]');
+
+    if (selectedIds.length === 0) {
+        alert('⚠️ Please select at least one alert to mark as seen.');
+        return;
+    }
+
+    axios.post('{{ route("alerts.markSeen") }}', { ids: selectedIds })
+        .then(response => {
+            showToast('✅ Selected alerts marked as seen!');
+            setTimeout(() => location.reload(true), 1000);
+        })
+        .catch(error => {
+            console.error(error);
+            showToast('❌ Failed to mark as seen');
+        });
+}
+
 </script>
 @endsection
