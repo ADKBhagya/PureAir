@@ -4,6 +4,8 @@
 
 @section('content')
 <style>
+
+body { background: #ffffff; font-family: 'Poppins', sans-serif; }
     .primary-blue { color: #22577A; }
     .bg-card {
         background-color: rgba(228, 228, 228, 0.45);
