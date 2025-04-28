@@ -51,7 +51,7 @@ body { background: #ffffff; font-family: 'Poppins', sans-serif; }
 </div>
 
 
-    <div class="row" style="margin-top:50px;">
+    <div class="row" style="margin-top:90px;">
         <!-- Left Column -->
         <div class="col-md-5 mb-4">
             <h5 class="primary-blue fw-semibold mb-4 text-center" style="font-size: 22px;">Main Sources of Air Pollution</h5>
