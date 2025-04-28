@@ -1,5 +1,5 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-white fixed-top" 
-     style="font-family: 'Poppins', sans-serif; height: 70px; width: 1200px; border-radius: 20px; margin: auto; z-index: 9999; left: 0; right: 0; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);">
+     style="font-family: 'Poppins', sans-serif; height: 70px; width: 1300px; border-radius: 20px; margin: auto; z-index: 9999; left: 0; right: 0; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);">
     <div class="container-fluid px-4">
         <!-- Logo -->
         <a class="navbar-brand d-flex align-items-center" href="{{ url('/') }}">
